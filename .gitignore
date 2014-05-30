@@ -14,3 +14,19 @@
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
+
+#Ignore mac's weird .DS_Store files
+*.DS_Store
+
+#Ignore Swap files 
+*.swp
+
+#Ignore documentation
+doc/
+*~
+.project
+.idea
+.secret
+
+#Ignore yml databases
+database.yml
