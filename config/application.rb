@@ -8,6 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Quomp
   class Application < Rails::Application
-      config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+      config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif *.css)
   end
 end
