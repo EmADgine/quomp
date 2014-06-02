@@ -1,5 +1,5 @@
 @import "bootstrap";
-
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,300,400,700);
 /* universal */
 
 html {
@@ -8,6 +8,12 @@ html {
 
 body {
     padding-top: 60px;
+    font-family: 'Open Sans', sans-serif;
+    h4 {
+        font-style: bold;
+        font-weight: 500;
+    }
+    background: #E6E6E6
 }
 
 section {
@@ -46,9 +52,15 @@ h2 {
     font-weight: normal;
     color: #999;
 }
+h3 {
+    font-size: 1.5em;
+    letter-spacing:-1px;
+    text-align: center;
+    font-weight: normal;
+}
 
 p {
-    font-size: 1.4em;
+    font-size: 1.1em;
     line-height: 1.7em;
 }
 
@@ -59,14 +71,14 @@ p {
     float: left;
     margin-right: 10px;
     font-size: 1.7em;
-    color: #33CCFF;
-    text-transform: uppercase;
+    color: #0096FA;
+    text-transform: capitalize;
     letter-spacing: -1px;
     padding-top:9px;
     font-weight: bold;
     line-height: 1;
     &:hover {
-        color: lighten(#33CCFF,12%);
+        color: lighten(#0096FA,20%);
         text-decoration: none;
 }
 }
@@ -76,7 +88,7 @@ p {
 footer {
     margin-top: 45px;
     padding-top: 5px;
-    border-top: 1px solid #eaeaea;
+    border-top: 1px solid #999;
     color: #999;
     a {
         color: #555;
@@ -102,14 +114,25 @@ footer {
     margin-top: 150px;
     margin-bottom: 150px;
     height:230px;
-    background: linear-gradient(to bottom, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
+    background: linear-gradient(to top, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
 }
 #homebuttons {
-    margin-top: 50px;
+    margin-top: 40px;
     li {
-    display:inline-block;
-    list-style-type: none;
-    padding-left: 40px;
-    padding-right:40px;
+        display:inline-block;
+        list-style-type: none;
+        padding-left: 4%;
+        padding-right:4%;
+        div {
+            width: 230px;
+            .btn {
+                margin-top: 25px;
+            }
+        }
     }
 }
+
+#logo2{
+    color:#0096FA;
+}
+
