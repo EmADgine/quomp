@@ -109,3 +109,29 @@ footer {
     }
 }
 
+/* home */
+#hometownhero {
+    margin-top: 150px;
+    margin-bottom: 150px;
+    height:230px;
+    background: linear-gradient(to top, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
+}
+#homebuttons {
+    margin-top: 40px;
+    li {
+        display:inline-block;
+        list-style-type: none;
+        padding-left: 4%;
+        padding-right:4%;
+        div {
+            width: 230px;
+            .btn {
+                margin-top: 25px;
+            }
+        }
+    }
+}
+
+#logo2{
+    color:#0096FA;
+}
