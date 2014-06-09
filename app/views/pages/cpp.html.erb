@@ -1,0 +1,40 @@
+<div class= 'center'>
+    
+    <form id =createprovider class = 'center'>
+        <h3>Create Your User Profile</h3>
+        <ol>
+            <li>
+            <div class='btn-group' data-toggle="buttons">
+                <label class="btn btn-primary">
+                    <input type="radio" name="ptype" id="freelancer">
+                    freelancer
+                </label>
+                <label class="btn btn-primary">
+                    <input type="radio" name= "ptype" id="agency">
+                    agency
+                </label>
+            </div>
+            </li>
+                <input id=name name=name type=text 
+                placeholder="Name Shown to Clients" required autofocus>
+            </li>
+            </li>
+                <input id=email name=name type=text 
+                placeholder="Email" required autofocus>
+            </li>
+            <li>
+                <input id=password name=name type=password
+                placeholder="Password" required autofocus>
+            </li>
+            <li>
+                <input id=confirm name=name type=password
+                placeholder="Confirm Password" required autofocus>
+            </li>
+            <li><%= link_to "Submit", "#", 
+            class: 'btn btn-large btn-primary'%>
+            </li>
+        </ol>
+    </form>
+</div>
+
+
