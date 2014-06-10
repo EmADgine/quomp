@@ -1,38 +1,31 @@
-<div class= 'center'>
-    
-    <form id =createprovider class = 'center'>
-        <h3>Create Your User Profile</h3>
-        <ol>
-            <li>
-            <div class='btn-group' data-toggle="buttons">
+<div class= 'center' id = "createprovider">
+    <h3>Create your Provider Profile</h3>
+    <form class = 'center' role ="form">
+        <div class= "form-group">
+            <div class= "btn-group" data-toggle="buttons">
                 <label class="btn btn-primary">
                     <input type="radio" name="ptype" id="freelancer">
-                    freelancer
+                    Freelancer
                 </label>
                 <label class="btn btn-primary">
                     <input type="radio" name= "ptype" id="agency">
-                    agency
+                    Agency
                 </label>
             </div>
-            </li>
-                <input id=name name=name type=text 
-                placeholder="Name Shown to Clients" required autofocus>
-            </li>
-            </li>
-                <input id=email name=name type=text 
-                placeholder="Email" required autofocus>
-            </li>
-            <li>
-                <input id=password name=name type=password
-                placeholder="Password" required autofocus>
-            </li>
-            <li>
-                <input id=confirm name=name type=password
-                placeholder="Confirm Password" required autofocus>
-            </li>
-            <li><%= link_to "Submit", "#", 
-            class: 'btn btn-large btn-primary'%>
-            </li>
-        </ol>
+        </div>
+        <div class="form-group">
+            <input type="name" class="form-control" id="name" placeholder="Name Shown to Clients" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" id="email" placeholder="Email" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="passwd" placeholder="Password" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" id="confirmpasswd" placeholder="Confirm Password" required autofocus>
+        </div>
     </form>
+        <%= link_to "Submit", "#", 
+            class: 'btn btn-large btn-primary'%>
 </div>
