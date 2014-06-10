@@ -1,9 +1,12 @@
 Rails.application.routes.draw do
+  get 'users/new'
+
+    resources :users
+    root 'pages#home'
     get "pages/home"
     get "pages/cpp"
     get "pages/ppp"
-    get "pages/ccp"
-    get "pages/pcp"
+    get "users/pcp"
     get "pages/jsf"
     get "pages/trts"
     get "pages/stp"
@@ -11,5 +14,6 @@ Rails.application.routes.draw do
     get "pages/erp"
     get "pages/spip"
     get "pages/cp"
-    match '/home', to: 'pages#home', via: 'get'
+
+    #match '/home', to: 'pages#home', via: 'get'
 end
