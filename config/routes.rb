@@ -1,7 +1,6 @@
 Rails.application.routes.draw do
-  get 'users/new'
-
     resources :users
+    resources :providers
     root 'pages#home'
     get "pages/home"
     get "pages/cpp"
