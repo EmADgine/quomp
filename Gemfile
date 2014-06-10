@@ -3,7 +3,7 @@ ruby '2.1.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
-gem 'bootstrap-sass', '3.1.1.1'
+gem 'bootstrap-sass', '3.1.1'
 gem 'sprockets'
 gem 'bcrypt-ruby', '3.1.2'
 group :development, :test do
