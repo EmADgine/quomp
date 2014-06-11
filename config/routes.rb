@@ -1,18 +1,10 @@
 Rails.application.routes.draw do
     resources :users
     resources :providers
+    resources :sessions, only: [:new, :create, :destroy]
     root 'pages#home'
-    get "pages/home"
-    get "pages/cpp"
-    get "pages/ppp"
-    get "users/pcp"
-    get "pages/jsf"
-    get "pages/trts"
-    get "pages/stp"
-    get "pages/pjap"
-    get "pages/erp"
-    get "pages/spip"
-    get "pages/cp"
-
-    #match '/home', to: 'pages#home', via: 'get'
+    match '/home', to: 'pages#home', via: 'get'
+    match '/signup', to: 'users#new', via: 'get'
+    match '/signin', to: 'sessions#new', via: 'get'
+    match '/signout', to: 'sessions#destroy', via: 'get'
 end
