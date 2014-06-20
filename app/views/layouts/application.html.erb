@@ -3,21 +3,30 @@
     <head>
         <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
         <script src="http://twitter.github.com/bootstrap/assets/js/bootstrap.js"></script>
+        <script src="js/modernizr.custom.js"></script>
+        <link rel="shortcut icon" href="../favicon.ico"> 
+        <link rel="stylesheet" type="text/css" href="css/default.css" />
+        <link rel="stylesheet" type="text/css" href="css/multilevelmenu.css" />
+        <link rel="stylesheet" type="text/css" href="css/component.css" />
+        <link rel="stylesheet" type="text/css" href="css/animations.css" />
         <title>Ruby on Rails App | <%=full_title(yield(:title))%></title>
         <%= stylesheet_link_tag    'application', { media: 'all', 
             'data-turbolinks-track' => true }%>
-        <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-        <%= csrf_meta_tags %>
-        <%= render 'layouts/shim' %>
-    </head>
-    <body>
-        <%= render 'layouts/header' %>
-        <div class = "container-fluid">
-            <% flash.each do |key, value| %>
-                <div class="alert alert-<%=key %>"><%=value%></div>
-            <% end %>
-            <%= yield %> 
-        </div>
-        <%= render 'layouts/footer' %>
-    </body>
-</html>
+            <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+            <%= csrf_meta_tags %>
+            <%= render 'layouts/shim' %>
+        </head>
+        <body>
+            <%= render 'layouts/header' %>
+            <div class = "container-fluid" id='primary-content'>
+                <% flash.each do |key, value| %>
+                    <div class="alert alert-<%=key %>"><%=value%></div>
+                <% end %>
+                <%= yield %> 
+            </div>
+            <%= render 'layouts/footer' %>
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+            <script src="js/jquery.dlmenu.js"></script>
+            <script src="js/pagetransitions.js"></script>
+        </body>
+    </html>

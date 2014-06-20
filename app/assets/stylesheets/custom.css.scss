@@ -4,6 +4,7 @@
 html {
     overflow-y:scroll;
     height:100%;
+
 }
 
 body {
@@ -15,7 +16,8 @@ body {
         font-style: bold;
         font-weight: 500;
 }
-background: lighten(#E6E6E6,6%)
+
+    background: #444;
 }
 
 
@@ -99,15 +101,15 @@ footer {
     margin-top: 150px;
     padding-top: 5px;
     border-top: 1px solid #999;
-    color: #999;
+    color: #fff;
     position: absolute;
     bottom: 0;
     width: 100%;
     height: 0px;
     a {
-        color: #555;
+        color: #eee;
         &:hover {
-            color: #222;
+            color: #fff;
 }
 }
 small {
@@ -209,4 +211,8 @@ ul {
     margin-right: 15px;
     margin-left:22px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+}
+
+#usereditform {
+    width: 40%;
 }
