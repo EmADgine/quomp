@@ -2,11 +2,17 @@
 
 <div class="row">
     <aside class="span4">
-        <section>
-        <img src=<%= @user.avatar.url(:small) %> id="prof" class= "img-circle"/>
-        <h1> 
-            <%= @user.name %>
-        </h1>
-        </section>
+    <section>
+    <img src=<%= @user.avatar.url(:small) %> id="prof" class= "img-circle"/>
+    <h1> 
+        <%= @user.name %>
+    </h1>
+    </section>
+    <ol>
+        <li>
+        <h3>Industry: <%=@user.industry%></h3>
+        </li>
+    </ol>
     </aside>
+
 </div>

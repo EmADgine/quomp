@@ -13,6 +13,10 @@
     <div id='usereditform'>
         <%= form_for(@user) do |f| %>
             <div class="form-group">
+                <%= f.label :avatar%>
+                <%= f.file_field :avatar%>
+            </div>
+            <div class="form-group">
                 <%= f.label :industry%>
                 <%= f.select :industry, [['Please select an industry',nil],'Professional Services','Graphic Design','Marketing','Web Development'], class: 'form-control'%>
             </div>
@@ -28,6 +32,9 @@
             </div>
             <div class= "form-group">
                 <%= f.text_field :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Description' %>
+            </div>
+            <div class= "form-group">
+                <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
             </div>
         </div>
     <% end%>
