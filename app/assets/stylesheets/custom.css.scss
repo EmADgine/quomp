@@ -17,7 +17,7 @@ body {
         font-weight: 500;
 }
 
-    background: #eee;
+background: #eee;
 }
 
 
@@ -98,7 +98,7 @@ header {
 /* footer */
 
 footer {
-    margin-top: 150px;
+    margin-top: 10px;
     padding-top: 5px;
     border-top: 1px solid #999;
     color: #fff;
@@ -107,9 +107,9 @@ footer {
     width: 100%;
     height: 0px;
     a {
-        color: #eee;
+        color: #333;
         &:hover {
-            color: #fff;
+            color: #555;
 }
 }
 small {
@@ -166,43 +166,43 @@ ul {
         list-style-type:none;
         label{
             display:inline-block;
-    }
+}
 }
 }
 
 
 #error_explanation {
-    
+
     ul {
         list-style: none;
         margin: 0 0 18px 0;
-      }
+  }
 }
 .field_with_errors {
     @extend .form_group;
     @extend .error;
 }
-  aside {
-      section {
-          padding: 10px 0;
-          &:first-child {
-              border: 0;
-              padding-top: 0;
-          }
-          span {
-              display: block;
-              margin-bottom: 3px;
-              line-height: 1;
-          }
-          h1 {
-            display:inline-block;
-            font-size: 2.0em;
-            text-align: left;
-            letter-spacing: -1px;
-            margin-bottom: 3px;
-            margin-top: 17px;
-        }
+aside {
+    section {
+        padding: 10px 0;
+        &:first-child {
+            border: 0;
+            padding-top: 0;
+      }
+      span {
+          display: block;
+          margin-bottom: 3px;
+          line-height: 1;
+      }
+      h1 {
+          display:inline-block;
+          font-size: 2.0em;
+          text-align: left;
+          letter-spacing: -1px;
+          margin-bottom: 3px;
+          margin-top: 17px;
     }
+}
 }
 
 #prof {
@@ -218,5 +218,5 @@ ul {
     padding-left:30px;
     .form-group {
         padding-bottom: 20px;
-    }
+}
 }

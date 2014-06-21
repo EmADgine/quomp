@@ -7,6 +7,7 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'sprockets'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'rails-i18n'
+gem 'devise'
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'

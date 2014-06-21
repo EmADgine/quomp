@@ -1,4 +1,4 @@
-<% provide(:title, "Edit Provider") %>
+<h3>Populate Your Profile</h3>
 <div id="popform">
     <div class="row">
         <aside class="span4">
@@ -11,7 +11,7 @@
         </aside>
     </div>
     <div id='usereditform'>
-        <%= form_for(@user) do |f| %>
+        <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
             <div class="form-group">
                 <%= f.label :avatar%>
                 <%= f.file_field :avatar%>

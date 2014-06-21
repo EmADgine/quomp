@@ -7,10 +7,10 @@ class UsersController < ApplicationController
   end
 
   def create
-      @user=User.new(user_params)
+      @user=User.new(user_params_create)
       if @user.save
           flash[:success] = "Welcome to Quomp!"
-          redirect_to @user
+          redirect_to 
       else 
           render 'new'
       end
@@ -21,7 +21,7 @@ begin
   end
   def update
       @user = User.find(params[:id])
-      if @user.update_attributes(user_params)
+      if @user.update_attributes(user_params_edit)
           flash[:success] = "Profile Updated"
           redirect_to @user
       else
@@ -30,8 +30,11 @@ begin
   end
 end
   private
-    def user_params
-        params.require(:user).permit(:name,:email,:password,:password_confirmation,:avatar,:industry,:city,:website, :description)
+    def user_params_create
+        params.require(:user).permit(:name,:email,:password,:password_confirmation)
+    end
+    def user_params_edit
+        params.require(:user).permit(:avatar,:industry,:city,:website, :description)
     end
   
 end

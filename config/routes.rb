@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
+    devise_for :providers
+    devise_for :users, :controllers => {:registrations => "registrations"}
     resources :users
     resources :providers
-    resources :sessions, only: [:new, :create, :destroy]
-    root 'pages#home'
+    root :to=>'pages#home'
     match '/home', to: 'pages#home', via: 'get'
-    match '/signup', to: 'users#new', via: 'get'
-    match '/signin', to: 'sessions#new', via: 'get'
-    match '/signout', to: 'sessions#destroy', via: 'get'
+    match '/editprofile', to: 'users#edit', via: 'get'
 end

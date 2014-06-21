@@ -1,25 +1,31 @@
 <header class = "navbar navbar-fixed-top navbar-inverse">
 <div class = "container-fluid">
-    <%= link_to "Quomp", "#", id: "logo" %>
+    <%= link_to "Quomp", root_url, id: "logo" %>
     <nav>
     <ul class="nav navbar-nav pull-right">
-        <li class= "divider-vertical"></li>
-        <li class="dropdown">
-        <a class="dropdown-toggle" href= "#" data-toggle="dropdown">Sign In<strong class="caret"></strong></a>
-        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-            <%= form_tag sessions_path do %>
-                <div class ="form-group">
-                <%= text_field_tag :email, nil, placeholder:"Email", class: "form-control" %>
+        
+        <% if not user_signed_in?%>
+            <li class="dropdown">
+            <button class="dropdown-toggle btn btn-default navbar-btn" href= "#" data-toggle="dropdown">Sign In<strong class="caret"></strong></button>
+            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                <%= form_for(:user, :url=>session_path(:user)) do |f|%>
+                    <div class ="form-group">
+                        <%= f.text_field :email, :placeholder =>"Email", class: "form-control" %>
+                </div>
+                <div class= "form-group">
+                    <%= f.password_field :password, :placeholder =>"Password", class: "form-control"%>
+                </div>
+                <div class = "form-group">
+                    <%= f.submit "Sign In", :class => "btn btn-large btn-primary" %>
+                </div>
+                <%=link_to "Forgot your password?", new_password_path(:user)%>
+                <% end %>
             </div>
-            <div class= "form-group">
-                <%= password_field_tag :password, nil, placeholder:"Password", class: "form-control"%>
-            </div>
-            <div class = "form-group">
-                <%= submit_tag "Sign in", :class => "btn btn-large btn-primary" %>
-            </div>
-            <% end %>
-        </div>
-        </li>
+            </li>
+        <% else %>
+
+            <button type="button" class="btn btn-default navbar-btn"><%= link_to "Sign Out", destroy_user_session_path, method: 'delete',class: 'navbar-link'%></button>
+        <%end%>
     </ul>
     </nav>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
