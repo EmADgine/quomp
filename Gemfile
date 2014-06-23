@@ -45,7 +45,6 @@ gem 'valid_email'
 group :doc do
     gem 'sdoc', '~> 0.4.0'
 end
-
 group :production do
     gem 'pg'
     gem 'rails_12factor'
