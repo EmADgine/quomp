@@ -180,7 +180,6 @@ ul {
 }
 .field_with_errors {
     @extend .form_group;
-    @extend .error;
 }
 aside {
     section {

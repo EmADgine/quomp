@@ -5,5 +5,4 @@ Rails.application.routes.draw do
     resources :providers
     root :to=>'pages#home'
     match '/home', to: 'pages#home', via: 'get'
-    match '/editprofile', to: 'users#edit', via: 'get'
 end
