@@ -1,0 +1,25 @@
+<div class= 'center' id = "createsheet">
+    <h3>Create your Client Profile</h3>
+
+    <form action="/clients" class="new_client" id="new_client" method="post" class = 'center' role ="form">
+        <div class= "form-group">
+            <%=render 'shared/error_messages'%> 
+        </div>
+        <div class="form-group">
+            <input type="name" class="form-control" name="client[name]" id="name" placeholder="Name Shown to Providers" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name= "client[email]" id="email" placeholder="Email" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name= "client[password]" id="passwd" placeholder="Password" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name= "client[password_confirmation]" id="confirmpasswd" placeholder="Confirm Password" required autofocus>
+        </div>
+        <div class="form-group">
+            <input name="commit" type="submit" value="Submit" class= "btn btn-large btn-primary"/>
+        </div>
+    </form>
+</div>
+

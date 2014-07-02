@@ -1,16 +1,28 @@
 <%provide(:title, @user.name) %>
 
-<div class="row">
+<div class="row" id="profile">
     <aside class="span4">
     <section>
-    <img src=<%= @user.avatar.url(:small) %> id="prof" class= "img-circle"/>
-    <h1> 
+    <h1>
+        <%= image_tag @user.avatar.url(:thumb), id: "prof", class: "img-circle"%>
         <%= @user.name %>
     </h1>
     </section>
     <ol class="pull-left">
         <li>
         <h3>Industry: <%=@user.industry%></h3>
+        </li>
+        <li>
+        <h3>City: <%=@user.city%></h3>
+        </li>
+        <li>
+        <h3>State: <%=@user.state%></h3>
+        </li>
+        <li>
+        <h3>Website: <%=@user.website%></h3>
+        </li>
+        <li>
+        <h3>Bio: <%=@user.description%></h3>
         </li>
     </ol>
     </aside>

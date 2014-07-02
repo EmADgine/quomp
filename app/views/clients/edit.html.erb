@@ -1,0 +1,45 @@
+<% provide(:title, "Edit Client") %>
+<div id="createsheet" class="center">
+    <div class="row">
+        <aside class="span4">
+        <section>
+        <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
+        <h1> 
+            <%= @client.name %>
+        </h1>
+        </section>
+        </aside>
+    </div>
+    <%= form_for @client, :html=> {:class=> 'form-horizontal', :role=>'form'} do |f|%>
+        <%= render 'shared/error_messages'%>
+        <div class="form-group">
+            <%= f.label :avatar%>
+            <%= f.file_field :avatar%>
+        </div>
+        <div class="form-group">
+            <%= f.label :industry, class: "col-sm-2 control-label"%>
+            <div class="col-sm-10">
+                <%= f.select :industry, [['Please select an industry',nil],'Professional Services','Graphic Design','Marketing','Web Development'], class: 'form-control'%>
+            </div>
+        </div>
+        <div class= "form-group">
+            <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
+        </div>
+        <div class="form-group">
+            <%= f.label :state, class: "col-sm-2 control-label"%>
+            <div class: "col-sm-10">
+                <%= f.select :state, us_states, class: 'form-control'%>
+            </div>
+        </div>
+        <div class="form-group">
+            <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
+        </div>
+        <div class= "form-group">
+            <%= f.text_area :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Brief Bio', :cols=>"30", :rows=>"4"%>
+        </div>
+        <br>
+        <div class= "form-group">
+            <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
+    <% end%>
+</div>

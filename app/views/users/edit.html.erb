@@ -1,41 +1,45 @@
-<% provide(:title, "Edit Provider") %>
-<div id="popform">
+<% provide(:title, "Edit Client") %>
+<div id="createsheet" class="center">
     <div class="row">
         <aside class="span4">
         <section>
-        <img src=<%= @user.avatar.url(:small) %> id="prof" class= "img-circle"/>
+        <img src=<%= @user.avatar.url(:thumb) %> id="prof" class= "img-circle"/>
         <h1> 
             <%= @user.name %>
         </h1>
         </section>
         </aside>
     </div>
-    <div id='usereditform'>
-        <%= form_for(@user) do |f| %>
-            <div class="form-group">
-                <%= f.label :avatar%>
-                <%= f.file_field :avatar%>
-            </div>
-            <div class="form-group">
-                <%= f.label :industry%>
+    <%= form_for @user, :html=> {:class=> 'form-horizontal', :role=>'form'} do |f|%>
+        <%= render 'shared/error_messages'%>
+        <div class="form-group">
+            <%= f.label :avatar%>
+            <%= f.file_field :avatar%>
+        </div>
+        <div class="form-group">
+            <%= f.label :industry, class: "col-sm-2 control-label"%>
+            <div class="col-sm-10">
                 <%= f.select :industry, [['Please select an industry',nil],'Professional Services','Graphic Design','Marketing','Web Development'], class: 'form-control'%>
             </div>
-            <div class= "form-group">
-                <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
-            </div>
-            <div class="form-group">
-                <%= f.label :state%>
+        </div>
+        <div class= "form-group">
+            <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
+        </div>
+        <div class="form-group">
+            <%= f.label :state, class: "col-sm-2 control-label"%>
+            <div class: "col-sm-10">
                 <%= f.select :state, options_for_select(us_states, "CA"), class: 'form-control'%>
             </div>
-            <div class="form-group">
-                <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
-            </div>
-            <div class= "form-group">
-                <%= f.text_field :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Description' %>
-            </div>
-            <div class= "form-group">
-                <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-            </div>
+        </div>
+        <div class="form-group">
+            <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
+        </div>
+        <div class= "form-group">
+            <%= f.text_field :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Description' %>
+        </div>
+        <br>
+        <div class= "form-group">
+            <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
         </div>
     <% end%>
 </div>

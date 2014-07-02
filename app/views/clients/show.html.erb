@@ -1,0 +1,45 @@
+<%provide(:title, @client.name) %>
+
+<div id="ProfilePage">
+    <div id="LeftCol">
+        <div id="Photo">
+            <%= image_tag @client.avatar.url(:small), id: "prof", class: "img-circle"%>
+        </div>
+        <div id="ProfileOptions">
+            <button type="button" class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
+            <button type="button" class="btn btn-default"><%= link_to "Post Job", '#'%></button>
+        </div>
+    </div>
+
+    <div id="Info">
+        <p>
+        <strong>Name:</strong>
+        <span><%=@client.name%></span>
+        </p>
+        <p>
+        <strong>Email:</strong>
+        <span><%=@client.email%></span>
+        </p>
+        <p>
+        <strong>City:</strong>
+        <span><%=@client.city%></span>
+        </p>
+        <p>
+        <strong>State:</strong>
+        <span><%=@client.state%></span>
+        </p>
+        <p>
+        <strong>Website:</strong>
+        <span><%=@client.website%></span>
+        </p>
+        <p>
+        <strong>Bio:</strong>
+        <span><%=@client.description%></span>
+        </p>
+
+    </div>
+
+
+    <!-- Needed because other elements inside ProfilePage have floats -->
+    <div style="clear:both"></div>
+</div>

@@ -28,6 +28,9 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 1.1)
     arel (5.0.1.20140414130214)
+    aws-sdk (1.45.0)
+      json (~> 1.4)
+      nokogiri (>= 1.4.4)
     bcrypt (3.1.7)
     bcrypt-ruby (3.1.2)
     bootstrap-sass (3.1.1.1)
@@ -174,6 +177,9 @@ GEM
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0.4)
+    simple_form (3.1.0.rc1)
+      actionpack (~> 4.0)
+      activemodel (~> 4.0)
     slop (3.5.0)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -212,6 +218,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aws-sdk
   bcrypt-ruby (= 3.1.2)
   bootstrap-sass (~> 3.1.1)
   capybara
@@ -229,6 +236,7 @@ DEPENDENCIES
   sass-rails (~> 4.0.3)
   sdoc (~> 0.4.0)
   selenium-webdriver
+  simple_form (= 3.1.0.rc1)
   sprockets
   sqlite3
   turbolinks

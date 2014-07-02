@@ -164,6 +164,7 @@ ul {
     margin: 0 auto;
     ol li {
         list-style-type:none;
+        padding-right: 40px;
         label{
             display:inline-block;
 }
@@ -187,20 +188,20 @@ aside {
         &:first-child {
             border: 0;
             padding-top: 0;
-      }
-      span {
-          display: block;
-          margin-bottom: 3px;
-          line-height: 1;
-      }
-      h1 {
-          display:inline-block;
-          font-size: 2.0em;
-          text-align: left;
-          letter-spacing: -1px;
-          margin-bottom: 3px;
-          margin-top: 17px;
-    }
+  }
+  span {
+      display: block;
+      margin-bottom: 3px;
+      line-height: 1;
+  }
+  h1 {
+      display:inline-block;
+      font-size: 2.0em;
+      text-align: left;
+      letter-spacing: -1px;
+      margin-bottom: 3px;
+      margin-top: 17px;
+}
 }
 }
 
@@ -214,8 +215,84 @@ aside {
 
 #usereditform {
     width: 300px;
-    padding-left:30px;
     .form-group {
-        padding-bottom: 20px;
+        padding-bottom: 15px;
 }
 }
+
+#profile{
+    padding-left: 100px;
+}
+
+#fancybutton{
+    display: none;
+}
+
+#ProfilePage
+{
+    /* Move it off the top of the page, then centre it horizontally */
+    margin: 50px auto;
+    width: 635px;
+
+    /* For visibility. Delete me */
+}
+
+#LeftCol
+{
+    /* Move it to the left */
+    float: left;
+
+    width: 200px;
+    text-align: center;
+
+    /* Move it away from the content */
+    margin-right: 20px;
+
+    /* For visibility. Delete me */
+}
+
+#Photo
+{
+    /* Width and height of photo container */
+    width: 200px;
+    height: 200px;
+
+    /* For visibility. Delete me */
+}
+
+#PhotoOptions
+{
+    text-align: center;
+    width: 200px;
+
+    /* For visibility. Delete me */
+}
+
+#Info
+{
+    width: 400px;
+    text-align: center;
+
+    /* Move it to the right */
+    float: right;
+
+    /* For visibility. Delete me */
+        }
+
+        #Info strong
+        {
+            /* Give it a width */
+            display: inline-block;
+            width: 100px;
+
+            /* For visibility. Delete me */
+                }
+
+                #Info span
+                {
+                    /* Give it a width */
+                    display: inline-block;
+                    width: 250px;
+
+                    /* For visibility. Delete me */
+                        }

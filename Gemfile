@@ -8,6 +8,9 @@ gem 'sprockets'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'rails-i18n'
 gem 'devise'
+
+gem 'simple_form','3.1.0.rc1'
+
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
@@ -40,6 +43,7 @@ gem 'jbuilder', '~> 2.0'
 
 #profile picture stuff
 gem "paperclip", "~> 4.1"
+gem 'aws-sdk'
 
 gem 'valid_email'
 group :doc do
