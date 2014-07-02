@@ -83,10 +83,10 @@ Rails.application.configure do
   config.action_controller.include_all_helpers = true
 
   config.paperclip_defaults = {
-      :storage => :s3
+      :storage => :s3,
       :s3_credentials => {
-          :bucket => ENV['quompimages']
-          :access_key_id => ENV['AKIAJCMFR73MQOY2CFMA']
+          :bucket => ENV['quompimages'],
+          :access_key_id => ENV['AKIAJCMFR73MQOY2CFMA'],
           :secret_access_key => ENV['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']
       }
   }
