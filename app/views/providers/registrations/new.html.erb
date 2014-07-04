@@ -1,21 +1,11 @@
 <div class= 'center' id = "createsheet">
     <h3>Create your Provider Profile</h3>
-
-    <form action="/providers" class="new_provider" id="new_provider" method="post" class = 'center' role ="form">
-        <div class= "form-group">
-            <%=render 'shared/error_messages'%> 
-        </div>
-        <div class= "form-group">
-            <div class= "btn-group" data-toggle="buttons" id="radiobuttons">
-                <label class="btn btn-primary">
-                    <input type="radio" name="provider[ptype]" value="f">
-                    Freelancer
-                </label>
-                <label class="btn btn-primary">
-                    <input type="radio" name= "provider[ptype]" value="a">
-                    Agency
-                </label>
-            </div>
+    
+    <%=render 'shared/error_messages'%> 
+    <%= form_for @provider do |f|%>
+        <div class="form-group">
+            <%= f.radio_button :ptype, 'freelancer' %><b>Freelancer</b>
+            <%= f.radio_button :ptype, 'agency' %><b>Agency</b>
         </div>
         <div class="form-group">
             <input type="name" class="form-control" name="provider[name]" id="name" placeholder="Name Shown to Clients" required autofocus>
@@ -32,9 +22,6 @@
         <div class="form-group">
             <input name="commit" type="submit" value="Submit" class= "btn btn-large btn-primary"/>
         </div>
-        <div class= "form-group">
-            <%=render 'shared/error_messages'%> 
-        </div>
-    </form>
+    <%end%>
 </div>
 

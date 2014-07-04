@@ -1,4 +1,5 @@
 class ClientsController < ApplicationController
+    before_action :authenticate_user!, only: [:edit, :update]
     def show
         @client = Client.find(params[:id])
     end
@@ -16,6 +17,6 @@ class ClientsController < ApplicationController
         end
     end
     def client_params_edit
-        params.require(:client).permit(:avatar,:industry,:city,:website, :description)
+        params.require(:client).permit(:avatar,:industry,:city,:state,:website, :description)
     end
 end

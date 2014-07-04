@@ -1,0 +1,12 @@
+<%provide(:title, @provider.name) %>
+
+<div id="ProfilePage">
+    <div id="LeftCol">
+        <div id="Photo">
+            <%= image_tag @provider.avatar.url(:small), id: "prof", class: "img-circle"%>
+        </div>
+        <div id="ProfileOptions">
+            <button type="button" class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
+        </div>
+    </div>
+</div>

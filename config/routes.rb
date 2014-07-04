@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     devise_for :providers, :controllers=>{:registrations=>"registrations"},:skip => [:sessions,:passwords]
     devise_for :clients, :controllers=> {:registrations=> "registrations"},:skip => [:sessions,:passwords]
     
-    resources :clients
+    resources :clients do
+        resources :jobs
+    end
     resources :providers
 
 end

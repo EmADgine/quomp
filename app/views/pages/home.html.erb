@@ -1,25 +1,38 @@
 <div class="center jumbotron" id="hometownhero">
-     <h3>At <strong id=logo2>Quomp</strong>, we've found a better way for emerging businesses
+    <h3 id="slogan">At <strong id=logo2>Quomp</strong>, we've found a better way for emerging businesses
         to leverage the extended workforce. It is truly a "win-win" for all
         parties.</h3>
     <ul class = "list-inline dl-submenu" id="homebuttons">
         <li>
-            <div>
+        <div>
             <small>Are you an individual or business 
-            that needs help with a job?</small>
-            <%= link_to "Post a Job", new_client_registration_path, 
-                class: "btn btn-large btn-primary" %>
-            </div>
+                that needs help with a job?</small>
+            <%unless user_signed_in?%>
+                <%= link_to "Post a Job", new_client_registration_path, 
+                    class: "btn btn-large btn-primary" %>
+            <%else%>
+                <%= link_to "Post a Job", new_client_job_path(current_user.id),
+                    class: "btn btn-large btn-primary"%>
+            <%end%>
+        </div>
         </li>
-        <li data-animation="1">
-            <div>    
+        <li>
+        <div>    
             <small>Are you a freelancer or agency looking for more
-            work?</small>
-            <%= link_to "Join Our Engine", new_provider_registration_path, 
-                class: "btn btn-large btn-primary"%>
-            </div>
+                        work?</small>
+            <%if !user_signed_in?%>
+                <%= link_to "Join Our Engine", new_provider_registration_path, 
+                    class: "btn btn-large btn-primary"%>
+            <%elsif resource.is_a? Provider%>
+                <%= link_to "Join Our engine", :provider,
+                    class: "btn btn-large btn-primary"%>
+            <%else%>
+                <%= link_to "Join Our Engine", '#',
+                    class: "btn btn-large btn-primary"%>
+            <%end%>
+        </div>
         </li>
-    <ul>
+    </ul>
 </div>
 
 

@@ -10,6 +10,6 @@ class Provider < User
     validates_format_of :linkedin, :with => URI::regexp(%w(http https))
     validates :resume, presence: true
 =end
-    validates :ptype, presence: true
+    validates :ptype, inclusion: ["freelancer", "agency"]
     has_many :disciplines 
 end

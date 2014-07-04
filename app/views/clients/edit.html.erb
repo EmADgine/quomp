@@ -5,7 +5,7 @@
         <section>
         <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
         <h1> 
-            <%= @client.name %>
+            <%= @client.name.split.map(&:capitalize).join(' ') %>
         </h1>
         </section>
         </aside>

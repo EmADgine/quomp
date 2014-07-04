@@ -1,5 +1,5 @@
 class RegistrationsController < Devise::RegistrationsController
-    skip_before_filter :verify_authenticity_token, :only => :create
+    skip_before_filter :verify_authenticity_token, :only => [:create]
     def sign_up(resource_name, resource)
         sign_in(:user, resource)
     end

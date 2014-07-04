@@ -1,4 +1,5 @@
 class ProvidersController < ApplicationController
+    before_action :authenticate_user!, only: [:edit, :update]
     def show
         @provider = Provider.find(params[:id])
     end
@@ -7,6 +8,12 @@ class ProvidersController < ApplicationController
     end
     def update
         @provider = Provider.find(params[:id])
+        case params["ptype"]
+        when "freelancer"
+            @provider.ptype="freelancer"
+        when "agency"
+            @provider.ptype="agency"
+        end
         if @provider.update_attributes(provider_params_edit)
             flash[:success] = "Profile Updated"
             redirect_to @provider

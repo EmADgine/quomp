@@ -8,7 +8,7 @@ class User < ActiveRecord::Base
     validates :name, presence: true, length: {maximum: 50}
     validates :email, presence: true, :email => {:ban_disposable_email => true, :message => I18n.t('validations.errors.models.user.invalid_email')}, uniqueness: { case_sensitive: false }
     
-    validates :password, presence: true, length: {minimum: 6},:if=>:password_validation_required?
+    validates :password, presence: true, :if=>:password_validation_required?
 
     LOGO_TYPES = ['image/jpeg', 'image/png', 'image/gif']
     has_attached_file :avatar, :styles => {:medium => "300x300>",:small=>"200x200>", :icon => "100x100>" }, :default_url => '/assets/missing_:style.png'

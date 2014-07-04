@@ -1,10 +1,10 @@
 <% if resource.errors.any? %>
     <div id="error_explanation">
         <div class="alert alert-danger">
-            The form contains <%= pluralize([4,resource.errors.count].min, "error") %>.
+            The form contains <%= pluralize([4,translation_error_filter(dry(resource.errors.full_messages)).count].min, "error") %>.
         </div>
         <ul>
-            <% resource.errors.full_messages.each do |msg| %>
+            <% translation_error_filter(dry(resource.errors.full_messages)).each do |msg| %>
                 <li>* <%= msg %></li>
             <% end %>
         </ul>

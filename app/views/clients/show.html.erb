@@ -3,18 +3,29 @@
 <div id="ProfilePage">
     <div id="LeftCol">
         <div id="Photo">
-            <%= image_tag @client.avatar.url(:small), id: "prof", class: "img-circle"%>
+            <%= image_tag @client.avatar.url(:medium), id: "prof", class: "img-circle"%>
         </div>
         <div id="ProfileOptions">
-            <button type="button" class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
-            <button type="button" class="btn btn-default"><%= link_to "Post Job", '#'%></button>
+            <ul id="namelist">
+                <li>
+                <h1> 
+                    <%= @client.name.split.map(&:capitalize).join(' ') %>
+                </h1>
+                </li>
+                <li>
+                <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
+                </li>
+                <li>
+                <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_client_registration_path%></button>
+                </li>
+            </ul>
         </div>
     </div>
 
     <div id="Info">
         <p>
-        <strong>Name:</strong>
-        <span><%=@client.name%></span>
+        <strong>Ranking:</strong>
+        <button id="rankbutton" class= "btn btn-primary"><span type="btn btn-primary"> 9.2 / 10 </span></button>
         </p>
         <p>
         <strong>Email:</strong>
@@ -30,12 +41,14 @@
         </p>
         <p>
         <strong>Website:</strong>
-        <span><%=@client.website%></span>
+        <span><%=link_to linkerate(@client.website), 
+            'http://www.'+linkerate(@client.website)%></span>
         </p>
         <p>
         <strong>Bio:</strong>
         <span><%=@client.description%></span>
         </p>
+        
 
     </div>
 
@@ -43,3 +56,7 @@
     <!-- Needed because other elements inside ProfilePage have floats -->
     <div style="clear:both"></div>
 </div>
+<div class='center'>
+    <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Post A Job", new_client_job_path(current_user.id)%></button>
+</div>
+

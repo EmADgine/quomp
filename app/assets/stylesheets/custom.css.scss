@@ -4,20 +4,18 @@
 html {
     overflow-y:scroll;
     height:100%;
-
 }
 
 body {
-    min-height:92%;
+    //min-height:92%;
     position: relative;
     padding-top: 60px;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Palatino', sans-serif;
     h4 {
         font-style: bold;
         font-weight: 500;
-}
-
-background: #eee;
+    }
+background: #4878A8;
 }
 
 
@@ -40,6 +38,7 @@ textarea {
 /* typography */
 h1,h2,h3,h4,h5,h6 {
     line-height: 1;
+    font-family: 'Palatino','sans-serif'
 }
 
 h1 {
@@ -64,7 +63,13 @@ h3 {
     text-align: center;
     font-weight: normal;
 }
-
+#slogan {
+    font-size:1.85em;
+    letterspacing:-1px;
+    line-height:1.2em;
+    text-align:center;
+    font-weight:normal;
+}
 p {
     font-size: 1.1em;
     line-height: 1.7em;
@@ -76,7 +81,13 @@ header {
     ul {
         display: inline-block;
         list-style-type: none;
-}
+    }
+    #droplog{
+        padding:10px;
+        input[type=text] {
+            width: 200px;
+        }
+    }
 }
 #logo {
     float: left;
@@ -105,9 +116,10 @@ footer {
     position: absolute;
     bottom: 0;
     width: 100%;
-    height: 0px;
+    height: 50px;
     a {
         color: #333;
+        font-size:1.3em;
         &:hover {
             color: #555;
 }
@@ -140,11 +152,14 @@ ul {
     display:inline-block;
     list-style-type: none;
     padding-right:2%;
+    .btn {
+        font-size: 28px;
+    }
     padding-left:2%;
     margin-top:40px;
     div {
-        width: 270px;
-}
+        width: 275px;
+    }
 }
 
 #logo2{
@@ -154,29 +169,33 @@ ul {
 /*Create Provider Profile*/
 
 #createsheet {
-    h3 {margin-bottom: 22px;}
-    background: #9cbc2c;
+    h3 {
+        margin-bottom: 22px;
+    }
+    background: #A8D8F0;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
     padding: 20px;
     width: 400px;
-    margin: 0 auto;
+    vertical-align:middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
     ol li {
         list-style-type:none;
         padding-right: 40px;
         label{
             display:inline-block;
-}
-}
+        }
+    }
 }
 
 
 #error_explanation {
-
     ul {
         list-style: none;
-        margin: 0 0 18px 0;
+        margin: 0px 0 18px 0;
   }
 }
 .field_with_errors {
@@ -217,7 +236,7 @@ aside {
     width: 300px;
     .form-group {
         padding-bottom: 15px;
-}
+    }
 }
 
 #profile{
@@ -232,21 +251,42 @@ aside {
 {
     /* Move it off the top of the page, then centre it horizontally */
     margin: 50px auto;
-    width: 635px;
+    padding-bottom: 15px;
+    padding-top: 15;
+    width: 840px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    
+    background: #A8D8F0;
+    
+}
 
-    /* For visibility. Delete me */
+#jobbutton {
+    //background-color: #F07830;
+    //font: 50px sans-serif;
+    border: none;
+    background: #F07830;
+    color: #FFF;
+    padding: 10px 30px;
+    font-size:40px;
+    font-family: Palatino;
+    font-weight: bold;
+    a {
+        color:white;
+    }
 }
 
 #LeftCol
 {
     /* Move it to the left */
     float: left;
-
-    width: 200px;
+    padding-left: 10px;
+    width: 250px;
     text-align: center;
 
     /* Move it away from the content */
-    margin-right: 20px;
+    margin-right: 10px;
 
     /* For visibility. Delete me */
 }
@@ -256,43 +296,78 @@ aside {
     /* Width and height of photo container */
     width: 200px;
     height: 200px;
-
-    /* For visibility. Delete me */
+    margin-top:20px;
 }
 
-#PhotoOptions
+#ProfileOptions
 {
-    text-align: center;
-    width: 200px;
+    text-align: left;
+    width: 400px;
+    #namelist {
+        padding: 0;
+        margin-top:40px;
+        list-style-type: none;
+    }
 
-    /* For visibility. Delete me */
+    #namelist li {
+        display: inline;
+        padding:0;
+        margin:0;
+        h1{
+            padding:0px;
+            margin:0px;
+        }
+    }
+    #profilebutton {
+        
+        border: none;
+        background: #222;
+        color: #FFF;
+        padding: 5px 20px;
+        margin: 5px;
+        font-size:17px;
+        font-family: Palatino;
+        font-weight: bold;
+        border-radius:0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        
+        a {
+            color: white;
+        }
+    }
 }
 
 #Info
 {
     width: 400px;
-    text-align: center;
-
+    text-align: left;
+    -moz-border-radius: 5px;
+    //background: #F3FAB6;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
     /* Move it to the right */
-    float: right;
+    float: left;
+    margin-left: 150px;
+    margin-top:15px;
+    margin-right:15px;
 
     /* For visibility. Delete me */
-        }
+}
+#Info #rankbutton {
+    background: #40B03F;
+}
+#Info strong
+{
+    /* Give it a width */
+    display: inline-block;
+    
+    width: 100px;
+}
+#Info span
+{
+    /* Give it a width */
+    display: inline-block;
+    width: 250px;
+}
 
-        #Info strong
-        {
-            /* Give it a width */
-            display: inline-block;
-            width: 100px;
-
-            /* For visibility. Delete me */
-                }
-
-                #Info span
-                {
-                    /* Give it a width */
-                    display: inline-block;
-                    width: 250px;
-
-                    /* For visibility. Delete me */
-                        }

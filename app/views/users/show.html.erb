@@ -19,7 +19,7 @@
         <h3>State: <%=@user.state%></h3>
         </li>
         <li>
-        <h3>Website: <%=@user.website%></h3>
+        <h3>Website: <%=link_to linkerate(@user.website), 'http://www.'+linkerate(@user.website)%></h3>
         </li>
         <li>
         <h3>Bio: <%=@user.description%></h3>

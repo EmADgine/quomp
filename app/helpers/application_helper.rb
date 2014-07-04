@@ -20,6 +20,29 @@ module ApplicationHelper
             "#{base} | #{pt}"
         end
     end
+
+    def dry(array)
+        result=[]
+        array.each do |item|
+            if !result.include? item
+                result << item
+            end
+        end
+        result
+    end
+    def translation_error_filter(array)
+        result=[]
+        array.each do |item|
+            if !item.include? 'translation'
+                result << item
+            end
+        end
+        result
+    end
+    def linkerate(link)
+        link.chomp('http://').chomp('www.').downcase
+    end
+
     def us_states
         [
             ['AK', 'AK'],
