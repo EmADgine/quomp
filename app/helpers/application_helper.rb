@@ -42,6 +42,7 @@ module ApplicationHelper
     def linkerate(link)
         if link=nil
             link=''
+        end
         link.chomp('http://').chomp('www.').downcase
     end
 
