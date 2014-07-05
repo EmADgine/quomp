@@ -12,16 +12,18 @@
                     <%= @client.name.split.map(&:capitalize).join(' ') %>
                 </h1>
                 </li>
-                <li>
-                <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
-                </li>
-                <li>
-                <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_client_registration_path%></button>
-                </li>
+
+                <% if user_signed_in? %> 
+                    <li>
+                    <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
+                    </li>
+                    <li>
+                    <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_client_registration_path(current_user.id)%></button>
+                    </li>
+                <%end%>
             </ul>
         </div>
     </div>
-
     <div id="Info">
         <p>
         <strong>Ranking:</strong>
@@ -41,14 +43,14 @@
         </p>
         <p>
         <strong>Website:</strong>
-        <span><%=link_to linkerate(@client.website), 
-            'http://www.'+linkerate(@client.website)%></span>
+        <span><%=link_to @client.website, 
+            'http://www.'+@client.website%></span>
         </p>
         <p>
         <strong>Bio:</strong>
         <span><%=@client.description%></span>
         </p>
-        
+
 
     </div>
 

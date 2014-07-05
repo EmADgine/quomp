@@ -4,15 +4,14 @@ class ApplicationController < ActionController::Base
     protect_from_forgery with: :exception
     before_action :configure_devise_permitted_parameters, if: :devise_controller?
     protected
-=begin
     helper_method :account_url
     def account_url
         return new_user_session_url unless user_signed_in?
         case current_user.class.name
         when 'Client'
-            edit_client_registration_url
+            current_user
         when 'Provider'
-            edit_provider_registration_url
+            current_user
         end if user_signed_in?
     end
 
@@ -24,7 +23,6 @@ class ApplicationController < ActionController::Base
             send("current_#{k.underscore}") || not_authorized
         end
     end
-=end
     def configure_devise_permitted_parameters
         #registration_params = [:name,:email,:password,:password_confirmation]
         #if params[:action] == 'create'
@@ -32,9 +30,9 @@ class ApplicationController < ActionController::Base
         #        |u| u.permit(registration_params)
         #    }
         #end
-
+        
         devise_parameter_sanitizer.for(:sign_up) do |u|
-            u.permit(:name, :email, :password, :password_confirmation)
+            u.permit(:name,:email,:password,:password_confirmation,:ptype)
         end
         devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:username,:email)}
     end

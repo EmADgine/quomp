@@ -305,7 +305,7 @@ aside {
     width: 400px;
     #namelist {
         padding: 0;
-        margin-top:40px;
+        margin-top:50px;
         list-style-type: none;
     }
 
@@ -361,7 +361,7 @@ aside {
 {
     /* Give it a width */
     display: inline-block;
-    
+    vertical-align: top;
     width: 100px;
 }
 #Info span
@@ -371,3 +371,6 @@ aside {
     width: 250px;
 }
 
+#cancelbutton{
+    background: #781800;
+}
