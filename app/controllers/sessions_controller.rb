@@ -6,6 +6,6 @@ class SessionsController < Devise::SessionsController
     #end
     #
     def after_sign_in_path_for(resource)
-        stored_location_for(resource) or account_url
+        stored_location_for(resource)||account_url
     end
 end
