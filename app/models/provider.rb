@@ -1,15 +1,13 @@
 class Provider < User
     devise :database_authenticatable, :registerable,
         :recoverable, :rememberable, :trackable, :validatable
-=begin this should occur in a different form?
-    validates :ptype, presence: true
-    validates :city, presence: true
-    validates :state, presence: true
-    validates :education, presence: true
-    validates :biography, presence:true, length: {minimum: 50, maximum: 300}
-    validates_format_of :linkedin, :with => URI::regexp(%w(http https))
-    validates :resume, presence: true
-=end
+
     validates :ptype, inclusion: ["freelancer", "agency"]
-    has_many :disciplines 
+    has_attached_file :resume
+    validates_attachment_content_type :resume, :content_type =>["application/pdf","application/vnd.ms-excel",     
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        "application/msword", 
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+        "text/plain"]
+   
 end

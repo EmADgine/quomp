@@ -1,12 +1,16 @@
 <div class= 'center' id = "createsheet">
     <h3>Create your Provider Profile</h3>
-    
+
     <%=render 'shared/error_messages'%> 
     <%= form_for @provider do |f|%>
         <div class="form-group">
-            <%= f.radio_button :ptype, 'freelancer' %><b>Freelancer</b>
-            <%= f.radio_button :ptype, 'agency' %><b>Agency</b>
+            <input type="hidden" name="provider[ptype]" id="btn-input" value = ""%>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button id="frb" type="button" name="provider[ptype]" value="freelancer" class="btn btn-primary">Freelancer</button>
+                <button id="agb" type="button" name="provider[ptype]" value="agency" class="btn btn-primary">Agency</button>
+            </div>
         </div>
+
         <div class="form-group">
             <input type="name" class="form-control" name="provider[name]" id="name" placeholder="Name Shown to Clients" required autofocus>
         </div>
@@ -24,4 +28,14 @@
         </div>
     <%end%>
 </div>
+
+<script type="text/javascript">
+    var btns= ['frb','agb'];
+    var input= document.getElementById('btn-input');
+    for(var i=0; i<btns.length; i++) {
+        document.getElementById(btns[i]).addEventListener('click', function() {
+            input.value= this.value;
+        });
+    }
+</script>
 

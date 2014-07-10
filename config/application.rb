@@ -8,7 +8,6 @@ Bundler.require(*Rails.groups)
 
 module Quomp
   class Application < Rails::Application
-      config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-      config.serve_static_assets=true
+      config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif tabulous.js tabulous.css)
   end
 end

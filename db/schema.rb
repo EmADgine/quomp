@@ -11,12 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140628213816) do
+ActiveRecord::Schema.define(version: 20140709224046) do
 
   create_table "disciplines", force: true do |t|
+    t.string  "name"
     t.integer "years"
     t.string  "description"
     t.integer "user_id"
+  end
+
+  create_table "jobs", force: true do |t|
+    t.string  "discipline"
+    t.string  "task"
+    t.string  "description"
+    t.date    "startdate"
+    t.date    "deadline"
+    t.boolean "expreq"
+    t.string  "pricemethod"
+    t.integer "budget"
+    t.integer "user_id"
+  end
+
+  create_table "skills", force: true do |t|
+    t.string  "skillname"
+    t.integer "importance"
+    t.integer "job_id"
   end
 
   create_table "users", force: true do |t|
@@ -50,6 +69,7 @@ ActiveRecord::Schema.define(version: 20140628213816) do
     t.string   "resume_content_type"
     t.integer  "resume_file_size"
     t.datetime "resume_updated_at"
+    t.string   "linkedin"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

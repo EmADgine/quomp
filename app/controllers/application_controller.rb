@@ -4,12 +4,10 @@ class ApplicationController < ActionController::Base
 
     protect_from_forgery with: :exception
     before_action :configure_devise_permitted_parameters, if: :devise_controller?
-    def stored_location_for resource
-       nil
-    end
-
+   
     protected
     helper_method :account_url
+
     def account_url
         return new_user_session_url unless user_signed_in?
         case current_user.class.name
@@ -41,7 +39,7 @@ class ApplicationController < ActionController::Base
         end
         devise_parameter_sanitizer.for(:sign_in) { |u| u.permit(:username,:email)}
         devise_parameter_sanitizer.for(:account_update) do |u|
-            u.permit(:name,:email,:current_password,:password, :password_confirmation)
+            u.permit(:name,:email,:password, :password_confirmation,:current_password)
         end
     end
 end

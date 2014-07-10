@@ -1,12 +1,15 @@
 <div class= 'center' id = "createsheet">
     <h3>Edit Your Registration Information</h3>
-    <%=render 'shared/error_messages'%> 
-    <form action="/clients" class="new_client" id="new_client" method="put" class = 'center' role ="form">
+    <%=render 'shared/error_messages'%>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
         <div class="form-group">
-            <input type="name" class="form-control" name="client[name]" id="name" placeholder="UpdateName Shown to Providers" required autofocus>
+            <%= f.password_field :current_password, autocomplete: "off", placeholder: "Current Password Required", class: "form-control"%>
         </div>
         <div class="form-group">
-            <input type="email" class="form-control" name= "client[email]" id="email" placeholder="UpdateEmail" required autofocus>
+            <input type="name" class="form-control" name="client[name]" id="name" placeholder="Update Name Shown to Providers" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name= "client[email]" id="email" placeholder="Update Email" required autofocus>
         </div>
         <div class="form-group">
             <input type="password" class="form-control" name= "client[password]" id="passwd" placeholder="Update Password" required autofocus>
@@ -14,11 +17,11 @@
         <div class="form-group">
             <input type="password" class="form-control" name= "client[password_confirmation]" id="confirmpasswd" placeholder="Confirm New Password" required autofocus>
         </div>
-
         <div class="form-group">
             <input name="commit" type="submit" value="Update Registration" class= "btn btn-large btn-primary"/>
         </div>
-    </form>
+
+    <%end%>
     <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-primary", id: "cancelbutton", :data => { confirm: "Are you sure?" }, method: :delete %>
 </div>
 

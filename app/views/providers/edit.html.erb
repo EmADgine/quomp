@@ -1,14 +1,132 @@
-<div id="createsheet" class="center">
+<div id="createsheet2" class="center">
     <div class="row">
         <aside class="span4">
         <section>
         <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle"/>
-        <h1> 
-            <%= @provider.name %>
-        </h1>
+
+        <ul>
+            <li>
+            <h1>
+                Type: <%= @provider.ptype.titleize%>
+            </h1>   
+            </li>
+            <li>
+            <h1> 
+                Name: <%= @provider.name.titleize %>
+            </h1>
+            </li>
+        </ul>
         </section>
         </aside>
     </div>
+    <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal', :role=>'form', :id=>"editform"} do |f|%>
+        <div class="form-group">
+            <ul id="oneliner">
+                <li>
+                <%= f.label :avatar%>
+                </li>
+                <li>
+                <%= f.file_field :avatar%>
+                </li>
+            </ul>
+        </div>
 
+        <fieldset>
+            <legend>Job Details</legend>
+            <div class="form-group">
+                <%= f.label :industry, class: "col-sm-2 control-label"%>
+                <div class="col-sm-10">
+                    <%= f.select :industry, get_disciplines, class: 'form-control'%>
+                </div>
+            </div>
+            <div class= "form-group">
+                <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
+            </div>
+            <div class="form-group">
+                <%= f.label :state, class: "col-sm-2 control-label"%>
+                <div class: "col-sm-10">
+                    <%= f.select :state, us_states, class: 'form-control'%>
+                </div>
+            </div>
+            <div class="form-group">
+                <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
+            </div>
+            <div class="form-group">
+                <%= f.label :education, class: "col-sm-2 control-label"%>
+                <%= f.select :education, ['PhD','Master\'s','Bachelor\'s', 'High School Diploma'], class: 'form-control'%>
+            </div>
+            <div class= "form-group">
+                <%= f.text_area :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Brief Biography', :cols=>"30", :rows=>"4"%>
+            </div>
+            <div class="form-group">
+                <%= f.text_field :linkedin, class: 'form-control', autofocus: true, placeholder: 'Linkedin Profile'%>
+            </div>
+        </fieldset>
+        <div class="form-group">
+            <ul id="oneliner">
+                <li>
+                <%=f.label :resume%>
+                </li>
+                <li>
+                <%=f.file_field :resume%>
+                </li>
+            </ul>
+        </div>
+        <fieldset>
+            <legend>Disciplines</legend>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> Marketing Strategy
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> Email Marketing
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> Paid Search
+            </label>
+            <br/>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> Affiliate Marketing
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> SEO          
+            </label>
+            <label class="checkbox-inline">
+                <input type="checkbox" id="cb" value=""> Social Media
+            </label>
+            <div class="form-group">
+                <%= f.link_to_add "Add a Discipline", :disciplines, id: "addDiscipline"%>
+            </div>
+            
+              
+            <div id="tabs">
+                <ul>
+                    <%(1..@provider.disciplines.length).each do |i|%>
+                        <li><a href="<%="#fragment-#{i}"%>"><%="Discipline #{i}"%></a></li>
+                    <%end%>
+                </ul>
+                <% if @provider.disciplines.empty? %>
+                    <%= f.fields_for :disciplines do |builder| %>
+                        <%= render 'discipline_fields', :f=>builder%>
+                    <% end %>
+                <% end %>
+                <div id="tabs">
+                    <% @provider.disciplines.each.with_index do |discipline,j| %>
+                        <div id="<%="fragment-#{j+1}"%>">
+                            <%= f.fields_for :disciplines, discipline do |builder| %>
+                                <%= render 'discipline_fields', :f => builder %> 
+                            <% end %>
+                        </div>
+                    <%end%>
+                </div>
+            </div>
+        </fieldset>
+        <div class= "form-group">
+            <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
+        <%= render 'shared/error_messages'%>
+    <% end %>
 </div>
+
+
+
 

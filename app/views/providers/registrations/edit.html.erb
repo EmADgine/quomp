@@ -1,29 +1,43 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<div class= 'center' id = "createsheet">
+    <h3>Edit Your Registration Information</h3>
+    <%=render 'shared/error_messages'%>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <div class="form-group">
+            <%= f.password_field :current_password, autocomplete: "off", placeholder: "Current Password Required", class: "form-control"%>
+        </div>
+        <div class="form-group">
+            <input type="hidden" name="provider[ptype]" id="btn-input" value = ""%>
+            <div class="btn-group" data-toggle="buttons-radio">
+                <button id="frb" type="button" name="provider[ptype]" value="freelancer" class="btn btn-primary">Freelancer</button>
+                <button id="agb" type="button" name="provider[ptype]" value="agency" class="btn btn-primary">Agency</button>
+            </div>
+        </div>
+        <div class="form-group">
+            <input type="name" class="form-control" name="provider[name]" id="name" placeholder="Update Name Shown to Providers" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="email" class="form-control" name= "provider[email]" id="email" placeholder="Update Email" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name= "provider[password]" id="passwd" placeholder="Update Password" required autofocus>
+        </div>
+        <div class="form-group">
+            <input type="password" class="form-control" name= "provider[password_confirmation]" id="confirmpasswd" placeholder="Confirm New Password" required autofocus>
+        </div>
+        <div class="form-group">
+            <input name="commit" type="submit" value="Update Registration" class= "btn btn-large btn-primary"/>
+        </div>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
+    <%end%>
+    <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-primary", id: "cancelbutton", :data => { confirm: "Are you sure?" }, method: :delete %>
+</div>
 
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, autofocus: true %></div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
-  <% end %>
-
-  <div><%= f.label :password %> <i>(leave blank if you don't want to change it)</i><br />
-    <%= f.password_field :password, autocomplete: "off" %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %></div>
-
-  <div><%= f.label :current_password %> <i>(we need your current password to confirm your changes)</i><br />
-    <%= f.password_field :current_password, autocomplete: "off" %></div>
-
-  <div><%= f.submit "Update" %></div>
-<% end %>
-
-<h3>Cancel my account</h3>
-
-<p>Unhappy? <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %></p>
-
-<%= link_to "Back", :back %>
+<script type="text/javascript">
+    var btns= ['frb','agb'];
+    var input= document.getElementById('btn-input');
+    for(var i=0; i<btns.length; i++) {
+        document.getElementById(btns[i]).addEventListener('click', function() {
+            input.value= this.value;
+        });
+    }
+</script>

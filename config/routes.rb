@@ -7,6 +7,7 @@ Rails.application.routes.draw do
 
 
     devise_for :users, :controllers =>{:registrations=>"registrations",:sessions => "sessions", :passwords => "passwords"},:skip =>[:registrations] do
+        get '/users/sign_out' => 'devise/sessions#destroy', :as=> :destroy_user_session
         delete '/logout', :to => 'sessions#destroy', :as => :destroy_user_session
         get '/login', :to => 'sessions#new', :as=> :new_user_session
         post '/login', :to => 'sessions#create', :as=> :user_session

@@ -8,21 +8,15 @@ class ProvidersController < ApplicationController
     end
     def update
         @provider = Provider.find(params[:id])
-        case params["ptype"]
-        when "freelancer"
-            @provider.ptype="freelancer"
-        when "agency"
-            @provider.ptype="agency"
-        end
         if @provider.update_attributes(provider_params_edit)
             flash[:success] = "Profile Updated"
             redirect_to @provider
         else
-            flash[:failure] = "Profile Information Invalid"
+            flash[:failure] = "Provider Profile Information Invalid"
             render 'edit'
         end
     end
     def provider_params_edit
-        #params.require(:client).permit(:avatar,:industry,:city,:website, :description)
+        params.require(:provider).permit(:avatar,:industry,:city,:state,:website,:education,:description,:resume,:linkedin, disciplines_attributes: [:id, :name,:description,:years, :_destroy])
     end
 end

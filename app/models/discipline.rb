@@ -1,5 +1,5 @@
 class Discipline < ActiveRecord::Base
-    belongs_to :provider
+    belongs_to :user
     validates :years, presence: true
-    validates :description, presence: true, length: {minimum: 50, maximum: 300}
+    validates :description, presence: true, length: {minimum: 5, maximum: 300}
 end

@@ -1,0 +1,19 @@
+<div id="createsheet2" class="center">
+    <%=nested_form_for [current_user,@job], :html=> {:class=> 'form-horizontal', :role=>'form'} do |f|%>
+        <h1>Submit a Job to Our Engine</h1>
+        <div class="form-group">
+            <%=f.label :discipline, "What discipline is your job in?"%>
+            <%=f.select :discipline, get_disciplines, class: "form-control"%>
+        </div>
+        <div class="form-group">
+            <%=f.label :task, "What task do you want performed?"%>
+            <%=f.select :task, ['Create a Logo', 'Build a Web Page', 'Purchase a Pony']%>
+        </div>
+        <div class="form-group">
+            <%=f.label :description, "Briefly describe your project"%>
+            <%=f.text_area :description,rows: 2 %>
+        </div>
+        <div class="form-group"
+        <%=f.submit "Submit Job", class: "btn btn-primary"%>
+    <%end%>
+</div>

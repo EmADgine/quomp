@@ -1,12 +1,61 @@
 <%provide(:title, @provider.name) %>
-
 <div id="ProfilePage">
     <div id="LeftCol">
         <div id="Photo">
-            <%= image_tag @provider.avatar.url(:small), id: "prof", class: "img-circle"%>
+            <%= image_tag @provider.avatar.url(:medium), id: "prof", class: "img-circle"%>
         </div>
         <div id="ProfileOptions">
-            <button type="button" class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
+            <ul id="namelist">
+                <li>
+                <h1> 
+                    <%= @provider.name.titleize %>
+                </h1>
+                </li>
+
+                <% if user_signed_in? %> 
+                    <li>
+                    <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
+                    </li>
+                    <li>
+                    <button type="button" id= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
+                    </li>
+                <%end%>
+            </ul>
         </div>
     </div>
+    <div id="Info">
+        <p>
+        <strong>Ranking:</strong>
+        <button id="rankbutton" class= "btn btn-primary"><span type="btn btn-primary"> 9.2 / 10 </span></button>
+        </p>
+
+        <legend>Company Details</legend>
+        <p>
+        <span><%=@provider.email%></span>
+        </p>
+        <p>
+        <span><%=@provider.city%>, <%=@provider.state%></span>
+        </p>
+        <p>
+        <span><%=link_to @provider.website, 
+            'http://www.'+@provider.website%></span>
+        </p>
+        <p>
+        <legend>Company Description</legend>
+        <span><%=@provider.description%></span>
+        </p>
+
+
+    </div>
+    <legend> Project Stats</legend>
+    <p>
+    <span> Projects Completed: </span>
+    </p>
+
+    <!-- Needed because other elements inside ProfilePage have floats -->
+    <div style="clear:both"></div>
 </div>
+<div class='center'>
+    <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Active Jobs", '#'%></button>
+</div>
+

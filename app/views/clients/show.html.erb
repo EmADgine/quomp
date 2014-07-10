@@ -9,7 +9,7 @@
             <ul id="namelist">
                 <li>
                 <h1> 
-                    <%= @client.name.split.map(&:capitalize).join(' ') %>
+                    <%= @client.name.titleize %>
                 </h1>
                 </li>
 
@@ -29,25 +29,19 @@
         <strong>Ranking:</strong>
         <button id="rankbutton" class= "btn btn-primary"><span type="btn btn-primary"> 9.2 / 10 </span></button>
         </p>
+        <legend> Details</legend>
         <p>
-        <strong>Email:</strong>
         <span><%=@client.email%></span>
         </p>
         <p>
-        <strong>City:</strong>
-        <span><%=@client.city%></span>
+        <span><%=@client.city%>, <%=@client.state%></span>
         </p>
         <p>
-        <strong>State:</strong>
-        <span><%=@client.state%></span>
-        </p>
-        <p>
-        <strong>Website:</strong>
         <span><%=link_to @client.website, 
             'http://www.'+@client.website%></span>
         </p>
         <p>
-        <strong>Bio:</strong>
+        <legend>Description</legend>
         <span><%=@client.description%></span>
         </p>
 

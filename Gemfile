@@ -10,7 +10,10 @@ gem 'rails-i18n'
 gem 'devise'
 
 gem 'simple_form','3.1.0.rc1'
-
+gem 'titleize'
+gem 'nested_form'
+gem 'jquery-turbolinks'
+gem 'jquery-ui-rails'
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
