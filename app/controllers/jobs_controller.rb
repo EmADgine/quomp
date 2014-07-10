@@ -3,10 +3,10 @@ class JobsController < ApplicationController
     before_filter :find_user
     def new
         @job= Job.new(:user_id=>current_user.id)
+        @job.budget="$"
     end
     def create
-        @user= User.find(params[:user_id])
-        @job= @user.jobs.new(job_params)
+        @job= Job.new(job_params)
         if @job.save
             flash[:success]
             redirect_to current_user

@@ -89,10 +89,9 @@ header {
         }
     }
 }
-#tabs{
-    ul {
-        list-style-type:none;
-    }
+
+.ui-state-disabled {
+        display: none;
 }
 #logo {
     float: left;

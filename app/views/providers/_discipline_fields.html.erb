@@ -1,10 +1,9 @@
-<div class="form-group">
-    <%= f.label :years, "Years of Experience:"%>
-    <%= f.select :years, 0..40%>
-</div>
-<div class= "form-group">
-    <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
-</div>
-<div class= "form-group">
-    <%=f.link_to_remove "Remove this Discipline"%>
+<div class="center">
+    <div class="form-group">
+        <%= f.label :years, "Years of Experience:"%>
+        <%= f.select :years, 0..40%>
+    </div>
+    <div class= "form-group">
+        <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
+    </div>
 </div>
