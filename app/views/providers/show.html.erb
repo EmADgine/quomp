@@ -29,19 +29,25 @@
         <button id="rankbutton" class= "btn btn-primary"><span type="btn btn-primary"> 9.2 / 10 </span></button>
         </p>
 
-        <legend>Company Details</legend>
+        <legend>Provider Details</legend>
         <p>
         <span><%=@provider.email%></span>
         </p>
         <p>
-        <span><%=@provider.city%>, <%=@provider.state%></span>
+        <%if !(@provider.city.nil? or @provider.city.empty?) and (!@provider.state.nil?)%>
+            <span><%=@provider.city%>, <%=@provider.state%></span>
+        <%else%>
+            <span><%=(@provider.state||@provider.city)%></span>
+        <%end%>
         </p>
         <p>
-        <span><%=link_to @provider.linkedin, 
-            'http://www.'+@provider.linkedin%></span>
-        </p>
+        <%unless @provider.linkedin.nil?%>
+            <span><%=link_to @provider.linkedin, 
+                'http://www.'+@provider.linkedin%></span>
+            </p>
+        <%end%>
         <p>
-        <legend>Company Description</legend>
+        <legend>Provider Description</legend>
         <span><%=@provider.description%></span>
         </p>
 
@@ -58,4 +64,9 @@
 <div class='center'>
     <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Active Jobs", '#'%></button>
 </div>
+<%=@provider.disciplines.each do |discipline| %>
+    <p> name: <%=discipline.name%></p>
+    <p> experience: <%=discipline.years%></p>
+    <p> description: <%=discipline.description%></p>
+<%end%>
 

@@ -34,12 +34,18 @@
         <span><%=@client.email%></span>
         </p>
         <p>
-        <span><%=@client.city%>, <%=@client.state%></span>
+        <%if !(@client.city.nil? or @client.city.empty?) and !@client.state.nil?%>
+            <span><%=@client.city%>, <%=@client.state%></span>
+        <%else%>
+            <span<%=(@client.state||@client.city)%></span>
+        <%end%>
         </p>
         <p>
-        <span><%=link_to @client.website, 
-            'http://www.'+@client.website%></span>
-        </p>
+        <%unless @client.website.nil?%>
+            <span><%=link_to @client.website, 
+                'http://www.'+@client.website%></span>
+            </p>
+        <%end%>
         <p>
         <legend>Description</legend>
         <span><%=@client.description%></span>

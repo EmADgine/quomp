@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140709224046) do
+ActiveRecord::Schema.define(version: 20140710193903) do
 
   create_table "disciplines", force: true do |t|
     t.string  "name"
@@ -70,6 +70,8 @@ ActiveRecord::Schema.define(version: 20140709224046) do
     t.integer  "resume_file_size"
     t.datetime "resume_updated_at"
     t.string   "linkedin"
+    t.time     "begin"
+    t.time     "end"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

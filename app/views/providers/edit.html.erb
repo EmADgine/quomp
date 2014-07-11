@@ -3,7 +3,6 @@
         <aside class="span4">
         <section>
         <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle"/>
-
         <ul>
             <li>
             <h1>
@@ -19,7 +18,7 @@
         </section>
         </aside>
     </div>
-    <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal', :role=>'form', :id=>"editform"} do |f|%>
+    <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal', :role=>'form', :id=>"p-edit"} do |f|%>
         <div class="form-group">
             <ul id="oneliner">
                 <li>
@@ -33,12 +32,6 @@
 
         <fieldset>
             <legend>Job Details</legend>
-            <div class="form-group">
-                <%= f.label :industry, class: "col-sm-2 control-label"%>
-                <div class="col-sm-10">
-                    <%= f.select :industry, get_disciplines, class: 'form-control'%>
-                </div>
-            </div>
             <div class= "form-group">
                 <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
             </div>
@@ -72,80 +65,39 @@
                 </li>
             </ul>
         </div>
+
+
+        <%= f.fields_for :disciplines do |builder| %>
+            <%= render 'discipline_fields', :f=>builder%>
+        <% end %>
         <fieldset>
             <legend>Disciplines</legend>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-ms" checked> Marketing Strategy
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-em" checked> Email Marketing
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-ps" checked> Paid Search
-            </label>
-            <br/>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-am" checked> Affiliate Marketing
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-seo" checked> SEO          
-            </label>
-            <label class="checkbox-inline">
-                <input type="checkbox" id="cb" value="tab-sm" checked> Social Media
-            </label>
-            <%= f.fields_for :disciplines do |builder| %>
-            <% end %>
-            <% if @provider.disciplines.empty? %>
-                <%= f.fields_for :disciplines do |builder| %>
-                    <%= render 'discipline_fields', :f=>builder%>
+            <div class="form-group">
+                <% get_disciplines.each do |key, value| %>
+                    <label class="checkbox-inline">
+                        <%=check_box_tag "cb", "tab-#{key}", false, class: "add_fields", data: add_fields_arguments(f,:disciplines,value.downcase)%>
+                        <%=value%>
+                    </label>
                 <% end %>
-            <%else%>
-
-                <div id="tabs">
-                    <ul>
-                        <li><a href="#tab-ms">Marketing Strategy</a></li>
-                        <li><a href="#tab-em">Email Marketing</a></li>
-                        <li><a href="#tab-ps">Paid Search</a></li>
-                        <li><a href="#tab-am">Affiliate Marketing</a></li>
-                        <li><a href="#tab-seo">SEO</a></li>
-                        <li><a href="#tab-sm">Social Media</a></li>
-                    </ul>
-                    <div id ="tab-ms">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
-                    </div>
-                    <div id="tab-em">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
-                    </div>
-                    <div id="tab-ps">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
-                    </div>
-                    <div id="tab-am">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
-                    </div>
-                    <div id="tab-seo">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
-                    </div>
-                    <div id="tab-sm">
-                        <%= f.fields_for :disciplines do |builder| %>
-                            <%= render 'discipline_fields', :f=>builder%>
-                        <% end %>
+            </div>
+            <div id="tabs">
+                <ul>
+                    <%get_disciplines.each do |key,value|%>
+                        <li><a href="#tab-<%=key%>"><%=value%></a></li>
+                    <%end%>
+                </ul>
+                <%get_disciplines.each do |key, value|%>
+                    <div id="tab-<%=key%>">
+                        <p><%=value%></p>
+                        <div class="insert-<%=key%>"></div>
                     </div>
                 <%end%>
-            </fieldset>
-            <div class= "form-group">
-                <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
             </div>
-            <%= render 'shared/error_messages'%>
-        <% end %>
-    </div>
+        </fieldset>
+        <div class= "form-group">
+            <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+        </div>
+        <%= render 'shared/error_messages'%>
+    <% end %>
+</div>
 
