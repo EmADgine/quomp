@@ -64,9 +64,4 @@
 <div class='center'>
     <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Active Jobs", '#'%></button>
 </div>
-<%=@provider.disciplines.each do |discipline| %>
-    <p> name: <%=discipline.name%></p>
-    <p> experience: <%=discipline.years%></p>
-    <p> description: <%=discipline.description%></p>
-<%end%>
 

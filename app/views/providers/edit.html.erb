@@ -65,17 +65,12 @@
                 </li>
             </ul>
         </div>
-
-
-        <%= f.fields_for :disciplines do |builder| %>
-            <%= render 'discipline_fields', :f=>builder%>
-        <% end %>
         <fieldset>
             <legend>Disciplines</legend>
             <div class="form-group">
                 <% get_disciplines.each do |key, value| %>
                     <label class="checkbox-inline">
-                        <%=check_box_tag "cb", "tab-#{key}", false, class: "add_fields", data: add_fields_arguments(f,:disciplines,value.downcase)%>
+                        <%=check_box_tag "cb", "tab-#{key}", false, class: "add_fields", data: add_fields_arguments(f,:disciplines,value)%>
                         <%=value%>
                     </label>
                 <% end %>

@@ -1,5 +1,6 @@
 <fieldset>
     <div class="center">
+        <%= f.hidden_field :name, value: nom%>
         <div class="form-group">
             <%= f.label :years, "Years of Experience:"%>
             <%= f.select :years, 0..40%>
