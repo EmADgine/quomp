@@ -11,13 +11,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140710193903) do
+ActiveRecord::Schema.define(version: 20140714191352) do
 
   create_table "disciplines", force: true do |t|
-    t.string  "name"
-    t.integer "years"
-    t.string  "description"
-    t.integer "user_id"
+    t.string   "name"
+    t.integer  "years"
+    t.string   "description"
+    t.integer  "user_id"
+    t.string   "portfolio_file_name"
+    t.string   "portfolio_content_type"
+    t.integer  "portfolio_file_size"
+    t.datetime "portfolio_updated_at"
   end
 
   create_table "jobs", force: true do |t|

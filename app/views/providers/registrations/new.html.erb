@@ -2,7 +2,7 @@
     <h3>Create your Provider Profile</h3>
 
     <%=render 'shared/error_messages'%> 
-    <%= form_for @provider, html: {id: "p-reg"} do |f|%>
+    <%= form_for @provider, html: {id: "p-reg", class: "flp"} do |f|%>
         <div class="form-group">
             <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
             <div id="mode-group" class="btn-group" data-toggle="buttons">
@@ -14,17 +14,22 @@
                 </label>
             </div>
         </div>
-        <div class="form-group">
-            <input type="name" class="form-control" name="provider[name]" id="name" placeholder="Name Shown to Clients" required autofocus>
+        <br>
+        <div class="form-group sfield">
+            <input type="name" class="form-control sfield" name="provider[name]" id="name" required autofocus>
+            <label for="name" class="sfield">Name Shown to Clients</label>
         </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name= "provider[email]" id="email" placeholder="Email" required autofocus>
+        <div class="form-group sfield">
+            <input type="email" class="form-control sfield" name= "provider[email]" id="email" required>
+            <label for="email" class="sfield">Email</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "provider[password]" id="passwd" placeholder="Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "provider[password]" id="passwd"  required>
+            <label for="passwd" class="sfield">Password</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "provider[password_confirmation]" id="confirmpasswd" placeholder="Confirm Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "provider[password_confirmation]" id="confirmpasswd"  required>
+            <label for="confirmpasswd" class="sfield">Confirm Password</label>
         </div>
         <div class="form-group">
             <input name="commit" type="submit" value="Submit" class= "btn btn-large btn-primary"/>

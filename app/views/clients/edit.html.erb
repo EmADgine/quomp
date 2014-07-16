@@ -1,43 +1,45 @@
 <% provide(:title, "Edit Client") %>
-<div id="createsheet" class="center">
+<div id="createsheet" class="center" id="c-edit">
     <div class="row">
         <aside class="span4">
         <section>
-        <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
+        <div id="preview2">
+            <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
+        </div>
         <h1> 
             <%= @client.name.split.map(&:capitalize).join(' ') %>
         </h1>
         </section>
         </aside>
     </div>
-    <%= form_for @client, :html=> {:class=> 'form-horizontal', :role=>'form'} do |f|%>
+    <%= form_for @client, :html=> {:class=> 'form-horizontal flp', :role=>'form'} do |f|%>
         <%= render 'shared/error_messages'%>
+        
         <div class="form-group">
-            <%= f.label :avatar%>
-            <%= f.file_field :avatar%>
-        </div>
-        <div class="form-group">
-            <%= f.label :industry, class: "col-sm-2 control-label"%>
-            <div class="col-sm-10">
-                <%= f.select :industry, get_industries, class: 'form-control'%>
+                <ul id="oneliner">
+                    <li>
+                    <%= f.file_field :avatar, id: "avatar-upload2"%>
+                    </li>
+                </ul>
             </div>
-        </div>
-        <div class= "form-group">
-            <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
-        </div>
-        <div class="form-group">
-            <%= f.label :state, class: "col-sm-2 control-label"%>
-            <div class: "col-sm-10">
-                <%= f.select :state, us_states, class: 'form-control'%>
-            </div>
+        <div class= "form-group sfield">
+            <%= f.text_field :city, class: 'form-control sfield',id:'city', autofocus: true, required: true%>
+            <label for="city" class="sfield">City</label>
         </div>
         <div class="form-group">
-            <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
+            <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
         </div>
-        <div class= "form-group">
-            <%= f.text_area :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Brief Bio', :cols=>"30", :rows=>"4"%>
+        <div class="form-group">
+            <%= f.select :industry, get_industries.unshift(""),{}, {class: "chosen-select","data-placeholder"=>"Select Industry"}%>
         </div>
-        <br>
+        <div class="form-group sfield">
+            <%= f.text_field :website, class: 'form-control sfield',id: 'site'%>
+            <label for="site" class="sfield">Website</label>
+        </div>
+        <div class= "form-group sfield">
+            <%= f.text_area :description, class: 'form-control sfield', id: 'dfield', :cols=>"30", :rows=>"4",required: true%>
+            <label for="dfield" class="sfield">Brief Bio</label>
+        </div>
         <div class= "form-group">
             <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
         </div>

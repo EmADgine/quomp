@@ -17,9 +17,6 @@ class ProvidersController < ApplicationController
             render 'edit'
         end
     end
-    def pick_times
-        @provider = Provider.find(params[:id])
-    end
     def provider_params_edit
         params.require(:provider).permit(:avatar,:city,:state,:website,:education,:description,:resume,:linkedin, disciplines_attributes: [:id, :name,:description,:years, :_destroy])
     end

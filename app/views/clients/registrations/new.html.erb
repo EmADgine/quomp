@@ -1,23 +1,23 @@
 <div class= 'center' id = "createsheet">
-    <legend>Create Client Profile</legend>
+    <h3>Create Client Profile</h3>
     
     <%=render 'shared/error_messages'%> 
     <form action="/clients" class="new_client flp" id="new_client" method="post" class = 'center' role ="form">
-        <div class="form-group">
-            <input type="name" class="form-control" name="client[name]" id="name" required autofocus>
-            <label for="name">Name</label>
+        <div class="form-group sfield">
+            <input type="name" class="form-control sfield" name="client[name]" id="name" required autofocus>
+            <label for="name" class="sfield">Name</label>
         </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name= "client[email]" id="email" required>
-            <label for="email">Email</label>
+        <div class="form-group sfield">
+            <input type="email" class="form-control sfield" name= "client[email]" id="email" required>
+            <label for="email" class="sfield">Email</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "client[password]" id="passwd" required>
-            <label for="passwd">Password</label>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "client[password]" id="passwd" required>
+            <label for="passwd" class="sfield">Password</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "client[password_confirmation]" id="confirmpasswd" required>
-            <label for="confirmpasswd">Confirm Password</label>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "client[password_confirmation]" id="confirmpasswd" required>
+            <label for="confirmpasswd" class="sfield">Confirm Password</label>
         </div>
         <div class="form-group">
                 <input name="commit" type="submit" value="Populate Profile" class= "btn btn-large btn-primary"/>

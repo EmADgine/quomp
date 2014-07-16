@@ -1,79 +1,93 @@
-<div id="createsheet2" class="center">
-    <div class="row">
-        <aside class="span4">
-        <section>
-        <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle"/>
-        <ul>
-            <li>
-            <h1>
-                Type: <%= @provider.ptype.titleize%>
-            </h1>   
-            </li>
-            <li>
-            <h1> 
-                Name: <%= @provider.name.titleize %>
-            </h1>
-            </li>
-        </ul>
-        </section>
-        </aside>
-    </div>
-    <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal', :role=>'form', :id=>"p-edit"} do |f|%>
-        <div class="form-group">
-            <ul id="oneliner">
-                <li>
-                <%= f.label :avatar%>
-                </li>
-                <li>
-                <%= f.file_field :avatar%>
-                </li>
-            </ul>
-        </div>
+<div id="createsheet3" class="center">
 
-        <fieldset>
-            <legend>Job Details</legend>
-            <div class= "form-group">
-                <%= f.text_field :city, class: 'form-control', autofocus: true, placeholder: 'City'%>
-            </div>
+    <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal flp', :role=>'form', :id=>"p-edit"} do |f|%>
+
+        <ul id="progressbar">
+            <li class="active">Provider Details</li>
+            <li>Disciplines</li>
+            <li>Availability</li>
+        </ul>
+
+        <fieldset class="sf">
             <div class="form-group">
-                <%= f.label :state, class: "col-sm-2 control-label"%>
-                <div class: "col-sm-10">
-                    <%= f.select :state, us_states, class: 'form-control'%>
+                <legend>Provider Details</legend>
+            </div>
+            <div class="row">
+                <aside class="span4">
+                <section>
+                <div id="preview">
+                    <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle" width="200" height="200"/>
                 </div>
+                <ul>
+                    <li>
+                    <h1>
+                        Type: <%= @provider.ptype.titleize%>
+                    </h1>   
+                    </li>
+                    <li>
+                    <h1> 
+                        Name: <%= @provider.name.titleize %>
+                    </h1>
+                    </li>
+                </ul>
+                </section>
+                </aside>
+            </div>
+            <div id="uploadbox">
+                <ul id="oneliner">
+                    <li>
+                    <%= f.file_field :avatar, id: "avatar-upload"%>
+                    </li>
+                </ul>
+            </div>
+
+            <div class= "form-group sfield">
+                <%= f.text_field :city, class: 'form-control sfield', id: 'city', autofocus: true%>
+                <label class="sfield" for='city'>City</label>
             </div>
             <div class="form-group">
-                <%= f.text_field :website, class: 'form-control', autofocus: true, placeholder: 'Website (if applicable)'%>
+                <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
+            </div>
+            <div class="form-group sfield">
+                <%= f.text_field :website, class: 'form-control sfield', id: 'site'%>
+                <label for='site' class="sfield">Website (if applicable)</label> 
             </div>
             <div class="form-group">
-                <%= f.label :education, class: "col-sm-2 control-label"%>
-                <%= f.select :education, ['PhD','Master\'s','Bachelor\'s', 'High School Diploma'], class: 'form-control'%>
+                <%= f.select :education, get_educations.unshift(""),{}, {class: 'chosen-select',"data-placeholder"=>"Highest Level of Education"}%>
             </div>
-            <div class= "form-group">
-                <%= f.text_area :description, class: 'form-control', id: 'dfield', autofocus:true,placeholder: 'Brief Biography', :cols=>"30", :rows=>"4"%>
+            <div class= "form-group sfield">
+                <%= f.text_area :description, class: 'form-control sfield', id: 'dfield', :cols=>"30", :rows=>"4"%>
+                <label for='dfield' class='sfield'>Brief Biography</label>
+            </div>
+            <div class="form-group sfield">
+                <%= f.text_field :linkedin, class: 'form-control sfield',id: 'linkedin'%>
+                <label for='linkedin' class='sfield'>Linkedin Profile</label>
             </div>
             <div class="form-group">
-                <%= f.text_field :linkedin, class: 'form-control', autofocus: true, placeholder: 'Linkedin Profile'%>
+                <ul id="oneliner">
+                    <li>
+                    <%=f.label :resume%>
+                    </li>
+                    <li>
+                    <%=f.file_field :resume%>
+                    </li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <input type="button" name="next" class="next action-button" value="Next" />
             </div>
         </fieldset>
-        <div class="form-group">
-            <ul id="oneliner">
-                <li>
-                <%=f.label :resume%>
-                </li>
-                <li>
-                <%=f.file_field :resume%>
-                </li>
-            </ul>
-        </div>
-        <fieldset>
-            <legend>Disciplines</legend>
+        <fieldset class="sf">
             <div class="form-group">
-                <% get_disciplines.each do |key, value| %>
-                    <label class="checkbox-inline">
-                        <%=check_box_tag "cb", "tab-#{key}", false, class: "add_fields", data: add_fields_arguments(f,:disciplines,value)%>
-                        <%=value%>
-                    </label>
-                <% end %>
+                <legend>Disciplines</legend>
+            </div>
+            <div id="discipline-checks">
+                <div class="form-group">
+                    <% get_disciplines.each do |key, value| %>
+                        <%=check_box_tag "tab-#{key}", "tab-#{key}",@provider.disciplines.pluck('name').include?(value), data: add_fields_arguments(f,:disciplines,value)%>
+                        <label for="tab-<%=key%>"><%=value%></label>
+                    <% end %>
+                </div>
             </div>
             <div id="tabs">
                 <ul>
@@ -88,11 +102,49 @@
                     </div>
                 <%end%>
             </div>
+            <div class="form-group">
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </div>
+
         </fieldset>
-        <div class= "form-group">
-            <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
-        </div>
-        <%= render 'shared/error_messages'%>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Availability</legend>
+            </div>
+            <span id="avail-des"> Keeping us informed of your availability to accept new jobs is important. After all, it affects your responsiveness<br> score! Let us know when you can be  matched for jobs -and your current availability if different from your typical <br> schedule</span>
+            <br></br>
+            <div class="form-group sfield">
+                <ul>
+                    <li>
+                    <label for="starttime">Beginning of Availability</label>
+                    </li>
+                    <li>
+                    <div class="input-group clockpicker">
+                        <input type="text" class="form-control notme" name="provider[begin]" value="09:30">
+                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    </div>
+                    </li>
+
+                </ul>
+            </div>
+            <div class="form-group sfield">
+                <ul>
+                    <li>
+
+                    <label for="endtime">End of Availability </label>
+                    </li>
+                    <li>
+                <div class="input-group clockpicker" id="endtime">
+                    <input type="text" class="form-control notme" name="provider[end]" value="17:30">
+                    <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                </div>
+                <li>
+            </div>
+            <div class= "form-group">
+                <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
+            </div>
+        </fieldset>
     <% end %>
 </div>
+
 

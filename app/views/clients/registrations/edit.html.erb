@@ -1,21 +1,26 @@
 <div class= 'center' id = "createsheet">
     <h3>Edit Your Registration Information</h3>
     <%=render 'shared/error_messages'%>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-        <div class="form-group">
-            <%= f.password_field :current_password, autocomplete: "off", placeholder: "Current Password Required", class: "form-control"%>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put,class: 'flp'}) do |f| %>
+        <div class="form-group sfield">
+            <%= f.password_field :current_password, autocomplete: "off", class: "form-control sfield", id: "currentpasswd",autofocus: true%>
+            <label for="current-passwd" class="sfield">Current Password Required</label>
         </div>
-        <div class="form-group">
-            <input type="name" class="form-control" name="client[name]" id="name" placeholder="Update Name Shown to Providers" required autofocus>
+        <div class="form-group sfield">
+            <input type="name" class="form-control sfield" name="client[name]" id="name" required>
+            <label for="name" class="sfield">Update Name Shown to Providers</label>
         </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name= "client[email]" id="email" placeholder="Update Email" required autofocus>
+        <div class="form-group sfield">
+            <input type="email" class="form-control sfield" name= "client[email]" id="email"required>
+            <label for='email' class='sfield'>Update Email</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "client[password]" id="passwd" placeholder="Update Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "client[password]" id="passwd"  required>
+            <label for='passwd' class='sfield'>Update Password</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "client[password_confirmation]" id="confirmpasswd" placeholder="Confirm New Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "client[password_confirmation]" id="confirmpasswd" required>
+            <label for='confirmpasswd' class='sfield'>Confirm New Password</label>
         </div>
         <div class="form-group">
             <input name="commit" type="submit" value="Update Registration" class= "btn btn-large btn-primary"/>

@@ -118,6 +118,9 @@ module ApplicationHelper
     def get_industries
         ['Professional Services','Graphic Design','Marketing','Web Development']
     end
+    def get_educations
+        ['PhD','Master\'s','Bachelor\'s', 'High School Diploma']
+    end
     def get_disciplines
         {
             ms: "Marketing Strategy",
@@ -127,5 +130,13 @@ module ApplicationHelper
             seo: "SEO",
             sm: "Social Media"
         }
-    end 
+    end
+    def get_skills_by_discipline(discipline)
+        {
+
+        }
+    end
+    def get_tasks_by_discipline(discipline)
+
+    end
 end

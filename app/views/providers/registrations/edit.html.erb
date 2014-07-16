@@ -1,28 +1,38 @@
 <div class= 'center' id = "createsheet">
     <h3>Edit Your Registration Information</h3>
     <%=render 'shared/error_messages'%>
-    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-        <div class="form-group">
-            <%= f.password_field :current_password, autocomplete: "off", placeholder: "Current Password Required", class: "form-control"%>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'flp'}) do |f| %>
+        <div class="form-group sfield">
+            <%= f.password_field :current_password, autocomplete: "off", class: "form-control sfield",id: 'currentpasswd',autofocus: true%>
+            <label for='currentpasswd' class='sfield'>Current Password Required</label>
         </div>
         <div class="form-group">
-            <input type="hidden" name="provider[ptype]" id="btn-input" value = ""%>
-            <div class="btn-group" data-toggle="buttons-radio">
-                <button id="frb" type="button" name="provider[ptype]" value="freelancer" class="btn btn-primary">Freelancer</button>
-                <button id="agb" type="button" name="provider[ptype]" value="agency" class="btn btn-primary">Agency</button>
+            <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
+            <div id="mode-group" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary" id="frb" value="freelancer">
+                    <input type="radio" name="mode" value="freelancer" class="ptype-btn"> Freelancer
+                </label>
+                <label class="btn btn-primary" id="agb" value="agency">
+                    <input type="radio" name="mode" value="agency" class="ptype-btn"> Agency
+                </label>
             </div>
         </div>
-        <div class="form-group">
-            <input type="name" class="form-control" name="provider[name]" id="name" placeholder="Update Name Shown to Providers" required autofocus>
+        <div class="form-group sfield">
+            <input type="name" class="form-control sfield" name="provider[name]" id="name"  required>
+            <label for="name" class="sfield">Update Name Shown to Providers</label>
         </div>
-        <div class="form-group">
-            <input type="email" class="form-control" name= "provider[email]" id="email" placeholder="Update Email" required autofocus>
+        <div class="form-group sfield">
+            <input type="email" class="form-control sfield" name= "provider[email]" id="email" required>
+            <label for="email" class="sfield">Update Email</label>
+
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "provider[password]" id="passwd" placeholder="Update Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "provider[password]" id="passwd" required>
+            <label for="passwd" class="sfield">Update Password</label>
         </div>
-        <div class="form-group">
-            <input type="password" class="form-control" name= "provider[password_confirmation]" id="confirmpasswd" placeholder="Confirm New Password" required autofocus>
+        <div class="form-group sfield">
+            <input type="password" class="form-control sfield" name= "provider[password_confirmation]" id="confirmpasswd"  required>
+            <label for="confirmpasswd" class="sfield">Confirm New Password</label>
         </div>
         <div class="form-group">
             <input name="commit" type="submit" value="Update Registration" class= "btn btn-large btn-primary"/>
@@ -32,12 +42,4 @@
     <%= button_to "Cancel my account", registration_path(resource_name), class: "btn btn-primary", id: "cancelbutton", :data => { confirm: "Are you sure?" }, method: :delete %>
 </div>
 
-<script type="text/javascript">
-    var btns= ['frb','agb'];
-    var input= document.getElementById('btn-input');
-    for(var i=0; i<btns.length; i++) {
-        document.getElementById(btns[i]).addEventListener('click', function() {
-            input.value= this.value;
-        });
-    }
-</script>
+

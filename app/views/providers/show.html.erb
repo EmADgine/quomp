@@ -2,7 +2,7 @@
 <div id="ProfilePage">
     <div id="LeftCol">
         <div id="Photo">
-            <%= image_tag @provider.avatar.url(:medium), id: "prof", class: "img-circle"%>
+            <%= image_tag @provider.avatar.url(:small), id: "prof", class: "img-circle", width: 240, height: 240%>
         </div>
         <div id="ProfileOptions">
             <ul id="namelist">
@@ -53,15 +53,24 @@
 
 
     </div>
+    <!-- Needed because other elements inside ProfilePage have floats -->
+    <div style="clear:both"></div>
+    <div id="statsbox">
     <legend> Project Stats</legend>
     <p>
     <span> Projects Completed: </span>
     </p>
+    </div>
 
-    <!-- Needed because other elements inside ProfilePage have floats -->
-    <div style="clear:both"></div>
 </div>
 <div class='center'>
     <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Active Jobs", '#'%></button>
 </div>
+<%if false%>
+<%@provider.disciplines.each do |discipline|%>
+    <span>name: <%=discipline.name%></span>
+    <span>years: <%=discipline.years%></span>
+    <span>exp: <%=discipline.description%></span>
+<%end%>
+<%end%>
 

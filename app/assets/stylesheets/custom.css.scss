@@ -1,32 +1,74 @@
-
 /* universal */
 
 html {
-    overflow-y:scroll;
-    min-height: 100%;
-    position: relative;
+    * {padding: 0; margin: 0;}
+    height: 100%;
 }
 
 body {
-    margin: 0 0 100px;
-    padding-top: 60px;
+    margin: 0;
+    padding: 0;
+    height: 100%;
     font-family: 'Palatino', sans-serif;
+    background: linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)), 
+    url('http://thecodeplayer.com/uploads/media/gs.png');
     h4 {
         font-style: bold;
         font-weight: 500;
+    }
+
 }
-background: url('http://thecodeplayer.com/uploads/media/gs.png');
-background: linear-gradient(rgba(196, 102, 0, 0.2), rgba(155, 89, 182, 0.2)), 
-url('http://thecodeplayer.com/uploads/media/gs.png');
+#wrapper {
+    min-height: 100%;
+    position: relative;
+}
+#header {
+    padding:10px;
+    ul {
+        display: inline-block;
+        list-style-type: none;
+    }
+    #droplog{
+        padding:10px;
+        input[type=text] {
+            width: 200px;
+        }
+    }
 }
 
-
-section {
-    overflow: auto;
+#content {
+    padding:10px;
+    padding-top:40px;
+    padding-bottom:80px;
+}
+#footer {
+    width:100%;
+    height:45px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    border-top: 1px solid #999;
+    color: #fff;
+    a {
+        color: #ddd;
+        font-size:1.3em;
+        &:hover {
+            color: #fff;
+        }
+    }
+    ul {
+        float:right;
+overflow: hidden;
+    white-space:nowrap;
+    li { 
+        display: inline-block;
+        padding:10px;
+    }
+}
 }
 
-textarea {
-    resize: vertical;
+.ui-state-disabled {
+    visibility: hidden;
 }
 
 .center {
@@ -69,35 +111,22 @@ h3 {
     text-align: center;
     font-weight: normal;
 }
+
+p {
+    font-size: 1.1em;
+    line-height: 1.7em;
+}
+
+.ui-state-disabled {
+    display: none;
+}
+
 #slogan {
     font-size:1.85em;
     letterspacing:-1px;
     line-height:1.2em;
     text-align:center;
     font-weight:normal;
-}
-p {
-    font-size: 1.1em;
-    line-height: 1.7em;
-}
-
-/* header */
-
-header {
-    ul {
-        display: inline-block;
-        list-style-type: none;
-}
-#droplog{
-    padding:10px;
-    input[type=text] {
-        width: 200px;
-}
-}
-}
-
-.ui-state-disabled {
-    display: none;
 }
 #logo {
     float: left;
@@ -113,48 +142,20 @@ header {
     &:hover {
         color: lighten(#0096FA,20%);
         text-decoration: none;
-}
+    }
 }
 
-/* footer */
-
-footer {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 50px;
-    width: 100%;
-    border-top: 1px solid #999;
-    color: #fff;
-    a {
-        color: #ddd;
-        font-size:1.3em;
-        &:hover {
-            color: #fff;
-}
-}
-small {
-    float: left;
-}
-ul {
-    float: right;
-    list-style: none;
-    li {
-        float: left;
-        margin-left: 10px;
-}
-}
-}
 
 /* home */
 #hometownhero {
     margin-top: 130px;
     padding-top: 30px;
-    margin-right:50px;
     border-radius: 5px;
-    margin-left: 50px;
+    margin-left: auto;
+    margin-right: auto;
     height:400px;
-    background: #A8D8F0;
+    width:900px;
+    background: white;
     //background: linear-gradient(to top, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
 }
 #homebuttons li {
@@ -163,66 +164,68 @@ ul {
     padding-right:2%;
     .btn {
         font-size: 28px;
+    }
+    padding-left:2%;
+    margin-top:24px;
+    div {
+        width: 275px;
+    }
 }
-padding-left:2%;
-margin-top:24px;
-div {
-    width: 275px;
-}
-}
-
 #logo2{
     color:#0096FA;
 }
 
-/*Create Provider Profile*/
 
 #createsheet {
     h3 {
         margin-bottom: 22px;
-}
-background:white;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
-padding: 20px;
-width: 400px;
-vertical-align:middle;
-margin-left: auto;
-margin-right: auto;
-margin-top:100px;
-ol li {
-    list-style-type:none;
-    padding-right: 40px;
-    label{
-        display:inline-block;
-}
-}
+    }
+    background:white;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px;
+    width: 400px;
+    vertical-align:middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
+    ol li {
+        list-style-type:none;
+        padding-right: 40px;
+        label{
+            display:inline-block;
+        }
+    }
 }
 #createsheet2 {
     h3 {
         margin-bottom: 22px;
-}
-background: #A8D8F0;
--moz-border-radius: 5px;
--webkit-border-radius: 5px;
-border-radius: 5px;
-padding: 20px;
-width: 800px;
-vertical-align:middle;
-margin-left: auto;
-margin-right: auto;
-margin-top:100px;
-ul li {
-    list-style-type:none;
-    padding-right: 40px;
+    }
+    background: white;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 20px;
+    width: 800px;
+    vertical-align:middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
+    ul li {
 
+        list-style-type:none;
+        padding-right: 40px;
+    }
+    fieldset {
+        .form-group{
+            width: 400px;
+            margin-left:180px;
+        }
+    }
 }
-fieldset {
-    .form-group{
-        width: 400px;
-        margin-left:180px;
-}
+#createsheet3 {
+
 
 }
 #oneliner {
@@ -233,12 +236,10 @@ fieldset {
     white-space:nowrap;
     li { 
         display: inline-block; 
-}
+    }
 }
 #prof {
     margin-right:-400px;
-}
-
 }
 
 
@@ -246,7 +247,7 @@ fieldset {
     ul {
         list-style: none;
         margin: 0px 0 18px 0;
-  }
+    }
 }
 aside {
     section {
@@ -254,21 +255,21 @@ aside {
         &:first-child {
             border: 0;
             padding-top: 0;
-  }
-  span {
-      display: block;
-      margin-bottom: 3px;
-      line-height: 1;
-  }
-  h1 {
-      display:inline-block;
-      font-size: 2.0em;
-      text-align: left;
-      letter-spacing: -1px;
-      margin-bottom: 3px;
-      margin-top: 17px;
-}
-}
+        }
+        span {
+            display: block;
+            margin-bottom: 3px;
+            line-height: 1;
+        }
+        h1 {
+            display:inline-block;
+            font-size: 2.0em;
+            text-align: left;
+            letter-spacing: -1px;
+            margin-bottom: 3px;
+            margin-top: 17px;
+        }
+    }
 }
 
 #prof {
@@ -277,13 +278,6 @@ aside {
     margin-right: 15px;
     margin-left:22px;
     box-shadow: 0 0 8px rgba(0, 0, 0, .8);
-}
-
-#usereditform {
-    width: 300px;
-    .form-group {
-        padding-bottom: 15px;
-}
 }
 
 #profile{
@@ -304,12 +298,12 @@ aside {
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-
-    background: #A8D8F0;
+    background: white;
 
 }
 
-#jobbutton {
+#jobbutton
+{
     //background-color: #F07830;
     //font: 50px sans-serif;
     border: none;
@@ -319,7 +313,8 @@ aside {
     font-size:40px;
     font-family: Palatino;
     font-weight: bold;
-    a {
+    a 
+    {
         color:white;
 }
 }
@@ -425,17 +420,16 @@ aside {
 
 
 /*Let's place the label over the input*/
-.flp div {position: relative; margin-bottom: 30px;}
+.flp div.sfield {position: relative; margin-bottom: 30px;}
 
-.flp input, .flp label {
+.flp input.sfield, .flp label.sfield {
     font: inherit; font-size: 16px; line-height: 24px;
     /*fixed height for FF line height issue. 
     height = 24(lineheight) + 10*2(padding) + 2(border)*/
 height: 46px;
-border: 1px solid #999;
 }
-.flp input {padding: 10px; outline: none; border-radius: 3px;}
-.flp label {
+.flp input.sfield {padding: 10px; outline: none; border-radius: 3px;}
+.flp label.sfield {
     position: absolute; left: 0; top: 0;
     /*left/right padding will be 2px less, adjusted by padding on .ch*/
     padding: 10px 8px;
@@ -447,7 +441,7 @@ border: 1px solid #999;
 .ch {
     display: block; float: left;
     position: relative; /*for upward animation*/
-    background: white; 
+    background: white;
 }
 .ch:first-child {padding-left: 2px;}
 .ch:last-child {padding-right: 2px;}
@@ -456,4 +450,167 @@ border: 1px solid #999;
 .focussed {
     /*when any input is already focussed clicking on it(label) again won't do anything*/
     pointer-events: none;
+}
+.form-control {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#discipline-checks {
+    .form-group{
+    }
+
+    ul {
+        margin: 0 auto;
+    }
+    ul li {
+        list-style-type: none;
+        padding: 10px;
+    }
+/*Adding custom checkbox icons*/
+    label {
+        position: relative;
+        padding-left: 20px;
+        padding-right: 10px;
+        padding-top:5px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+    label:before, label:after {
+        font-family: FontAwesome;
+        font-size: 21px;
+        position: absolute; top: 0; left: 0;
+    }
+    label:before {
+        content: '\f096'; /*unchecked*/
+    }
+    label:after {
+        content: '\f046'; /*checked*/
+        /*checked icon will be hidden by default by using 0 max-width and overflow hidden*/
+        max-width: 0;
+        overflow: hidden;
+        opacity: 0.5;
+        /*CSS3 transitions for animated effect*/
+        transition: all 0.35s;
+    }
+
+    /*hiding the original checkboxes*/
+    input[type="checkbox"] {
+    display: none;
+    }
+    /*when the user checks the checkbox the checked icon will animate in*/
+    input[type="checkbox"]:checked + label:after {
+        max-width: 25px; /*an arbitratry number more than the icon's width*/
+        opacity: 1; /*for fade in effect*/
+    }
+
+    /*adding some colors for fun*/
+    #tab-ms+label:before, #tab-ms+label:after {color: hsl(0, 45%, 40%);}
+    #tab-em+label:before, #tab-em+label:after {color: hsl(60, 45%, 40%);}
+    #tab-ps+label:before, #tab-ps+label:after {color: hsl(120, 45%, 40%);}
+    #tab-am+label:before, #tab-am+label:after {color: hsl(180, 45%, 40%);}
+    #tab-seo+label:before, #tab-seo+label:after {color: hsl(240, 45%, 40%);}
+    #tab-sm+label:before, #tab-sm+label:after {color: hsl(300, 45%, 40%);}
+}
+
+
+
+#p-edit {
+   .form-group.sfield {
+       width: 400px !important;
+       margin-right:auto;
+
+       margin-left: auto;
+   }
+    fieldset.sf {
+        background: white; 
+        margin-top:40px;
+        border: 0 none;
+        border-radius: 3px;
+        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+        padding: 20px 30px;
+        box-sizing: border-box;
+        width: 80%;
+
+        margin: 0 10%;
+        /*stacking fieldsets above each other*/
+        position: absolute;
+        overflow: hidden;
+        white-space:nowrap;
+        li { 
+            list-style-type: none;
+        }
+    }
+    fieldset.sf:not(:first-of-type) {
+        display: none;
+    }
+    .action-button {
+        width: 100px;
+        background: #27AE60;
+        font-weight: bold;
+        color: white;
+        border: 0 none;
+        border-radius: 1px;
+        cursor: pointer;
+        padding: 10px 5px;
+        margin: 10px 5px;
+    }
+    .action-button:hover, .action-button:focus {
+        box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+    }
+    #progressbar {
+        margin-top: 20px;
+        margin-bottom: 30px;
+        overflow: hidden;
+        counter-reset: step;
+    }
+    #progressbar li {
+        list-style-type: none;
+        text-transform: uppercase;
+        font-size: 9px;
+        width: 33.33%;
+        float: left;
+        position: relative;
+        color: white;
+    }
+    #progressbar li:before {
+        content: counter(step);
+        counter-increment: step;
+        width: 20px;
+        line-height: 20px;
+        display: block;
+        font-size: 10px;
+        color: #333;
+        background: white;
+        border-radius: 3px;
+        margin: 0 auto 5px auto;
+    }
+    #progressbar li:after {
+        content: '';
+        width: 100%;
+        height: 2px;
+        background: white;
+        position: absolute;
+        left: -50%;
+        top: 9px;
+        z-index: -1; /*put it behind the numbers*/
+    }
+    #progressbar li:first-child:after {
+        content: none; 
+    }
+    #progressbar li.active:before,  #progressbar li.active:after{
+        background: #27AE60;
+        color: white;
+    }
+}
+
+
+
+#uploadbox {
+    margin-bottom:50px;
+}
+.clockpicker {
+    width: 180px !important;
+    margin-right: auto;
+    margin-left: auto;
 }

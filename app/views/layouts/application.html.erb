@@ -2,7 +2,6 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <link rel="shortcut icon" href="../favicon.ico"> 
         <title>Ruby on Rails App | <%=full_title(yield(:title))%></title>
         <%= stylesheet_link_tag 'application', { media: 'all','data-turbolinks-track'=>true}%>
 
@@ -12,15 +11,19 @@
         <%= render 'layouts/shim' %>
     </head>
     <body>
-        <%= render 'layouts/header' %>
-        <div class = "container-fluid" id='primary-content'>
-            <% flash.each do |key, value| %>
-                <div class="alert alert-<%=key %>"><%=value%></div>
-            <% end %>
-                <div id="primary-content">
-                    <%= yield %> 
-                </div>
+        <div id="wrapper">
+            <div id="header">
+                <%= render 'layouts/header' %>
+            </div>
+            <div id="content">
+
+                <%= yield %> 
+            </div>
+            
+            <div id="footer">
+                <%= render 'layouts/footer' %>
+            </div>
         </div>
-        <%= render 'layouts/footer' %>
+
     </body>
 </html>

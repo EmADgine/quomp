@@ -13,6 +13,7 @@ gem 'titleize'
 gem 'nested_form'
 gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
+gem 'font-awesome-rails'
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
@@ -46,6 +47,7 @@ gem 'jbuilder', '~> 2.0'
 #profile picture stuff
 gem "paperclip", "~> 4.1"
 gem 'aws-sdk'
+gem 'jquery-fileupload-rails'
 
 gem 'valid_email'
 group :doc do
