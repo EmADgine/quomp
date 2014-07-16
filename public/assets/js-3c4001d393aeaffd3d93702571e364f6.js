@@ -1,6 +1,4 @@
 $(document).ready(function($) { 
-    $("#needp").click(function(){ alert("You are already logged in as a Client")})
-    $("#needc").click(function(){ alert("You are already logged in as a Provider")})
     $("#tabs").tabs({
     });
     $("#tabs").tabs("option", {
@@ -51,6 +49,7 @@ $(document).ready(function($) {
     });
 
 
+    var d;
     //breakdown the labels into single character spans
     $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").each(function(){
         if($(this).val()!=""){
@@ -69,17 +68,20 @@ $(document).ready(function($) {
     })
 
     //animation time
+    var tm=-23;
     $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").focus(function(){
         //calculate movement for .ch = half of input height
         //label = next sibling of input
         //to prevent multiple animation trigger by mistake we will use .stop() before animating any character and clear any animation queued by .delay()
         if($(this).next().hasClass("preset")){
             $(this).next().addClass("focussed").children().stop(true).each(function(i){
+                d = i*50;//delay
                 $(this).delay(0).animate({top: 0+"px"}, 300, 'easeOutBack');
             })
         }
         else {
             $(this).next().addClass("focussed").children().stop(true).each(function(i){
+                d = i*50;//delay
                 $(this).delay(0).animate({top: -23+"px"}, 300, 'easeOutBack');
             })
         }
@@ -89,12 +91,14 @@ $(document).ready(function($) {
         if($(this).val() == "") {
             if($(this).next().hasClass("preset")){
                 $(this).next().removeClass("focussed").children().stop(true).each(function(i){
+                    d = i*50;
                     $(this).delay(0).animate({top: 22}, 200, 'easeInOutBack');
                 })
                 //$(this).next().removeClass("preset");
             }
             else {
                 $(this).next().removeClass("focussed").children().stop(true).each(function(i){
+                    d = i*50;
                     $(this).delay(0).animate({top: 0}, 200, 'easeInOutBack');
                 })
 
@@ -107,20 +111,12 @@ $(document).ready(function($) {
     }); 
 
     $("#p-edit #avatar-upload").change(function() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(this.files[0]);
-        oFReader.onload = function (oFREvent) {
-            $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
-        };
-    });
-
-    $("#c-edit #avatar-upload2").change(function() {
         var oFReader1 = new FileReader();
         oFReader1.readAsDataURL(this.files[0]);
         oFReader1.onload = function (oFREvent) {
-            $('#preview2').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
-        }
-    })
+            $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
+        };
+    });
 
 
     //jQuery time
@@ -192,7 +188,6 @@ $(document).ready(function($) {
             $(".clockpicker").clockpicker({
                 donetext: "Set Time"
             });
-
 });
 
 

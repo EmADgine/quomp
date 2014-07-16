@@ -7,12 +7,15 @@
         <div>
             <small>Are you an individual or business 
                 that needs help with a job?</small>
-            <%unless user_signed_in?%>
+            <%if !user_signed_in?%>
                 <%= link_to "Post a Job", new_client_registration_path, 
                     class: "btn btn-large btn-primary" %>
-            <%else%>
+            <%elsif current_user.is_a? Client%>
                 <%= link_to "Post a Job", new_client_job_path(current_user.id),
                     class: "btn btn-large btn-primary"%>
+            <%else%>
+                <%= link_to "Post a Job", '#',
+                    class: "btn btn-large btn-primary", id: "needc"%>
             <%end%>
         </div>
         </li>
@@ -23,17 +26,18 @@
             <%if !user_signed_in?%>
                 <%= link_to "Join Our Engine", new_provider_registration_path, 
                     class: "btn btn-large btn-primary"%>
-            <%elsif resource.is_a? Provider%>
-                <%= link_to "Join Our engine", :provider,
+            <%elsif current_user.is_a? Provider%>
+                <%= link_to "Join Our engine", current_user,
                     class: "btn btn-large btn-primary"%>
             <%else%>
                 <%= link_to "Join Our Engine", '#',
-                    class: "btn btn-large btn-primary"%>
+                    class: "btn btn-large btn-primary", id: "needp"%>
             <%end%>
         </div>
         </li>
     </ul>
 </div>
+
 
 
 

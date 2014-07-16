@@ -1,27 +1,27 @@
 <% provide(:title, "Edit Client") %>
-<div id="createsheet" class="center" id="c-edit">
-    <div class="row">
-        <aside class="span4">
-        <section>
-        <div id="preview2">
-            <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
-        </div>
-        <h1> 
-            <%= @client.name.split.map(&:capitalize).join(' ') %>
-        </h1>
-        </section>
-        </aside>
-    </div>
-    <%= form_for @client, :html=> {:class=> 'form-horizontal flp', :role=>'form'} do |f|%>
+<div id="createsheet" class="center">
+    <%= form_for @client, :html=> {:class=> 'form-horizontal flp', :role=>'form',:id=>"c-edit"} do |f|%>
         <%= render 'shared/error_messages'%>
-        
-        <div class="form-group">
-                <ul id="oneliner">
-                    <li>
-                    <%= f.file_field :avatar, id: "avatar-upload2"%>
-                    </li>
-                </ul>
+        <div class="row">
+            <aside class="span4">
+            <section>
+            <div id="preview2">
+                <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
             </div>
+            <h1> 
+                <%= @client.name.split.map(&:capitalize).join(' ') %>
+            </h1>
+            </section>
+            </aside>
+        </div>
+
+        <div class="form-group">
+            <ul id="oneliner">
+                <li>
+                <%= f.file_field :avatar, id: "avatar-upload2"%>
+                </li>
+            </ul>
+        </div>
         <div class= "form-group sfield">
             <%= f.text_field :city, class: 'form-control sfield',id:'city', autofocus: true, required: true%>
             <label for="city" class="sfield">City</label>

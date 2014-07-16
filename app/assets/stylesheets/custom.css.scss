@@ -226,7 +226,6 @@ p {
 }
 #createsheet3 {
 
-
 }
 #oneliner {
     float: left;
@@ -523,16 +522,19 @@ height: 46px;
        margin-left: auto;
    }
     fieldset.sf {
+
         background: white; 
-        margin-top:40px;
+        margin-top:0px;
         border: 0 none;
         border-radius: 3px;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
         box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
         padding: 20px 30px;
         box-sizing: border-box;
-        width: 80%;
-
-        margin: 0 10%;
+        width: 800px;
+        left: 50%;
+        margin-left:-400px;
         /*stacking fieldsets above each other*/
         position: absolute;
         overflow: hidden;

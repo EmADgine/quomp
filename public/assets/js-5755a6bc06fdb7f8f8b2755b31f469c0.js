@@ -1,6 +1,4 @@
 $(document).ready(function($) { 
-    $("#needp").click(function(){ alert("You are already logged in as a Client")})
-    $("#needc").click(function(){ alert("You are already logged in as a Provider")})
     $("#tabs").tabs({
     });
     $("#tabs").tabs("option", {
@@ -107,20 +105,16 @@ $(document).ready(function($) {
     }); 
 
     $("#p-edit #avatar-upload").change(function() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(this.files[0]);
-        oFReader.onload = function (oFREvent) {
+        var oFReader1 = new FileReader();
+        oFReader1.readAsDataURL(this.files[0]);
+        oFReader1.onload = function (oFREvent) {
             $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
         };
     });
 
     $("#c-edit #avatar-upload2").change(function() {
-        var oFReader1 = new FileReader();
-        oFReader1.readAsDataURL(this.files[0]);
-        oFReader1.onload = function (oFREvent) {
-            $('#preview2').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
-        }
-    })
+        alert("client change");
+    }
 
 
     //jQuery time
@@ -192,7 +186,6 @@ $(document).ready(function($) {
             $(".clockpicker").clockpicker({
                 donetext: "Set Time"
             });
-
 });
 
 
