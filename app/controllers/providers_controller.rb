@@ -5,7 +5,6 @@ class ProvidersController < ApplicationController
     end
     def edit
         @provider = Provider.find(params[:id])
-        1.times {@provider.disciplines.build}
     end
     def update
         @provider = Provider.find(params[:id])
