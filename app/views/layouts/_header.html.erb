@@ -9,19 +9,19 @@
             <button class="dropdown-toggle btn btn-default navbar-btn" href= "#" data-toggle="dropdown">Sign In<strong class="caret"></strong></button>
             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
                 <%= form_for(:user, :url=>session_path(:user), :html=> {id: 'droplog'}) do |f|%>
-                <div class ="form-group">
-                    <%= f.text_field :email, :placeholder =>"Email", class: "form-control" %>
-                </div>
-                <div class= "form-group">
-                    <%= f.password_field :password, :placeholder =>"Password", class: "form-control"%>
-                </div>
-                
-                <div class = "form-group">
-                    <%= f.submit "Sign In", :class => "btn btn-large btn-primary" %>
-                    <%= f.check_box :remember_me %>
-                    <%= f.label :remember_me %>
-                </div>
-                <%=link_to "Forgot your password?", new_password_path(:user)%>
+                    <div class ="form-group">
+                        <%= f.text_field :email, :placeholder =>"Email", class: "form-control" %>
+                    </div>
+                    <div class= "form-group">
+                        <%= f.password_field :password, :placeholder =>"Password", class: "form-control"%>
+                    </div>
+
+                    <div class = "form-group">
+                        <%= f.submit "Sign In", :class => "btn btn-large btn-primary" %>
+                        <%= f.check_box :remember_me %>
+                        <%= f.label :remember_me %>
+                    </div>
+                    <%=link_to "Forgot your password?", new_password_path(:user)%>
                 <% end %>
             </div>
             </li>
@@ -30,8 +30,10 @@
             <p class= "navbar-text navbar-left">Signed in as <%=current_user.name.titleize%></p>
             </li>
             <li>
-            <button type="button" class="btn btn-default navbar-btn"><%= link_to "Profile", current_user,class: 'navbar-link'%></button>
-            <button type="button" class="btn btn-default navbar-btn"><%= link_to "Sign Out", destroy_user_session_path, :method=> :delete,class: 'navbar-link'%></button>
+            <%= link_to "Profile", current_user,class: 'navbar-link'%>
+            </li>
+            <li>
+            <%= link_to "Sign Out", destroy_user_session_path, :method=> :delete,class: 'navbar-link'%>            
             </li>
         <%end%>
     </ul>

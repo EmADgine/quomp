@@ -3,21 +3,18 @@
         <%= f.hidden_field :_destroy, id:'ruhroh' %>
         <%= f.hidden_field :name, value: nom%>
         <div class="form-group">
-            <%= f.label :years, "Years of Experience:"%>
-            <%= f.select :years, 0..40,{}, {class: "chosen-select"}%>
+            <%= f.select :years, (0..40).to_a.unshift(""),{}, {class: "chosen-select", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
+        
         <div class= "form-group">
             <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
         </div>
         <div class="form=group">
-            <ul id="oneliner">
-                <li>
-                <%= f.label :portfolio%>
-                </li>
-                <li>
-                <%= f.file_field :portfolio%>
-                </li>
-            </ul>
+            <span class="btn btn-default btn-file">
+                <%= f.file_field :portfolio%>Upload Portfolio
+            </span>
         </div>
     </div>
 </fieldset>
+
+<script>$(".chosen-select").chosen({width:"200px"});</script>

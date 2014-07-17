@@ -1,3 +1,4 @@
 class Skill < ActiveRecord::Base
-    belongs_to :job
+    has_many :discipline_skills
+    has_many :disciplines, through: :discipline_skills
 end
