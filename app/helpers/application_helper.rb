@@ -137,6 +137,6 @@ module ApplicationHelper
         }
     end
     def get_tasks_by_discipline(discipline)
-
+        ['Create a Logo', 'Build a Web Page', 'Purchase a Pony']
     end
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717071844) do
+ActiveRecord::Schema.define(version: 20140717202119) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -36,16 +36,30 @@ ActiveRecord::Schema.define(version: 20140717071844) do
     t.datetime "portfolio_updated_at"
   end
 
+  create_table "job_skills", force: true do |t|
+    t.integer  "job_id"
+    t.integer  "skill_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "job_skills", ["job_id"], name: "index_job_skills_on_job_id"
+  add_index "job_skills", ["skill_id"], name: "index_job_skills_on_skill_id"
+
   create_table "jobs", force: true do |t|
-    t.string  "discipline"
-    t.string  "task"
-    t.string  "description"
-    t.date    "startdate"
-    t.date    "deadline"
-    t.boolean "expreq"
-    t.string  "pricemethod"
-    t.integer "budget"
-    t.integer "user_id"
+    t.string   "discipline"
+    t.string   "task"
+    t.string   "description"
+    t.date     "startdate"
+    t.date     "deadline"
+    t.boolean  "expreq"
+    t.string   "pricemethod"
+    t.integer  "budget"
+    t.integer  "user_id"
+    t.string   "mockups_file_name"
+    t.string   "mockups_content_type"
+    t.integer  "mockups_file_size"
+    t.datetime "mockups_updated_at"
   end
 
   create_table "skills", force: true do |t|

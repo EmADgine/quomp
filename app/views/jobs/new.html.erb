@@ -1,39 +1,77 @@
-<div id="createsheet2" class="center">
-    <%=nested_form_for [current_user,@job], :html=> {:class=> 'form-horizontal', :role=>'form'} do |f|%>
-        <h1>Submit a Job to Our Engine</h1>
-        <div class="form-group">
-            <%=f.label :discipline, "What discipline is your job in?"%>
-            <%=f.select :discipline, get_industries, class: "form-control"%>
-        </div>
-        <div class="form-group">
-            <%=f.label :task, "What task do you want performed?"%>
-            <%=f.select :task, ['Create a Logo', 'Build a Web Page', 'Purchase a Pony']%>
-        </div>
-        <div class="form-group">
-            <%=f.label :description, "Briefly describe your project"%>
-            <%=f.text_area :description,rows: 2 %>
-        </div>
-        <div class="form-group">
+<div id="createsheet3" class="center">
+    <%=nested_form_for [current_user,@job], :html=> {:class=> 'form-horizontal flp', :role=>'form',:id=>"j-create"} do |f|%>
+        <ul id="progressbar">
+            <li class="active">Job Details</li>
+            <li>Transaction Details</li>
+            <li>Tier Select</li>
+        </ul>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Job Details</legend>
+            </div>
+            <div class="form-group">
+                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline"}%>
+            </div>
+            <div class="form-group">
+                <%=f.select :task, get_tasks_by_discipline("").unshift(""),{},{class: "chosen-select","data-placeholder"=>"Select Task"}%>
+            </div>
+            <div class="form-group">
+                <%= f.collection_select :skill_ids,Skill.order(:name),:id, :name, {},{"data-placeholder"=>"Select required skills",class: "skill-select",multiple:true}%>
+            </div>
 
-        </div>
-        <div class="form-group">
-            <%=f.label :startdate, "What is your start date?"%>
-            <%=f.text_field :startdate, id: "datepicker1"%>
-        </div>
-        <div class="form-group">
-            <%=f.label :deadline, "What is your deadline?"%>
-            <%=f.text_field :deadline, id: "datepicker2"%>
-        </div>
-        <div class="form-group">
-            <%=f.label :pricemethod, "What is your preferred payment method?"%>
-            <%=f.select :pricemethod, ["Fixed", "Hourly"]%>
-        </div>
-        <div class="form-group">
-            <%=f.label :budget, "What is your budget?"%>
-            <%=f.text_field :budget%>
-        </div>
-        <div class="form-group">
-            <%=f.submit "Submit Job", class: "btn btn-primary"%>
-        </div>
+            <div class="form-group sfield">
+                <%=f.text_area :description,rows: 2,class: "form-control sfield", id:"jdfield"%>
+                <label for="jdfield" class="sfield">Briefly describe your project</label>
+            </div>
+            <div class="form-group">
+                <span class="btn btn-default btn-file">
+                    <%= f.file_field :mockups, id: "mockup-upload"%>Upload Mockups
+                </span>
+            </div>
+            <div class="form-group">
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </div>
+
+        </fieldset>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Transaction Details</legend>
+            </div>
+            <div class="form-group">
+                <%=f.label :startdate, "What is your start date?"%>
+                <%=f.text_field :startdate, id: "datepicker1", class: "notme"%>
+            </div>
+            <div class="form-group">
+                <%=f.label :deadline, "What is your deadline?"%>
+                <%=f.text_field :deadline, id: "datepicker2", class:"notme"%>
+            </div>
+            <div class="form-group">
+                <%=f.label :pricemethod, "What is your preferred payment method?"%>
+                <%=f.select :pricemethod, ["Fixed", "Hourly"]%>
+            </div>
+            <div class="form-group">
+                <%=f.label :budget, "What is your budget?"%>
+                <%=f.text_field :budget, class:"notme"%>
+            </div>
+            <div class="form-group">
+                <input type="button" name="previous" class="previous action-button" value="Previous">
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </div>
+
+        </fieldset>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Tier Select</legend>
+            </div>
+            <div class="form-group">
+                <input type="button" name="previous" class="previous action-button" value="Previous">
+
+                <%=f.submit "Submit Job", class: "action-button"%>
+            </div>
+        </fieldset>
     <%end%>
 </div>
+<script>
+    $(".skill-select").chosen({width:"700px"});
+    $(".chosen-select").chosen({width: "220px"});
+</script>

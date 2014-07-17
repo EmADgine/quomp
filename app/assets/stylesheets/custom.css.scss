@@ -531,7 +531,7 @@ height: 46px;
 
 
 
-#p-edit {
+#p-edit,#j-create{
     height: 1000px;
    .form-group.sfield {
        width: 400px !important;
@@ -660,5 +660,5 @@ height: 46px;
 }
 
 .chosen-choices .search-field input {
-    width: 500px!important;
+    width: 100%!important;
 }
