@@ -1,2 +1,3 @@
 class DisciplinesController < ApplicationController
+    
 end

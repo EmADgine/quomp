@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717024858) do
+ActiveRecord::Schema.define(version: 20140717071844) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -53,6 +53,7 @@ ActiveRecord::Schema.define(version: 20140717024858) do
     t.integer  "strength"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "discipline"
   end
 
   create_table "users", force: true do |t|

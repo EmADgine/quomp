@@ -5,7 +5,9 @@
         <div class="form-group">
             <%= f.select :years, (0..40).to_a.unshift(""),{}, {class: "chosen-select", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
-        
+        <div class="form-group">
+            <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in this discipline",class: "skill-select",multiple:true}%>
+        </div>
         <div class= "form-group">
             <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
         </div>
@@ -17,4 +19,8 @@
     </div>
 </fieldset>
 
-<script>$(".chosen-select").chosen({width:"200px"});</script>
+<script>
+    $(".chosen-select").chosen({width:"200px"});
+    $(".skill-select").chosen({width:"95%"});
+</script>
+
