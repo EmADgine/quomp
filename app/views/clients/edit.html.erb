@@ -16,9 +16,8 @@
             </div>
 
             <div class="quick-align">
-                <span class="btn btn-default btn-file">
-                    <%= f.file_field :avatar, id: "avatar-upload2"%>Upload Image
-                </span>
+                <%= f.file_field :avatar, id: "avatar-upload2"%>
+                <span type="button" class="btn btn-default btn-file">Upload Image</span>
             </div>
             <br></br>
             <br></br>
@@ -28,7 +27,9 @@
                     <%= f.text_field :city, class: 'form-control sfield',id:'city', autofocus: true, required: true%>
                     <label for="city" class="sfield">City</label>
                     </li>
+                    <li>
                     <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
+                    </li>
                 </ul>
             </div>
             <div class="form-group">

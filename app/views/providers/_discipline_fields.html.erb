@@ -12,9 +12,8 @@
             <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
         </div>
         <div class="form=group">
-            <span class="btn btn-default btn-file">
-                <%= f.file_field :portfolio%>Upload Portfolio
-            </span>
+            <%= f.file_field :portfolio%>Upload Portfolio
+            <span type="button" class="btn btn-default btn-file">Upload Portfolio</span>
         </div>
     </div>
 </fieldset>

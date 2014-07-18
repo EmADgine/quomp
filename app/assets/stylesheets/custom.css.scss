@@ -63,7 +63,10 @@ body {
         }
     }
 }
-
+input[type="file"] {
+    visibility: hidden;
+    width:1px;
+}
 .ui-state-disabled {
     visibility: hidden;
 }
@@ -136,7 +139,7 @@ ul {
     float: left;
     margin-right: 10px;
     margin-left: 5px;
-    font-size: 1.7em;
+    font-size: 2.3em;
     color: #0096FA;
     text-transform: capitalize;
     letter-spacing: -1px;
@@ -630,26 +633,6 @@ height: 46px;
     margin-right: auto;
     margin-left: auto;
 }
-
-.btn-file {
-    position: relative;
-    overflow: hidden;
-}
-.btn-file input[type=file] {
-    position: absolute;
-    top: 0;
-    right: 0;
-    min-width: 100%;
-    min-height: 100%;
-    font-size: 999px;
-    text-align: right;
-    filter: alpha(opacity=0);
-    opacity: 0;
-    outline: none;
-    background: white;
-    cursor: inherit;
-    display: block;
-}
 .form-group {
     margin-bottom: 26px !important;
 }
@@ -660,5 +643,13 @@ height: 46px;
 }
 
 .chosen-choices .search-field input {
-    width: 100%!important;
+    width: 700px!important;
+}
+
+.search-field input {
+    height: 20px!important;
+    color: #888!important;
+    line-height: 15px!important;
+    padding: 5px 0px 5px 5px!important;
+    border-radius: 4px!important;
 }

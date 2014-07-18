@@ -24,9 +24,8 @@
                 <label for="jdfield" class="sfield">Briefly describe your project</label>
             </div>
             <div class="form-group">
-                <span class="btn btn-default btn-file">
-                    <%= f.file_field :mockups, id: "mockup-upload"%>Upload Mockups
-                </span>
+                <%= f.file_field :mockups, id: "mockup-upload"%>Upload Mockups
+                <span type="button" class="btn btn-default btn-file">Upload Mockups</span>
             </div>
             <div class="form-group">
                 <input type="button" name="next" class="next action-button" value="Next" />

@@ -29,9 +29,8 @@
                 </ul>
             </div>
             <div class="quick-align2">
-                <span class="btn btn-default btn-file">
-                    <%= f.file_field :avatar, id: "avatar-upload"%>Upload Image
-                </span>
+                <%= f.file_field :avatar, id: "avatar-upload"%>
+                <span type="button" class="btn btn-default btn-file">Upload Image</span>
             </div>
             <br></br>
             <br></br>
@@ -41,11 +40,12 @@
                     <%= f.text_field :city, class: 'form-control sfield', id: 'city', autofocus: true%>
                     <label class="sfield" for='city'>City</label>
                     </li>
-                    <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
                     <li>
+                    <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
+                    </li>
                 </ul>
             </div>
-            
+
 
             <div class="form-group sfield">
                 <%= f.text_field :website, class: 'form-control sfield', id: 'site'%>
@@ -64,10 +64,8 @@
                 <label for='linkedin' class='sfield'>Linkedin Profile</label>
             </div>
             <div class="form-group">
-                <span class="btn btn-default btn-file">
-
-                    <%=f.file_field :resume%>Upload Resum&eacute;
-                </span>
+                    <%=f.file_field :resume%>
+                    <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;</span>
             </div>
             <div class="form-group">
                 <input type="button" name="next" class="next action-button" value="Next" />
