@@ -35,8 +35,7 @@ body {
     }
 }
 #content {
-    margin-top: 40px;
-    padding-bottom: 100px;
+    padding-bottom: 120px;
 }
 #footer {
     position: absolute;
@@ -255,10 +254,6 @@ ul {
     margin-left:170px;
     padding-left:0;
 }
-#prof {
-    margin-right:-400px;
-}
-
 
 #error_explanation {
     ul {
@@ -309,18 +304,88 @@ aside {
     display: none;
 }
 
-#ProfilePage
+.profile
 {
-    /* Move it off the top of the page, then centre it horizontally */
-    margin: 50px auto;
-    padding-bottom: 15px;
-    padding-top: 15;
-    width: 840px;
+
+    background: white;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border-radius: 5px;
-    background: white;
+    padding: 20px;
+    width: 1000px;
+    vertical-align:middle;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top:100px;
+    margin-bottom:40px;
+    font-size: 20px;
+    ul {
+        padding:0
+    }
 
+    ul li {
+        list-style-type:none;
+display: inline;
+    padding:0;
+    margin:0;
+    }
+    #main-left{
+        float: left;
+        width: 50%;
+    }
+    #main-right {
+        padding-left:20px;
+        float: right;
+        width:50%;
+    }
+    .details-left {
+        float:left;
+        width: 50%;
+    }
+    .details-right {
+        float:right;
+        width: 50%;
+    }
+    fieldset{
+        legend{
+            font-size:1.5em;
+        }
+
+        width: 45%px;
+        margin-bottom:10px;
+    }
+    .show-prof {
+        box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    }
+    .show-group {
+        margin-bottom: 20px;
+    }
+    table {
+            td.spacer {
+            }
+        }
+    .profilebutton {
+
+        border: none;
+        background: #222;
+        color: #FFF;
+        padding: 5px 20px;
+        margin: 5px;
+        font-size:17px;
+        font-family: Palatino;
+        font-weight: bold;
+        border-radius:0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+        a {
+            color: white;
+        }
+    }
+    
+
+}
+.clear {
+    clear: both;
 }
 
 #jobbutton
@@ -535,11 +600,9 @@ height: 46px;
 
 
 #p-edit,#j-create{
-    height: 1000px;
-   .form-group.sfield {
+   .form-group.sfield, .form-group.wandc {
        width: 400px !important;
        margin-right:auto;
-
        margin-left: auto;
    }
     fieldset.sf {
@@ -554,10 +617,11 @@ height: 46px;
         padding: 20px 30px;
         box-sizing: border-box;
         width: 800px;
+        position:absolute;
         left: 50%;
         margin-left:-400px;
+        margin-top:10px;
         /*stacking fieldsets above each other*/
-        position: absolute;
         overflow: hidden;
         white-space:nowrap;
         li { 
@@ -652,4 +716,8 @@ height: 46px;
     line-height: 15px!important;
     padding: 5px 0px 5px 5px!important;
     border-radius: 4px!important;
+}
+
+#error_explanation {
+    margin-bottom:18px;
 }
