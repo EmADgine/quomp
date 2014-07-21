@@ -133,7 +133,7 @@ $("#p-edit #avatar-upload").change(function() {
     var oFReader = new FileReader();
     oFReader.readAsDataURL(this.files[0]);
     oFReader.onload = function (oFREvent) {
-        $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200px" height="200px"">');
+        $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
     }
 })
 
@@ -141,7 +141,7 @@ $("#c-edit #avatar-upload2").change(function() {
     var oFReader1 = new FileReader();
     oFReader1.readAsDataURL(this.files[0]);
     oFReader1.onload = function (oFREvent) {
-        $('#preview2').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200px" height="200px"">');
+        $('#preview2').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
     }
 })
 var current_fs, next_fs, previous_fs; //fieldsets
@@ -218,7 +218,7 @@ $(".clockpicker").clockpicker({
 $(".btn-file").click(function() {
     $(this).prev().click();
 })
-$(".badge").tooltip({});
 })
 
 
+;

@@ -1,11 +1,9 @@
-<%provide(:title, @client.name) %>
-
 <div class="profile">
     <div id="main-left">
         <fieldset>
             <legend>Company Details</legend>
             <div class="details-left">
-                <%= image_tag @client.avatar.url(:small), class: "show-prof img-circle",width: "200px", height: "200px"%>
+                <%= image_tag @client.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
 
             </div>
             <div class="details-right">
@@ -79,29 +77,31 @@
                     <tr><td valign="top"><b>Responsiveness</b></td><td></td><td>8/10</td></tr>
 
                     <tr><td valign="top"><b>Expectations</b></td ><td ></td><td>7/10</td></tr>
-                        <tr><td valign="top"><b>Scope of Work</b></td><td></td><td>9/10</td></tr>
-                        <tr><td valign="top"><b>Payment</b></td><td></td><td>7/10</td></tr>
-                        <tr><td valign="top"><b>Professionalism</b></td><td></td><td>5/10</td></tr>
-                        <tr><td valign="top"><b>Likeability</b></td><td></td><td>7/10</td></tr>
-                    </table>
-                </fieldset>
-            </div>
-            <div class="clear"></div>
-            <div class="prof-buttons">
-                <ul>
-                    <% if user_signed_in? %> 
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
-                        </li>
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_client_registration_path(current_user.id)%></button>
-                        </li>
-                    <%end%>
-                </ul>
-            </div>
+                    <tr><td valign="top"><b>Scope of Work</b></td><td></td><td>9/10</td></tr>
+                    <tr><td valign="top"><b>Payment</b></td><td></td><td>7/10</td></tr>
+                    <tr><td valign="top"><b>Professionalism</b></td><td></td><td>5/10</td></tr>
+                    <tr><td valign="top"><b>Likeability</b></td><td></td><td>7/10</td></tr>
 
+
+                </table>
+            </fieldset>
         </div>
-        <div class='center'>
-            <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Post A Job", new_client_job_path(current_user.id)%></button>
+        <div class="clear"></div>
+        <div class="prof-buttons">
+            <ul>
+                <% if user_signed_in? %> 
+                    <li>
+                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_client_path(current_user.id)%></button>
+                    </li>
+                    <li>
+                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_client_registration_path(current_user.id)%></button>
+                    </li>
+                <%end%>
+            </ul>
         </div>
+
+    </div>
+    <div class='center'>
+        <button type="button" id = "jobbutton"class="btn btn-default"><%= link_to "Post A Job", new_client_job_path(current_user.id)%></button>
+</div>
 

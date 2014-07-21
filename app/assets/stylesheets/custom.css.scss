@@ -256,6 +256,7 @@ ul {
 }
 
 #error_explanation {
+    margin-bottom: 18px;
     ul {
         list-style: none;
         margin: 0px 0 18px 0;
@@ -356,6 +357,8 @@ display: inline;
     }
     .show-prof {
         box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+        width: 200px!important;
+        height:200px!important;
     }
     .show-group {
         margin-bottom: 20px;
@@ -718,6 +721,18 @@ height: 46px;
     border-radius: 4px!important;
 }
 
-#error_explanation {
-    margin-bottom:18px;
+
+#resume-prev .modal-dialog{
+    width: 900px!important;
+}
+.doc-prev {
+    width: 840px;
+    height: 800px!important;
+    background: white;
+    border-style: none;
+    margin: 0 auto 0 auto;
+}
+.badge {
+    margin-right:10px;
+    padding: auto!important;
 }

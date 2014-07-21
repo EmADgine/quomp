@@ -1,6 +1,19 @@
 module ApplicationHelper
 
-
+    def maketime(s)
+        if s[0]=='0'
+            s=s[1..-1]
+        end
+        s=s.split(':')
+        unless s[0].to_i / 12 == 0
+            s[0]=(s[0].to_i%12).to_s
+            if s[0]=='0'
+                s[0]='12'
+            end
+            return s.join(':')+'PM'
+        end
+        s.join(':')+'AM'
+    end
     def link_to_remove_fields(name, f)
         f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
     end
@@ -54,10 +67,11 @@ module ApplicationHelper
         result
     end
     def linkerate(link)
-        if link=nil
+        if link==nil
             link=''
         end
-        link.chomp('http://').chomp('www.').downcase
+        return link.sub('http://','').sub('www.','').downcase
+        
     end
 
     def us_states

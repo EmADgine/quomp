@@ -6,17 +6,6 @@
             <%= f.password_field :current_password, autocomplete: "off", class: "form-control sfield",id: 'currentpasswd',autofocus: true%>
             <label for='currentpasswd' class='sfield'>Current Password Required</label>
         </div>
-        <div class="form-group">
-            <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
-            <div id="mode-group" class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary" id="frb" value="freelancer">
-                    <input type="radio" name="mode" value="freelancer" class="ptype-btn"> Freelancer
-                </label>
-                <label class="btn btn-primary" id="agb" value="agency">
-                    <input type="radio" name="mode" value="agency" class="ptype-btn"> Agency
-                </label>
-            </div>
-        </div>
         <div class="form-group sfield">
             <input type="name" class="form-control sfield" name="provider[name]" id="name"  required>
             <label for="name" class="sfield">Update Name Shown to Providers</label>
@@ -34,6 +23,18 @@
             <input type="password" class="form-control sfield" name= "provider[password_confirmation]" id="confirmpasswd"  required>
             <label for="confirmpasswd" class="sfield">Confirm New Password</label>
         </div>
+        <div class="form-group">
+            <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
+            <div id="mode-group" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary" id="frb" value="freelancer">
+                    <input type="radio" name="mode" value="freelancer" class="ptype-btn"> Freelancer
+                </label>
+                <label class="btn btn-primary" id="agb" value="agency">
+                    <input type="radio" name="mode" value="agency" class="ptype-btn"> Agency
+                </label>
+            </div>
+        </div>
+
         <div class="form-group">
             <input name="commit" type="submit" value="Update Registration" class= "btn btn-large btn-primary"/>
         </div>

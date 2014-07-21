@@ -17,6 +17,6 @@ class ProvidersController < ApplicationController
         end
     end
     def provider_params_edit
-        params.require(:provider).permit(:avatar,:city,:state,:website,:education,:description,:resume,:linkedin, disciplines_attributes: [:id, :name,:description,:years,:skill_ids, :_destroy])
+        params.require(:provider).permit(:avatar,:city,:state,:website,:education,:description,:resume,:linkedin, :begin,:end,disciplines_attributes: [:id, :name,:description,:years,:skill_ids, :_destroy])
     end
 end

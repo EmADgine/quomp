@@ -3,18 +3,6 @@
 
     <%=render 'shared/error_messages'%> 
     <%= form_for @provider, html: {id: "p-reg", class: "flp"} do |f|%>
-        <div class="form-group">
-            <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
-            <div id="mode-group" class="btn-group" data-toggle="buttons">
-                <label class="btn btn-primary" id="frb" value="freelancer">
-                    <input type="radio" name="mode" value="freelancer" class="ptype-btn"> Freelancer
-                </label>
-                <label class="btn btn-primary" id="agb" value="agency">
-                    <input type="radio" name="mode" value="agency" class="ptype-btn"> Agency
-                </label>
-            </div>
-        </div>
-        <br>
         <div class="form-group sfield">
             <input type="name" class="form-control sfield" name="provider[name]" id="name" required autofocus>
             <label for="name" class="sfield">Name Shown to Clients</label>
@@ -31,6 +19,19 @@
             <input type="password" class="form-control sfield" name= "provider[password_confirmation]" id="confirmpasswd"  required>
             <label for="confirmpasswd" class="sfield">Confirm Password</label>
         </div>
+        <div class="form-group">
+            <span>What kind of Provider are you?</span>
+            <input type="hidden" name="provider[ptype]" id="btn-input" value = "">
+            <div id="mode-group" class="btn-group" data-toggle="buttons">
+                <label class="btn btn-primary" id="frb" value="freelancer">
+                    <input type="radio" name="mode" value="freelancer" class="ptype-btn"> Freelancer
+                </label>
+                <label class="btn btn-primary" id="agb" value="agency">
+                    <input type="radio" name="mode" value="agency" class="ptype-btn"> Agency
+                </label>
+            </div>
+        </div>
+
         <div class="form-group">
             <input name="commit" type="submit" value="Submit" class= "btn btn-large btn-primary"/>
         </div>

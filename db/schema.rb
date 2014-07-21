@@ -11,18 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140717202119) do
+ActiveRecord::Schema.define(version: 20140721044714) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
     t.integer  "discipline_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "job_id"
   end
 
   add_index "discipline_skills", ["discipline_id"], name: "index_discipline_skills_on_discipline_id"
-  add_index "discipline_skills", ["job_id"], name: "index_discipline_skills_on_job_id"
   add_index "discipline_skills", ["skill_id"], name: "index_discipline_skills_on_skill_id"
 
   create_table "disciplines", force: true do |t|
