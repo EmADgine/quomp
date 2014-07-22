@@ -6,15 +6,19 @@
         <fieldset>
 
             <legend>Client Details</legend>
-            <div class="row">
-                <div id="preview2">
-                    <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle"/>
-                </div>
-                <h1 id="name-text"> 
-                    <%= @client.name.split.map(&:capitalize).join(' ') %>
-                </h1>
-            </div>
-
+            <table style="margin:auto;">
+                <tr>
+                    <td>
+                        <div id="preview2">
+                            <img src=<%= @client.avatar.url(:small) %> id="prof" class= "img-circle" width="200" height="200"/>
+                        </div>
+                    </td>
+                    <td style="width: 12px;"></td>
+                    <td>
+                        <h1><%=@client.name.titleize%></h1>
+                    </td>
+                </tr>
+            </table>
             <div class="quick-align">
                 <%= f.file_field :avatar, id: "avatar-upload2"%>
                 <span type="button" class="btn btn-default btn-file">Upload Image</span>

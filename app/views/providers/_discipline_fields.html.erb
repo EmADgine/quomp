@@ -3,7 +3,7 @@
         <%= f.hidden_field :_destroy, id:'ruhroh' %>
         <%= f.hidden_field :name, value: nom%>
         <div class="form-group">
-            <%= f.select :years, (0..40).to_a.unshift(""),{}, {class: "chosen-select", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
+            <%= f.select :years, (1..40).to_a.unshift(""),{}, {class: "chosen-select", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
         <div class="form-group">
             <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in this discipline",class: "skill-select",multiple:true}%>

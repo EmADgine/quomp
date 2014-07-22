@@ -1,7 +1,7 @@
 <div id="createsheet3" class="center">
 
+    <%=render 'shared/error_messages'%>
     <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'form-horizontal flp', :role=>'form', :id=>"p-edit"} do |f|%>
-
         <ul id="progressbar">
             <li class="active">Provider Details</li>
             <li>Disciplines</li>
@@ -11,23 +11,50 @@
             <div class="form-group">
                 <legend>Provider Details</legend>
             </div>
-            <div class="row">
-                <div id="preview">
-                    <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle" width="200" height="200"/>
+            <table style="margin:auto;">
+                <tr>
+                    <td>
+                        <div id="preview">
+                            <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle" width="200" height="200"/>
+                        </div>
+                    </td>
+                    <td style="width: 12px;"></td>
+                    <td>
+                        <ul>
+                            <li>
+                            <h1><%=@provider.name.titleize%></h1>
+                            </li>
+                            <li>
+                            <h1><%=@provider.ptype.titleize%></h1>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            </table>
+            <%if false%>
+                <div style="width:100%; margin: auto;">
+                    <div class="details-left" style="background: red;">
+                        <div class="details-right">
+                            <div id="preview">
+                                <img src=<%= @provider.avatar.url(:small) %> id="prof" class= "img-circle" width="200" height="200"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-right" style="background:blue;">
+                        <div class="show-group">
+                            <h1> 
+                                <%= @provider.name.titleize%>
+                            </h1>
+                        </div>
+                        <div class="show-group">
+                            <h1 style="margin-left:0";>
+                                <%=@provider.ptype.titleize%>
+                            </h1>
+                        </div>
+                    </div>
+                    <div class="clear"></div>
                 </div>
-                <ul id="name-text">
-                    <li>
-                    <h1>
-                        <%= @provider.ptype.titleize%>
-                    </h1>   
-                    </li>
-                    <li>
-                    <h1> 
-                        <%= @provider.name.titleize %>
-                    </h1>
-                    </li>
-                </ul>
-            </div>
+            <%end%>
             <div class="quick-align2">
                 <%= f.file_field :avatar, id: "avatar-upload"%>
                 <span type="button" class="btn btn-default btn-file">Upload Image</span>

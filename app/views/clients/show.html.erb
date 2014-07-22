@@ -23,11 +23,11 @@
                 </div>
                 <div class="show-group">
                     <p>
-                    <%=link_to @client.website, 
-                        'http://www.'+@client.website%></p>
+                    <%=link_to linkerate(@client.website), 
+                        'http://www.'+linkerate(@client.website)%></p>
                     </div>
                     <div class="show-group">
-                        <p><%= @client.industry.titleize%></p>
+                        <p><%= (@client.industry||"").titleize%></p>
                     </div>
 
                 </div>

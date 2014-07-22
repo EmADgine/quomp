@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140721044714) do
+ActiveRecord::Schema.define(version: 20140721164851) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20140721044714) do
   create_table "disciplines", force: true do |t|
     t.string   "name"
     t.integer  "years"
-    t.string   "description"
+    t.text     "description",            limit: 255
     t.integer  "user_id"
     t.string   "portfolio_file_name"
     t.string   "portfolio_content_type"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 20140721044714) do
   create_table "jobs", force: true do |t|
     t.string   "discipline"
     t.string   "task"
-    t.string   "description"
+    t.text     "description",          limit: 255
     t.date     "startdate"
     t.date     "deadline"
     t.boolean  "expreq"
@@ -80,12 +80,12 @@ ActiveRecord::Schema.define(version: 20140721044714) do
     t.string   "city"
     t.string   "state"
     t.string   "website"
-    t.string   "description"
-    t.string   "encrypted_password",     default: "", null: false
+    t.text     "description",            limit: 255
+    t.string   "encrypted_password",                 default: "", null: false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer  "sign_in_count",                      default: 0,  null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
