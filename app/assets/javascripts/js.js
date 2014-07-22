@@ -1,3 +1,5 @@
+
+
 $(document).ready(function($) {
     var objHeight=0;
     $.each($('#p-edit').children(),
@@ -17,11 +19,25 @@ $(document).ready(function($) {
         "disabled": true,
         "hide": { effect: "fade", duration: 150 },
         "show": { effect: "fade", duration: 150}
-    })
-$("#tabs").hide()
-    $("#p-edit").find("input[type=checkbox]").each(function(){
-        $(this).bind('click', function() {
+    });
+    $("#tabs").hide();
+    /*
+    $("#p-edit input[type=checkbox].d-check").each(function () {
+        if($(this).is(":checked")){
+            $("#tabs").show();
+            var regexp, time,value,dlabel;
+            alert($(this).val());
+            value = $(this).val();
+            dlabel= value.split('-').pop();
+            time = new Date().getTime();
+            regexp = new RegExp($(this).data('id'), 'g');
+            $('.insert-'.concat(dlabel)).before($(this).data('fields').replace(regexp, time));
+            $('#tabs').tabs("enable", value);
 
+        }*/
+    $("#p-edit").find("input[type=checkbox].d-check").each(function(){
+            
+        $(this).bind('click', function() {
             if ($(this).is(':checked')) {
                 var regexp, time,value,dlabel;
                 value = $(this).val();
@@ -42,7 +58,7 @@ $("#tabs").hide()
                 var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
                 $('#tabs').tabs("option","active", index-1);
             }
-            if(!$("#p-edit input[type='checkbox']").is(":checked")) {
+            if(!$("#p-edit input[type=checkbox].dcheck").is(":checked")) {
                 $('#tabs').toggle();
             } 
             else if(!$('#tabs').is(":visible")) {

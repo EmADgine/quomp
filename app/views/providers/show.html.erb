@@ -22,8 +22,8 @@
                 </div>
                 <div class="show-group">
                     <p>
-                    <%=link_to @provider.website, 
-                        'http://www.'+@provider.website%></p>
+                    <%=link_to linkerate(@provider.website), 
+                        'http://www.'+linkerate(@provider.website)%></p>
                     </div>
                     <div class="show-group">
                         <p><%= @provider.ptype.titleize%></p>
