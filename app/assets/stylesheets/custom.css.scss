@@ -772,19 +772,35 @@ height: 46px;
             margin-top:5px;
             float: right;
         }
+        p{
+            margin-top:10px;
+            white-space:normal!important;
+            width:400px;
+            float:left;
+            margin-left:40px;
+        }
+        p.compressed {
+            margin-top:10px;
+            white-space:normal!important;
+            width:200px;
+            float:left;
+            margin-left:40px;
+
+        }
+        
     }
     #tier3{
         width:300px;
         background: #CFF09E;
         h1 {
-            margin-left:100px;
+            margin-left:10px;
         }
     }
     #tier2{
         width:400px;
         background: #A8DBA8;
         h1 {
-            margin-left:150px;
+            margin-left:10px;
         }
 
     }
@@ -792,7 +808,7 @@ height: 46px;
         width:500px;
         background: #79BD9A;
         h1 {
-            margin-left:200px;
+            margin-left:10px;
         }
 
     }
@@ -800,7 +816,7 @@ height: 46px;
         width:600px;
         background: #3B8686;
         h1 {
-            margin-left:168px;
+            margin-left:10px;
         }
     }
     * .modal-dialog {
