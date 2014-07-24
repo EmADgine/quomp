@@ -2,21 +2,21 @@
     <%=nested_form_for [current_user,@job], :html=> {:class=> 'form-horizontal flp', :role=>'form',:id=>"j-create"} do |f|%>
         <ul id="progressbar">
             <li class="active">Job Details</li>
-            <li>Transaction Details</li>
-            <li>Tier Select</li>
+            <li>Job Timeline</li>
+            <li>Provider Tier</li>
         </ul>
         <fieldset class="sf">
             <div class="form-group">
                 <legend>Job Details</legend>
             </div>
             <div class="form-group">
-                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline"}%>
+                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline",id: "disciplines"}%>
             </div>
             <div class="form-group">
-                <%=f.select :task, get_tasks_by_discipline("").unshift(""),{},{class: "chosen-select","data-placeholder"=>"Select Task"}%>
+                <%=f.select :task, get_tasks_by_discipline("").unshift(""),{},{id:"tasks", class: "chosen-select","data-placeholder"=>"Select Task"}%>
             </div>
             <div class="form-group">
-                <%= f.collection_select :skill_ids,Skill.order(:name),:id, :name, {},{"data-placeholder"=>"Select required skills",class: "skill-select",multiple:true}%>
+                <%= f.collection_select :skill_ids,Skill.order(:name),:id, :name, {},{"data-placeholder"=>"Select required skills",class: "skill-select",multiple:true,id: "skills"}%>
             </div>
 
             <div class="form-group sfield">
@@ -30,56 +30,184 @@
                 <%else%>
                     <%= f.file_field :mockups, {id: "mockup-upload",class: "gotFile"}%>
                     <span type="button" class="btn btn-default btn-file">Upload Mockups<span/>
-                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                    </span>
-                <%end%>
+                            <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                            </span>
+                        <%end%>
+                    </div>
+                    <div class="form-group">
+                        <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
+                        <%=f.select :expreq, ["No","Yes"], {},class: "exp-req"%>
+                    </div>
+                    <div class="form-group">
+                        <input type="button" name="next" class="next action-button" value="Next" />
+                    </div>
 
-            </div>
-            <div class="form-group">
-                <input type="button" name="next" class="next action-button" value="Next" />
-            </div>
+                </fieldset>
+                <fieldset class="sf">
+                    <div class="form-group">
+                        <legend>Job Timeline</legend>
+                    </div>
+                    <div class="form-group wandc">
+                        <%=f.label :startdate, "What is your start date?"%>
+                        <%=f.text_field :startdate, id: "datepicker1", class: "notme form-control"%>
+                    </div>
+                    <div class="form-group wandc">
+                        <%=f.label :deadline, "What is your deadline?"%>
+                        <%=f.text_field :deadline, id: "datepicker2", class: "notme form-control"%>
+                    </div>
 
-        </fieldset>
-        <fieldset class="sf">
-            <div class="form-group">
-                <legend>Transaction Details</legend>
-            </div>
-            <div class="form-group wandc">
-                <%=f.label :startdate, "What is your start date?"%>
-                <%=f.text_field :startdate, id: "datepicker1", class: "notme form-control"%>
-            </div>
-            <div class="form-group wandc">
-                <%=f.label :deadline, "What is your deadline?"%>
-                <%=f.text_field :deadline, id: "datepicker2", class: "notme form-control"%>
-            </div>
-            <div class="form-group">
-                <%=f.label :pricemethod, "What is your preferred payment method?"%>
-                <%=f.select :pricemethod, ["Fixed", "Hourly"]%>
-            </div>
-            
-            <div class="form-group">
-                <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
-                <%=f.select :expreq, ["Yes","No"]%>
-            </div>
-            <div class="form-group">
-                <input type="button" name="previous" class="previous action-button" value="Previous">
-                <input type="button" name="next" class="next action-button" value="Next" />
-            </div>
 
-        </fieldset>
-        <fieldset class="sf">
-            <div class="form-group">
-                <legend>Tier Select</legend>
-            </div>
-            <div class="form-group">
-                <input type="button" name="previous" class="previous action-button" value="Previous">
+                    <div class="form-group">
+                        <input type="button" name="previous" class="previous action-button" value="Previous">
+                        <input type="button" name="next" class="next action-button" value="Next">
+                    </div>
 
-                <%=f.submit "Submit Job", class: "action-button"%>
-            </div>
-        </fieldset>
-    <%end%>
-</div>
-<script>
-    $(".skill-select").chosen({width:"700px"});
-    $(".chosen-select").chosen({width: "220px"});
-</script>
+                </fieldset>
+                <fieldset class="sf">
+                    <div class="form-group">
+                        <legend>Provider Tier</legend>
+                    </div>
+                    <div class="slider-wrapper">
+                        <div id="slider-left">
+                            <div id="slider-vertical" style="height:460px;"></div>
+                        </div>
+                        <div id="slider-right">
+                            <div class="tier-wrap">
+                                <div class="show-group" id="tier3">
+                                    <h1>Tier 3</h1>
+                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier3-prev"></span>
+                                </div>
+                            </div>
+                            <div class="tier-wrap">
+                                <div class="show-group" id="tier2"> 
+                                    <h1>Tier 2</h1>
+                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier2-prev"></span>
+                                </div>
+                            </div>
+                            <div class="tier-wrap">
+                                <div class="show-group" id="tier1">
+                                    <h1>Tier 1</h1>
+                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier1-prev"></span>
+
+                                </div>
+                            </div>
+                            <div class="tier-wrap">
+                                <div class="show-group" id="tier0">
+                                    <h1>Testing Ground</h1>
+                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier0-prev"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <%=render partial: 'jobs/tier3'%>
+                        <%=render partial: 'jobs/tier2'%>
+                        <%=render partial: 'jobs/tier1'%>
+                        <%=render partial: 'jobs/tier0'%>
+
+                    </div>
+                    <div class="form-group">
+                        <input type="button" name="previous" class="previous action-button" value="Previous">
+                        <%=f.submit "Submit Job", class: "action-button"%>
+                    </div>
+                </fieldset>
+            <%end%>
+        </div>
+        <script>
+            $(".skill-select").chosen({width:"600px"});
+            $(".chosen-select").chosen({width: "220px"});
+            $(".exp-req").change(function() {
+                if($(this).val()=="Yes"){
+                    alert("Please be aware that you have chosen to drastically reduce the number of providers available to you.");
+                }
+            });
+            $("#skills,#tasks").prop("disabled",true).trigger("chosen:updated");
+            $("#disciplines").change(function() {
+                if($(this).val()!= ""){
+                    $(this).data('discipline',$(this).val());
+                    $("#skills,#tasks").empty();
+                    switch($(this).val()){
+                        case "Marketing Strategy":
+                        $.each(
+                        {"MS Task 1":"MS Task 1", "MS Task 2":"MS Task 2", "MS Task 3":"MS Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"MS Skill 1":"MS Skill 1","MS Skill 2":"MS Skill 2","MS Skill 3":"MS Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+                        case "Email Marketing":
+                        $.each(
+                        {"EM Task 1":"EM Task 1", "EM Task 2":"EM Task 2", "EM Task 3":"EM Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"EM Skill 1":"EM Skill 1","EM Skill 2":"EM Skill 2","EM Skill 3":"EM Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+                        case "Paid Search":
+                        $.each(
+                        {"PS Task 1":"PS Task 1", "PS Task 2":"PS Task 2", "PS Task 3":"PS Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"PS Skill 1":"PS Skill 1","PS Skill 2":"PS Skill 2","PS Skill 3":"PS Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+                        case "Affiliate Marketing":
+                        $.each(
+                        {"AM Task 1":"AM Task 1", "AM Task 2":"AM Task 2", "AM Task 3":"AM Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"AM Skill 1":"AM Skill 1","AM Skill 2":"AM Skill 2","AM Skill 3":"AM Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+                        case "SEO":
+                        $.each(
+                        {"SEO Task 1":"SEO Task 1", "SEO Task 2":"SEO Task 2", "SEO Task 3":"SEO Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"SEO Skill 1":"SEO Skill 1","SEO Skill 2":"SEO Skill 2","SEO Skill 3":"SEO Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+                        case "Social Media":
+                        $.each(
+                        {"SM Task 1":"SM Task 1", "SM Task 2":"SM Task 2", "SM Task 3":"SM Task 3"},
+                        function(key,value) {
+                            $("#tasks").append($("<option></option>").val(key).text(value));
+                        });
+                        $.each(
+                        {"SM Skill 1":"SM Skill 1","SM Skill 2":"SM Skill 2","SM Skill 3":"SM Skill 3"},
+                        function(key,value) {
+                            $("#skills").append($("<option></option>").val(key).text(value));
+                        });
+
+                        break;
+
+
+                    }
+                    $("#skills,#tasks").prop("disabled",false).trigger("chosen:updated");
+                }
+            });
+        </script>

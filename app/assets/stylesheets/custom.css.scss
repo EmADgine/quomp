@@ -1,5 +1,6 @@
 /* universal */
 
+@import url('http://fonts.googleapis.com/css?family=Lato');
 html, body {
     margin: 0;
     padding: 0;
@@ -672,6 +673,14 @@ height: 46px;
     border-style: none;
     margin: 0 auto 0 auto;
 }
+.modalstuff {
+    width: 550px;
+    height: 600px!important;
+    background: white;
+    border-style: none;
+    margin: 0 auto 0 auto;
+
+}
 .badge {
     margin-right:10px;
     padding: auto!important;
@@ -706,3 +715,100 @@ height: 46px;
 #tabs *:focus{
     outline:none!important;
 }
+#slider-vertical {
+    width:48px;
+}
+#slider-vertical *:focus {
+    outline:none!important;
+}
+.ui-slider {
+}
+.ui-slider-range {
+    background: #87e0fd; /* Old browsers */
+    background: -moz-linear-gradient(top, #87e0fd 0%, #53cbf1 40%, #05abe0 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#87e0fd), color-stop(40%,#53cbf1), color-stop(100%,#05abe0)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=0 ); /* IE6-9 */
+}
+
+.ui-slider-handle {
+    width:54px!important;
+    height:27px!important;
+    color: #1592CC!important;
+    font-size: 14px!important;
+    padding: 3px!important;
+    text-shadow: 0 1px 0 #FFFFFF!important;
+    text-decoration:none!important;
+    background:#FFFCFA!important; 
+}
+
+#slider-left {
+    float:left;
+    width:80px;
+    height:500px;
+}
+#slider-right {
+    float:right;
+    
+    width:660px;
+    * {
+        float:left;
+    }
+    .tier-wrap {
+        width:100%;
+    }
+    #tier0,#tier1,#tier2,#tier3 {
+        height:100px;
+        -moz-border-radius: 5px; 
+        -webkit-border-radius: 5px; 
+        border-radius: 5px;
+        h1 {
+            margin-top:30px;
+        }
+        span{
+            margin-top:5px;
+            float: right;
+        }
+    }
+    #tier3{
+        width:300px;
+        background: #CFF09E;
+        h1 {
+            margin-left:100px;
+        }
+    }
+    #tier2{
+        width:400px;
+        background: #A8DBA8;
+        h1 {
+            margin-left:150px;
+        }
+
+    }
+    #tier1{
+        width:500px;
+        background: #79BD9A;
+        h1 {
+            margin-left:200px;
+        }
+
+    }
+    #tier0{
+        width:600px;
+        background: #3B8686;
+        h1 {
+            margin-left:168px;
+        }
+    }
+    * .modal-dialog {
+        width: 700px!important;
+    }
+    * .modal-content {
+        word-wrap: break-word!important;
+    }
+
+}
+
