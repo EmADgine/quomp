@@ -31,7 +31,7 @@
                 </div>
                 <div class="clear"></div>
                 <p><%=@provider.description%></p>
-                <%if @provider.linkedin != ""%>
+                <%unless @provider.linkedin == "" or @provider.linkedin == nil%>
                     <a href=<%='http://www.'+linkerate(@provider.linkedin)%> class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
                 <%end%>
                 <%if @provider.resume.to_s.split('/')[-1]!="missing.png"%>
@@ -46,7 +46,12 @@
                     <legend>Provider Disciplines</legend>
                     <%@provider.disciplines.each do |discipline|%>
                         <div class="show-group">
-                            <span><%=discipline.name%>, <%=pluralize(discipline.years,"year")%> of experience</span></div>
+                            <span><%=discipline.name%>, <%=pluralize(discipline.years,"year")%> of experience</span>
+                        <table>
+                                <%discipline.skills.each do |skill|%>
+                                    <tr><td><small><%=skill.name%></small></td></tr>
+                                <%end%>
+                        </table></div>
                     <%end%>
                 <%end%>
             </fieldset>
@@ -58,7 +63,9 @@
         <div id="main-right">
             <fieldset>
                 <legend>Availability</legend>
-                <p>Available from <%=maketime(@provider.begin.to_s.split(' ')[1][0..4])%> to <%=maketime(@provider.end.to_s.split(' ')[1][0..4])%></p>
+                <%unless @provider.begin==nil or @provider.end==nil%>
+                    <p>Available from <%=maketime(@provider.begin.to_s.split(' ')[1][0..4])%> to <%=maketime(@provider.end.to_s.split(' ')[1][0..4])%></p>
+                <%end%>
             </fieldset>
             <fieldset>
                 <legend>Overall Ranking</legend>

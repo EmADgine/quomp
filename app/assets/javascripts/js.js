@@ -1,5 +1,4 @@
 
-
 $(document).ready(function($) {
     var objHeight=0;
     $.each($('#p-edit').children(),
@@ -20,62 +19,63 @@ $(document).ready(function($) {
         "hide": { effect: "fade", duration: 150 },
         "show": { effect: "fade", duration: 150}
     });
-    $("#tabs").hide();
-    /*
-    $("#p-edit input[type=checkbox].d-check").each(function () {
-        if($(this).is(":checked")){
-            $("#tabs").show();
+$("#tabs").hide();
+$("#p-edit input[type=checkbox].d-check").each(function(){
+    if($(this).is(":checked")){
+        $("#tabs").show();
+        var regexp, time,value,dlabel;
+        value = $(this).val();
+        dlabel=value.split('-').pop();
+        time = new Date().getTime();
+        regexp = new RegExp($(this).data('id'), 'g');
+        $('.insert-'.concat(dlabel)).before($(this).data('fields').replace(regexp, time));
+        $('#tabs').tabs("enable", value);
+        var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
+        $('#tabs').tabs("option","active", index);
+    }
+});
+$("#p-edit").find("input[type=checkbox].d-check").each(function(){
+
+    $(this).bind('click', function() {
+        if ($(this).is(':checked')) {
             var regexp, time,value,dlabel;
-            alert($(this).val());
             value = $(this).val();
             dlabel= value.split('-').pop();
             time = new Date().getTime();
             regexp = new RegExp($(this).data('id'), 'g');
             $('.insert-'.concat(dlabel)).before($(this).data('fields').replace(regexp, time));
             $('#tabs').tabs("enable", value);
+            var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
+            $('#tabs').tabs("option","active", index);
 
-        }*/
-    $("#p-edit").find("input[type=checkbox].d-check").each(function(){
-            
-        $(this).bind('click', function() {
-            if ($(this).is(':checked')) {
-                var regexp, time,value,dlabel;
-                value = $(this).val();
-                dlabel= value.split('-').pop();
-                time = new Date().getTime();
-                regexp = new RegExp($(this).data('id'), 'g');
-                $('.insert-'.concat(dlabel)).before($(this).data('fields').replace(regexp, time));
-                $('#tabs').tabs("enable", value);
-                var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
-                $('#tabs').tabs("option","active", index);
+        }
+        else{
+            $('#tabs #'+$(this).val()+ ' input[type=hidden]#ruhroh').prop('checked',true);
+            $('#tabs #'+$(this).val()+ ' fieldset').hide();
 
-            }
-            else{
-                $('#tabs #'+$(this).val()+ ' input[type=hidden]#ruhroh').prop('checked',true);
-                $('#tabs #'+$(this).val()+ ' fieldset').hide();
-
-                $('#tabs').tabs("disable", $(this).val());
-                var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
-                $('#tabs').tabs("option","active", index-1);
-            }
-            if(!$("#p-edit input[type=checkbox].dcheck").is(":checked")) {
-                $('#tabs').toggle();
-            } 
-            else if(!$('#tabs').is(":visible")) {
-                $('#tabs').toggle();
-            }
-        })
+            $('#tabs').tabs("disable", $(this).val());
+            var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
+            $('#tabs').tabs("option","active", index-1);
+        }
+        if(!$("#p-edit input[type=checkbox].d-check").is(":checked")) {
+            $('#tabs').hide();
+        } 
+        else if(!$('#tabs').is(":visible")) {
+            $('#tabs').show();
+        }
     })
+})
 
 $( "#datepicker1" ).datepicker()
-    $( "#datepicker2" ).datepicker()
-    $("#p-reg").find("#frb, #agb").each(function (){
-        $(this).bind('click', function() {
-            $("#btn-input").val($(this).children(".ptype-btn").val());
-        })
+$( "#datepicker2" ).datepicker()
+$("#p-reg").find("#frb, #agb").each(function (){
+    $(this).bind('click', function() {
+        $("#btn-input").val($(this).children(".ptype-btn").val());
     })
+})
 /*.parent(":not(.chosen-search,.search-field)").children().first()*/
-$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").each(function(){
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea:not(.notme)").each(function(){
+    
     if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
         if($(this).val()!=""){
             $(this).next().css("top","-25px");
@@ -94,7 +94,7 @@ $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email
 
 })
 
-$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").focus(function(){
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea:not(.notme)").focus(function(){
     //calculate movement for .ch = half of input height
     //label = next sibling of input
     //to prevent multiple animation trigger by mistake we will use .stop() before animating any character and clear any animation queued by .delay()
@@ -112,7 +112,7 @@ $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email
         }
     }
 })
-$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").blur(function(){
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea:not(.notme)").blur(function(){
     //animate the label down if content of the input is empty
     if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
 
@@ -143,7 +143,9 @@ $(".chosen-select").each(function() {
             width:"220px"
         });
     }
-})
+});
+
+$(".uni-select").chosen({width:"500px"});
 $("input[type=text]").addClass("form-control");
 $("#p-edit #avatar-upload").change(function() {
     var oFReader = new FileReader();
@@ -229,12 +231,19 @@ $(".previous").click(function(){
 
 $(".clockpicker").clockpicker({
     donetext: "Set Time",
-    twelvehour: true
-})
+twelvehour: true
+});
 $(".btn-file").click(function() {
     $(this).prev().click();
-})
+});
+$(".btn-file").prev().change(function () {
+    if(!$(this).hasClass("gotFile")){
+    $(this).next().html($(this).next().html()+"<span>&nbsp;&nbsp;</span>");
+    $(this).next().html($(this).next().html()+"<span style='color: #A1C436;' class='fa fa-check'></span>"); 
+    $(this).addClass("gotFile");
+    }
+});
 $(".badge").tooltip({});
-})
+});
 
 

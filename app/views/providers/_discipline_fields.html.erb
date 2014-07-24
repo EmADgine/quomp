@@ -1,25 +1,43 @@
 <fieldset>
     <div class="center">
-        <%= f.hidden_field :_destroy, id:'ruhroh' %>
-        <%= f.hidden_field :name, value: nom%>
+        <%= f.hidden_field :_destroy, id:'ruhroh', class: "notme"%>
+        <%= f.hidden_field :name, value: nom, class: "notme"%>
         <div class="form-group">
-            <%= f.select :years, (1..40).to_a.unshift(""),{}, {class: "chosen-select", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
+            <%= f.select :years, (1..40).to_a.unshift(""),{}, {class: "chosen-select notme", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
         <div class="form-group">
-            <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in this discipline",class: "skill-select",multiple:true}%>
+            <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in this discipline",class: "skill-select",multiple:true,:selected=>f}%>
         </div>
         <div class= "form-group">
-            <%= f.text_area :description, :rows=> 3, class: "form-control",placeholder: "Brief description of experience in discipline"%>
+            <%= f.text_area :description, :rows=> 3, class: "form-control notme",id:nom+"-des",placeholder: "Briefly describe your experience"%>
         </div>
         <div class="form=group">
-            <%= f.file_field :portfolio%>
-            <span type="button" class="btn btn-default btn-file">Upload Portfolio</span>
+            <%if f.object.portfolio==nil or f.object.portfolio.to_s=="/portfolios/original/missing.png"%>
+                <%= f.file_field :portfolio, class: "notme"%>
+                <span type="button" class="btn btn-default btn-file">Upload Portfolio</span>
+            <%else%>
+                <%= f.file_field :portfolio, {class: "notme gotFile"}%>
+                <span type="button" class="btn btn-default btn-file">Upload Portfolio<span/>
+                <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                </span>
+            <%end%>
         </div>
     </div>
 </fieldset>
 
 <script>
     $(".chosen-select").chosen({width:"200px"});
-    $(".skill-select").chosen({width:"95%"});
+    $(".skill-select").chosen({width: "650px"});
+    $(".btn-file").click(function() {
+        $(this).prev().click();
+    });
+    $(".btn-file").prev().change(function () {
+    if(!$(this).hasClass("gotFile")){
+    $(this).next().html($(this).next().html()+"<span>&nbsp;&nbsp;</span>");
+    $(this).next().html($(this).next().html()+"<span style='color: #A1C436;' class='fa fa-check'></span>"); 
+    $(this).addClass("gotFile");
+    }
+});
+
 </script>
 

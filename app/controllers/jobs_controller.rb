@@ -19,6 +19,6 @@ class JobsController < ApplicationController
     end
     private
     def job_params
-        params.require(:job).permit(:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget)
+        params.require(:job).permit(:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:mockups)
     end
 end

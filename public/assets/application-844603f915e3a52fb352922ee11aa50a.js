@@ -10336,6 +10336,404 @@ if ( typeof noGlobal === strundefined ) {
 return jQuery;
 
 }));
+(function($, undefined) {
+
+/**
+ * Unobtrusive scripting adapter for jQuery
+ * https://github.com/rails/jquery-ujs
+ *
+ * Requires jQuery 1.7.0 or later.
+ *
+ * Released under the MIT license
+ *
+ */
+
+  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
+  // by detecting and raising an error when it happens.
+  if ( $.rails !== undefined ) {
+    $.error('jquery-ujs has already been loaded!');
+  }
+
+  // Shorthand to make it a little easier to call public rails functions from within rails.js
+  var rails;
+  var $document = $(document);
+
+  $.rails = rails = {
+    // Link elements bound by jquery-ujs
+    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote], a[data-disable-with]',
+
+    // Button elements bound by jquery-ujs
+    buttonClickSelector: 'button[data-remote]',
+
+    // Select elements bound by jquery-ujs
+    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
+
+    // Form elements bound by jquery-ujs
+    formSubmitSelector: 'form',
+
+    // Form input elements bound by jquery-ujs
+    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type])',
+
+    // Form input elements disabled during form submission
+    disableSelector: 'input[data-disable-with], button[data-disable-with], textarea[data-disable-with]',
+
+    // Form input elements re-enabled after form submission
+    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled',
+
+    // Form required input elements
+    requiredInputSelector: 'input[name][required]:not([disabled]),textarea[name][required]:not([disabled])',
+
+    // Form file input elements
+    fileInputSelector: 'input[type=file]',
+
+    // Link onClick disable selector with possible reenable after remote submission
+    linkDisableSelector: 'a[data-disable-with]',
+
+    // Make sure that every Ajax request sends the CSRF token
+    CSRFProtection: function(xhr) {
+      var token = $('meta[name="csrf-token"]').attr('content');
+      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
+    },
+
+    // making sure that all forms have actual up-to-date token(cached forms contain old one)
+    refreshCSRFTokens: function(){
+      var csrfToken = $('meta[name=csrf-token]').attr('content');
+      var csrfParam = $('meta[name=csrf-param]').attr('content');
+      $('form input[name="' + csrfParam + '"]').val(csrfToken);
+    },
+
+    // Triggers an event on an element and returns false if the event result is false
+    fire: function(obj, name, data) {
+      var event = $.Event(name);
+      obj.trigger(event, data);
+      return event.result !== false;
+    },
+
+    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
+    confirm: function(message) {
+      return confirm(message);
+    },
+
+    // Default ajax function, may be overridden with custom function in $.rails.ajax
+    ajax: function(options) {
+      return $.ajax(options);
+    },
+
+    // Default way to get an element's href. May be overridden at $.rails.href.
+    href: function(element) {
+      return element.attr('href');
+    },
+
+    // Submits "remote" forms and links with ajax
+    handleRemote: function(element) {
+      var method, url, data, elCrossDomain, crossDomain, withCredentials, dataType, options;
+
+      if (rails.fire(element, 'ajax:before')) {
+        elCrossDomain = element.data('cross-domain');
+        crossDomain = elCrossDomain === undefined ? null : elCrossDomain;
+        withCredentials = element.data('with-credentials') || null;
+        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
+
+        if (element.is('form')) {
+          method = element.attr('method');
+          url = element.attr('action');
+          data = element.serializeArray();
+          // memoized value from clicked submit button
+          var button = element.data('ujs:submit-button');
+          if (button) {
+            data.push(button);
+            element.data('ujs:submit-button', null);
+          }
+        } else if (element.is(rails.inputChangeSelector)) {
+          method = element.data('method');
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + "&" + element.data('params');
+        } else if (element.is(rails.buttonClickSelector)) {
+          method = element.data('method') || 'get';
+          url = element.data('url');
+          data = element.serialize();
+          if (element.data('params')) data = data + "&" + element.data('params');
+        } else {
+          method = element.data('method');
+          url = rails.href(element);
+          data = element.data('params') || null;
+        }
+
+        options = {
+          type: method || 'GET', data: data, dataType: dataType,
+          // stopping the "ajax:beforeSend" event will cancel the ajax request
+          beforeSend: function(xhr, settings) {
+            if (settings.dataType === undefined) {
+              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
+            }
+            return rails.fire(element, 'ajax:beforeSend', [xhr, settings]);
+          },
+          success: function(data, status, xhr) {
+            element.trigger('ajax:success', [data, status, xhr]);
+          },
+          complete: function(xhr, status) {
+            element.trigger('ajax:complete', [xhr, status]);
+          },
+          error: function(xhr, status, error) {
+            element.trigger('ajax:error', [xhr, status, error]);
+          },
+          crossDomain: crossDomain
+        };
+
+        // There is no withCredentials for IE6-8 when
+        // "Enable native XMLHTTP support" is disabled
+        if (withCredentials) {
+          options.xhrFields = {
+            withCredentials: withCredentials
+          };
+        }
+
+        // Only pass url to `ajax` options if not blank
+        if (url) { options.url = url; }
+
+        var jqxhr = rails.ajax(options);
+        element.trigger('ajax:send', jqxhr);
+        return jqxhr;
+      } else {
+        return false;
+      }
+    },
+
+    // Handles "data-method" on links such as:
+    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
+    handleMethod: function(link) {
+      var href = rails.href(link),
+        method = link.data('method'),
+        target = link.attr('target'),
+        csrfToken = $('meta[name=csrf-token]').attr('content'),
+        csrfParam = $('meta[name=csrf-param]').attr('content'),
+        form = $('<form method="post" action="' + href + '"></form>'),
+        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
+
+      if (csrfParam !== undefined && csrfToken !== undefined) {
+        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
+      }
+
+      if (target) { form.attr('target', target); }
+
+      form.hide().append(metadataInput).appendTo('body');
+      form.submit();
+    },
+
+    /* Disables form elements:
+      - Caches element value in 'ujs:enable-with' data store
+      - Replaces element text with value of 'data-disable-with' attribute
+      - Sets disabled property to true
+    */
+    disableFormElements: function(form) {
+      form.find(rails.disableSelector).each(function() {
+        var element = $(this), method = element.is('button') ? 'html' : 'val';
+        element.data('ujs:enable-with', element[method]());
+        element[method](element.data('disable-with'));
+        element.prop('disabled', true);
+      });
+    },
+
+    /* Re-enables disabled form elements:
+      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
+      - Sets disabled property to false
+    */
+    enableFormElements: function(form) {
+      form.find(rails.enableSelector).each(function() {
+        var element = $(this), method = element.is('button') ? 'html' : 'val';
+        if (element.data('ujs:enable-with')) element[method](element.data('ujs:enable-with'));
+        element.prop('disabled', false);
+      });
+    },
+
+   /* For 'data-confirm' attribute:
+      - Fires `confirm` event
+      - Shows the confirmation dialog
+      - Fires the `confirm:complete` event
+
+      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
+      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
+      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
+      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
+   */
+    allowAction: function(element) {
+      var message = element.data('confirm'),
+          answer = false, callback;
+      if (!message) { return true; }
+
+      if (rails.fire(element, 'confirm')) {
+        answer = rails.confirm(message);
+        callback = rails.fire(element, 'confirm:complete', [answer]);
+      }
+      return answer && callback;
+    },
+
+    // Helper function which checks for blank inputs in a form that match the specified CSS selector
+    blankInputs: function(form, specifiedSelector, nonBlank) {
+      var inputs = $(), input, valueToCheck,
+          selector = specifiedSelector || 'input,textarea',
+          allInputs = form.find(selector);
+
+      allInputs.each(function() {
+        input = $(this);
+        valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : input.val();
+        // If nonBlank and valueToCheck are both truthy, or nonBlank and valueToCheck are both falsey
+        if (!valueToCheck === !nonBlank) {
+
+          // Don't count unchecked required radio if other radio with same name is checked
+          if (input.is('input[type=radio]') && allInputs.filter('input[type=radio]:checked[name="' + input.attr('name') + '"]').length) {
+            return true; // Skip to next input
+          }
+
+          inputs = inputs.add(input);
+        }
+      });
+      return inputs.length ? inputs : false;
+    },
+
+    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
+    nonBlankInputs: function(form, specifiedSelector) {
+      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
+    },
+
+    // Helper function, needed to provide consistent behavior in IE
+    stopEverything: function(e) {
+      $(e.target).trigger('ujs:everythingStopped');
+      e.stopImmediatePropagation();
+      return false;
+    },
+
+    //  replace element's html with the 'data-disable-with' after storing original html
+    //  and prevent clicking on it
+    disableElement: function(element) {
+      element.data('ujs:enable-with', element.html()); // store enabled state
+      element.html(element.data('disable-with')); // set to disabled state
+      element.bind('click.railsDisable', function(e) { // prevent further clicking
+        return rails.stopEverything(e);
+      });
+    },
+
+    // restore element to its original state which was disabled by 'disableElement' above
+    enableElement: function(element) {
+      if (element.data('ujs:enable-with') !== undefined) {
+        element.html(element.data('ujs:enable-with')); // set to old enabled state
+        element.removeData('ujs:enable-with'); // clean up cache
+      }
+      element.unbind('click.railsDisable'); // enable element
+    }
+
+  };
+
+  if (rails.fire($document, 'rails:attachBindings')) {
+
+    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
+
+    $document.delegate(rails.linkDisableSelector, 'ajax:complete', function() {
+        rails.enableElement($(this));
+    });
+
+    $document.delegate(rails.linkClickSelector, 'click.rails', function(e) {
+      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
+      if (!rails.allowAction(link)) return rails.stopEverything(e);
+
+      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
+
+      if (link.data('remote') !== undefined) {
+        if (metaClick && (!method || method === 'GET') && !data) { return true; }
+
+        var handleRemote = rails.handleRemote(link);
+        // response from rails.handleRemote() will either be false or a deferred object promise.
+        if (handleRemote === false) {
+          rails.enableElement(link);
+        } else {
+          handleRemote.error( function() { rails.enableElement(link); } );
+        }
+        return false;
+
+      } else if (link.data('method')) {
+        rails.handleMethod(link);
+        return false;
+      }
+    });
+
+    $document.delegate(rails.buttonClickSelector, 'click.rails', function(e) {
+      var button = $(this);
+      if (!rails.allowAction(button)) return rails.stopEverything(e);
+
+      rails.handleRemote(button);
+      return false;
+    });
+
+    $document.delegate(rails.inputChangeSelector, 'change.rails', function(e) {
+      var link = $(this);
+      if (!rails.allowAction(link)) return rails.stopEverything(e);
+
+      rails.handleRemote(link);
+      return false;
+    });
+
+    $document.delegate(rails.formSubmitSelector, 'submit.rails', function(e) {
+      var form = $(this),
+        remote = form.data('remote') !== undefined,
+        blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector),
+        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
+
+      if (!rails.allowAction(form)) return rails.stopEverything(e);
+
+      // skip other logic when required values are missing or file upload is present
+      if (blankRequiredInputs && form.attr("novalidate") == undefined && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
+        return rails.stopEverything(e);
+      }
+
+      if (remote) {
+        if (nonBlankFileInputs) {
+          // slight timeout so that the submit button gets properly serialized
+          // (make it easy for event handler to serialize form without disabled values)
+          setTimeout(function(){ rails.disableFormElements(form); }, 13);
+          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
+
+          // re-enable form elements if event bindings return false (canceling normal form submission)
+          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
+
+          return aborted;
+        }
+
+        rails.handleRemote(form);
+        return false;
+
+      } else {
+        // slight timeout so that the submit button gets properly serialized
+        setTimeout(function(){ rails.disableFormElements(form); }, 13);
+      }
+    });
+
+    $document.delegate(rails.formInputClickSelector, 'click.rails', function(event) {
+      var button = $(this);
+
+      if (!rails.allowAction(button)) return rails.stopEverything(event);
+
+      // register the pressed submit button
+      var name = button.attr('name'),
+        data = name ? {name:name, value:button.val()} : null;
+
+      button.closest('form').data('ujs:submit-button', data);
+    });
+
+    $document.delegate(rails.formSubmitSelector, 'ajax:beforeSend.rails', function(event) {
+      if (this == event.target) rails.disableFormElements($(this));
+    });
+
+    $document.delegate(rails.formSubmitSelector, 'ajax:complete.rails', function(event) {
+      if (this == event.target) rails.enableFormElements($(this));
+    });
+
+    $(function(){
+      rails.refreshCSRFTokens();
+    });
+  }
+
+})( jQuery );
 // Generated by CoffeeScript 1.7.1
 
 /*
@@ -10969,404 +11367,6 @@ Copyright (c) 2012-2013 Sasha Koss & Rico Sta. Cruz
   };
 
 }).call(this);
-(function($, undefined) {
-
-/**
- * Unobtrusive scripting adapter for jQuery
- * https://github.com/rails/jquery-ujs
- *
- * Requires jQuery 1.7.0 or later.
- *
- * Released under the MIT license
- *
- */
-
-  // Cut down on the number of issues from people inadvertently including jquery_ujs twice
-  // by detecting and raising an error when it happens.
-  if ( $.rails !== undefined ) {
-    $.error('jquery-ujs has already been loaded!');
-  }
-
-  // Shorthand to make it a little easier to call public rails functions from within rails.js
-  var rails;
-  var $document = $(document);
-
-  $.rails = rails = {
-    // Link elements bound by jquery-ujs
-    linkClickSelector: 'a[data-confirm], a[data-method], a[data-remote], a[data-disable-with]',
-
-    // Button elements bound by jquery-ujs
-    buttonClickSelector: 'button[data-remote]',
-
-    // Select elements bound by jquery-ujs
-    inputChangeSelector: 'select[data-remote], input[data-remote], textarea[data-remote]',
-
-    // Form elements bound by jquery-ujs
-    formSubmitSelector: 'form',
-
-    // Form input elements bound by jquery-ujs
-    formInputClickSelector: 'form input[type=submit], form input[type=image], form button[type=submit], form button:not([type])',
-
-    // Form input elements disabled during form submission
-    disableSelector: 'input[data-disable-with], button[data-disable-with], textarea[data-disable-with]',
-
-    // Form input elements re-enabled after form submission
-    enableSelector: 'input[data-disable-with]:disabled, button[data-disable-with]:disabled, textarea[data-disable-with]:disabled',
-
-    // Form required input elements
-    requiredInputSelector: 'input[name][required]:not([disabled]),textarea[name][required]:not([disabled])',
-
-    // Form file input elements
-    fileInputSelector: 'input[type=file]',
-
-    // Link onClick disable selector with possible reenable after remote submission
-    linkDisableSelector: 'a[data-disable-with]',
-
-    // Make sure that every Ajax request sends the CSRF token
-    CSRFProtection: function(xhr) {
-      var token = $('meta[name="csrf-token"]').attr('content');
-      if (token) xhr.setRequestHeader('X-CSRF-Token', token);
-    },
-
-    // making sure that all forms have actual up-to-date token(cached forms contain old one)
-    refreshCSRFTokens: function(){
-      var csrfToken = $('meta[name=csrf-token]').attr('content');
-      var csrfParam = $('meta[name=csrf-param]').attr('content');
-      $('form input[name="' + csrfParam + '"]').val(csrfToken);
-    },
-
-    // Triggers an event on an element and returns false if the event result is false
-    fire: function(obj, name, data) {
-      var event = $.Event(name);
-      obj.trigger(event, data);
-      return event.result !== false;
-    },
-
-    // Default confirm dialog, may be overridden with custom confirm dialog in $.rails.confirm
-    confirm: function(message) {
-      return confirm(message);
-    },
-
-    // Default ajax function, may be overridden with custom function in $.rails.ajax
-    ajax: function(options) {
-      return $.ajax(options);
-    },
-
-    // Default way to get an element's href. May be overridden at $.rails.href.
-    href: function(element) {
-      return element.attr('href');
-    },
-
-    // Submits "remote" forms and links with ajax
-    handleRemote: function(element) {
-      var method, url, data, elCrossDomain, crossDomain, withCredentials, dataType, options;
-
-      if (rails.fire(element, 'ajax:before')) {
-        elCrossDomain = element.data('cross-domain');
-        crossDomain = elCrossDomain === undefined ? null : elCrossDomain;
-        withCredentials = element.data('with-credentials') || null;
-        dataType = element.data('type') || ($.ajaxSettings && $.ajaxSettings.dataType);
-
-        if (element.is('form')) {
-          method = element.attr('method');
-          url = element.attr('action');
-          data = element.serializeArray();
-          // memoized value from clicked submit button
-          var button = element.data('ujs:submit-button');
-          if (button) {
-            data.push(button);
-            element.data('ujs:submit-button', null);
-          }
-        } else if (element.is(rails.inputChangeSelector)) {
-          method = element.data('method');
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + "&" + element.data('params');
-        } else if (element.is(rails.buttonClickSelector)) {
-          method = element.data('method') || 'get';
-          url = element.data('url');
-          data = element.serialize();
-          if (element.data('params')) data = data + "&" + element.data('params');
-        } else {
-          method = element.data('method');
-          url = rails.href(element);
-          data = element.data('params') || null;
-        }
-
-        options = {
-          type: method || 'GET', data: data, dataType: dataType,
-          // stopping the "ajax:beforeSend" event will cancel the ajax request
-          beforeSend: function(xhr, settings) {
-            if (settings.dataType === undefined) {
-              xhr.setRequestHeader('accept', '*/*;q=0.5, ' + settings.accepts.script);
-            }
-            return rails.fire(element, 'ajax:beforeSend', [xhr, settings]);
-          },
-          success: function(data, status, xhr) {
-            element.trigger('ajax:success', [data, status, xhr]);
-          },
-          complete: function(xhr, status) {
-            element.trigger('ajax:complete', [xhr, status]);
-          },
-          error: function(xhr, status, error) {
-            element.trigger('ajax:error', [xhr, status, error]);
-          },
-          crossDomain: crossDomain
-        };
-
-        // There is no withCredentials for IE6-8 when
-        // "Enable native XMLHTTP support" is disabled
-        if (withCredentials) {
-          options.xhrFields = {
-            withCredentials: withCredentials
-          };
-        }
-
-        // Only pass url to `ajax` options if not blank
-        if (url) { options.url = url; }
-
-        var jqxhr = rails.ajax(options);
-        element.trigger('ajax:send', jqxhr);
-        return jqxhr;
-      } else {
-        return false;
-      }
-    },
-
-    // Handles "data-method" on links such as:
-    // <a href="/users/5" data-method="delete" rel="nofollow" data-confirm="Are you sure?">Delete</a>
-    handleMethod: function(link) {
-      var href = rails.href(link),
-        method = link.data('method'),
-        target = link.attr('target'),
-        csrfToken = $('meta[name=csrf-token]').attr('content'),
-        csrfParam = $('meta[name=csrf-param]').attr('content'),
-        form = $('<form method="post" action="' + href + '"></form>'),
-        metadataInput = '<input name="_method" value="' + method + '" type="hidden" />';
-
-      if (csrfParam !== undefined && csrfToken !== undefined) {
-        metadataInput += '<input name="' + csrfParam + '" value="' + csrfToken + '" type="hidden" />';
-      }
-
-      if (target) { form.attr('target', target); }
-
-      form.hide().append(metadataInput).appendTo('body');
-      form.submit();
-    },
-
-    /* Disables form elements:
-      - Caches element value in 'ujs:enable-with' data store
-      - Replaces element text with value of 'data-disable-with' attribute
-      - Sets disabled property to true
-    */
-    disableFormElements: function(form) {
-      form.find(rails.disableSelector).each(function() {
-        var element = $(this), method = element.is('button') ? 'html' : 'val';
-        element.data('ujs:enable-with', element[method]());
-        element[method](element.data('disable-with'));
-        element.prop('disabled', true);
-      });
-    },
-
-    /* Re-enables disabled form elements:
-      - Replaces element text with cached value from 'ujs:enable-with' data store (created in `disableFormElements`)
-      - Sets disabled property to false
-    */
-    enableFormElements: function(form) {
-      form.find(rails.enableSelector).each(function() {
-        var element = $(this), method = element.is('button') ? 'html' : 'val';
-        if (element.data('ujs:enable-with')) element[method](element.data('ujs:enable-with'));
-        element.prop('disabled', false);
-      });
-    },
-
-   /* For 'data-confirm' attribute:
-      - Fires `confirm` event
-      - Shows the confirmation dialog
-      - Fires the `confirm:complete` event
-
-      Returns `true` if no function stops the chain and user chose yes; `false` otherwise.
-      Attaching a handler to the element's `confirm` event that returns a `falsy` value cancels the confirmation dialog.
-      Attaching a handler to the element's `confirm:complete` event that returns a `falsy` value makes this function
-      return false. The `confirm:complete` event is fired whether or not the user answered true or false to the dialog.
-   */
-    allowAction: function(element) {
-      var message = element.data('confirm'),
-          answer = false, callback;
-      if (!message) { return true; }
-
-      if (rails.fire(element, 'confirm')) {
-        answer = rails.confirm(message);
-        callback = rails.fire(element, 'confirm:complete', [answer]);
-      }
-      return answer && callback;
-    },
-
-    // Helper function which checks for blank inputs in a form that match the specified CSS selector
-    blankInputs: function(form, specifiedSelector, nonBlank) {
-      var inputs = $(), input, valueToCheck,
-          selector = specifiedSelector || 'input,textarea',
-          allInputs = form.find(selector);
-
-      allInputs.each(function() {
-        input = $(this);
-        valueToCheck = input.is('input[type=checkbox],input[type=radio]') ? input.is(':checked') : input.val();
-        // If nonBlank and valueToCheck are both truthy, or nonBlank and valueToCheck are both falsey
-        if (!valueToCheck === !nonBlank) {
-
-          // Don't count unchecked required radio if other radio with same name is checked
-          if (input.is('input[type=radio]') && allInputs.filter('input[type=radio]:checked[name="' + input.attr('name') + '"]').length) {
-            return true; // Skip to next input
-          }
-
-          inputs = inputs.add(input);
-        }
-      });
-      return inputs.length ? inputs : false;
-    },
-
-    // Helper function which checks for non-blank inputs in a form that match the specified CSS selector
-    nonBlankInputs: function(form, specifiedSelector) {
-      return rails.blankInputs(form, specifiedSelector, true); // true specifies nonBlank
-    },
-
-    // Helper function, needed to provide consistent behavior in IE
-    stopEverything: function(e) {
-      $(e.target).trigger('ujs:everythingStopped');
-      e.stopImmediatePropagation();
-      return false;
-    },
-
-    //  replace element's html with the 'data-disable-with' after storing original html
-    //  and prevent clicking on it
-    disableElement: function(element) {
-      element.data('ujs:enable-with', element.html()); // store enabled state
-      element.html(element.data('disable-with')); // set to disabled state
-      element.bind('click.railsDisable', function(e) { // prevent further clicking
-        return rails.stopEverything(e);
-      });
-    },
-
-    // restore element to its original state which was disabled by 'disableElement' above
-    enableElement: function(element) {
-      if (element.data('ujs:enable-with') !== undefined) {
-        element.html(element.data('ujs:enable-with')); // set to old enabled state
-        element.removeData('ujs:enable-with'); // clean up cache
-      }
-      element.unbind('click.railsDisable'); // enable element
-    }
-
-  };
-
-  if (rails.fire($document, 'rails:attachBindings')) {
-
-    $.ajaxPrefilter(function(options, originalOptions, xhr){ if ( !options.crossDomain ) { rails.CSRFProtection(xhr); }});
-
-    $document.delegate(rails.linkDisableSelector, 'ajax:complete', function() {
-        rails.enableElement($(this));
-    });
-
-    $document.delegate(rails.linkClickSelector, 'click.rails', function(e) {
-      var link = $(this), method = link.data('method'), data = link.data('params'), metaClick = e.metaKey || e.ctrlKey;
-      if (!rails.allowAction(link)) return rails.stopEverything(e);
-
-      if (!metaClick && link.is(rails.linkDisableSelector)) rails.disableElement(link);
-
-      if (link.data('remote') !== undefined) {
-        if (metaClick && (!method || method === 'GET') && !data) { return true; }
-
-        var handleRemote = rails.handleRemote(link);
-        // response from rails.handleRemote() will either be false or a deferred object promise.
-        if (handleRemote === false) {
-          rails.enableElement(link);
-        } else {
-          handleRemote.error( function() { rails.enableElement(link); } );
-        }
-        return false;
-
-      } else if (link.data('method')) {
-        rails.handleMethod(link);
-        return false;
-      }
-    });
-
-    $document.delegate(rails.buttonClickSelector, 'click.rails', function(e) {
-      var button = $(this);
-      if (!rails.allowAction(button)) return rails.stopEverything(e);
-
-      rails.handleRemote(button);
-      return false;
-    });
-
-    $document.delegate(rails.inputChangeSelector, 'change.rails', function(e) {
-      var link = $(this);
-      if (!rails.allowAction(link)) return rails.stopEverything(e);
-
-      rails.handleRemote(link);
-      return false;
-    });
-
-    $document.delegate(rails.formSubmitSelector, 'submit.rails', function(e) {
-      var form = $(this),
-        remote = form.data('remote') !== undefined,
-        blankRequiredInputs = rails.blankInputs(form, rails.requiredInputSelector),
-        nonBlankFileInputs = rails.nonBlankInputs(form, rails.fileInputSelector);
-
-      if (!rails.allowAction(form)) return rails.stopEverything(e);
-
-      // skip other logic when required values are missing or file upload is present
-      if (blankRequiredInputs && form.attr("novalidate") == undefined && rails.fire(form, 'ajax:aborted:required', [blankRequiredInputs])) {
-        return rails.stopEverything(e);
-      }
-
-      if (remote) {
-        if (nonBlankFileInputs) {
-          // slight timeout so that the submit button gets properly serialized
-          // (make it easy for event handler to serialize form without disabled values)
-          setTimeout(function(){ rails.disableFormElements(form); }, 13);
-          var aborted = rails.fire(form, 'ajax:aborted:file', [nonBlankFileInputs]);
-
-          // re-enable form elements if event bindings return false (canceling normal form submission)
-          if (!aborted) { setTimeout(function(){ rails.enableFormElements(form); }, 13); }
-
-          return aborted;
-        }
-
-        rails.handleRemote(form);
-        return false;
-
-      } else {
-        // slight timeout so that the submit button gets properly serialized
-        setTimeout(function(){ rails.disableFormElements(form); }, 13);
-      }
-    });
-
-    $document.delegate(rails.formInputClickSelector, 'click.rails', function(event) {
-      var button = $(this);
-
-      if (!rails.allowAction(button)) return rails.stopEverything(event);
-
-      // register the pressed submit button
-      var name = button.attr('name'),
-        data = name ? {name:name, value:button.val()} : null;
-
-      button.closest('form').data('ujs:submit-button', data);
-    });
-
-    $document.delegate(rails.formSubmitSelector, 'ajax:beforeSend.rails', function(event) {
-      if (this == event.target) rails.disableFormElements($(this));
-    });
-
-    $document.delegate(rails.formSubmitSelector, 'ajax:complete.rails', function(event) {
-      if (this == event.target) rails.enableFormElements($(this));
-    });
-
-    $(function(){
-      rails.refreshCSRFTokens();
-    });
-  }
-
-})( jQuery );
 /*!
  * jQuery UI Core 1.11.0
  * http://jqueryui.com
@@ -28183,7 +28183,7 @@ return $.widget( "ui.tooltip", {
 
 
 /*!
- * ClockPicker v0.0.6 (http://weareoutman.github.io/clockpicker/)
+ * ClockPicker v0.0.7 (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
  */
@@ -28243,6 +28243,7 @@ return $.widget( "ui.tooltip", {
 	// Clock size
 	var dialRadius = 100,
 		outerRadius = 80,
+		// innerRadius = 80 on 12 hour clock
 		innerRadius = 54,
 		tickRadius = 13,
 		diameter = dialRadius * 2,
@@ -28256,6 +28257,7 @@ return $.widget( "ui.tooltip", {
 				'<span class="clockpicker-span-hours text-primary"></span>',
 				' : ',
 				'<span class="clockpicker-span-minutes"></span>',
+				'<span class="clockpicker-span-am-pm"></span>',
 			'</div>',
 			'<div class="popover-content">',
 				'<div class="clockpicker-plate">',
@@ -28263,6 +28265,8 @@ return $.widget( "ui.tooltip", {
 					'<div class="clockpicker-dial clockpicker-hours"></div>',
 					'<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',
 				'</div>',
+				'<span class="clockpicker-am-pm-block">',
+				'</span>',
 			'</div>',
 		'</div>'
 	].join('');
@@ -28273,6 +28277,7 @@ return $.widget( "ui.tooltip", {
 			plate = popover.find('.clockpicker-plate'),
 			hoursView = popover.find('.clockpicker-hours'),
 			minutesView = popover.find('.clockpicker-minutes'),
+			amPmBlock = popover.find('.clockpicker-am-pm-block'),
 			isInput = element.prop('tagName') === 'INPUT',
 			input = isInput ? element : element.find('input'),
 			addon = element.find('.input-group-addon'),
@@ -28292,9 +28297,53 @@ return $.widget( "ui.tooltip", {
 		this.plate = plate;
 		this.hoursView = hoursView;
 		this.minutesView = minutesView;
+		this.amPmBlock = amPmBlock;
 		this.spanHours = popover.find('.clockpicker-span-hours');
 		this.spanMinutes = popover.find('.clockpicker-span-minutes');
-
+		this.spanAmPm = popover.find('.clockpicker-span-am-pm');
+		this.amOrPm = "PM";
+		
+		// Setup for for 12 hour clock if option is selected
+		if (options.twelvehour) {
+			
+			var  amPmButtonsTemplate = ['<div class="clockpicker-am-pm-block">',
+				'<button type="button" class="btn btn-sm btn-default clockpicker-button clockpicker-am-button">',
+				'AM</button>',
+				'<button type="button" class="btn btn-sm btn-default clockpicker-button clockpicker-pm-button">',
+				'PM</button>',
+				'</div>'].join('');
+			
+			var amPmButtons = $(amPmButtonsTemplate);
+			//amPmButtons.appendTo(plate);
+			
+			////Not working b/c they are not shown when this runs
+			//$('clockpicker-am-button')
+			//    .on("click", function() {
+			//        self.amOrPm = "AM";
+			//        $('.clockpicker-span-am-pm').empty().append('AM');
+			//    });
+			//    
+			//$('clockpicker-pm-button')
+			//    .on("click", function() {
+			//         self.amOrPm = "PM";
+			//        $('.clockpicker-span-am-pm').empty().append('PM');
+			//    });
+	
+			$('<button type="button" class="btn btn-sm btn-default clockpicker-button am-button">' + "AM" + '</button>')
+				.on("click", function() {
+					self.amOrPm = "AM";
+					$('.clockpicker-span-am-pm').empty().append('AM');
+				}).appendTo(this.amPmBlock);
+				
+				
+			$('<button type="button" class="btn btn-sm btn-default clockpicker-button pm-button">' + "PM" + '</button>')
+				.on("click", function() {
+					 self.amOrPm = "PM";
+					$('.clockpicker-span-am-pm').empty().append('PM');
+				}).appendTo(this.amPmBlock);
+				
+		}
+		
 		if (! options.autoclose) {
 			// If autoclose is not setted, append a button
 			$('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">' + options.donetext + '</button>')
@@ -28321,21 +28370,38 @@ return $.widget( "ui.tooltip", {
 			i, tick, radian;
 
 		// Hours view
-		for (i = 0; i < 24; i += 1) {
+		if (options.twelvehour) {
+		  for (i = 1; i < 13; i += 1) {
 			tick = tickTpl.clone();
 			radian = i / 6 * Math.PI;
-			var inner = i > 0 && i < 13,
-				radius = inner ? innerRadius : outerRadius;
+			var radius = outerRadius;
+			tick.css('font-size', '120%');
 			tick.css({
 				left: dialRadius + Math.sin(radian) * radius - tickRadius,
 				top: dialRadius - Math.cos(radian) * radius - tickRadius
 			});
-			if (inner) {
-				tick.css('font-size', '120%');
-			}
 			tick.html(i === 0 ? '00' : i);
 			hoursView.append(tick);
 			tick.on(mousedownEvent, mousedown);
+		  }
+		}    
+		else {
+			for (i = 0; i < 24; i += 1) {
+				tick = tickTpl.clone();
+				radian = i / 6 * Math.PI;
+				var inner = i > 0 && i < 13,
+					radius = inner ? innerRadius : outerRadius;
+				tick.css({
+					left: dialRadius + Math.sin(radian) * radius - tickRadius,
+					top: dialRadius - Math.cos(radian) * radius - tickRadius
+				});
+				if (inner) {
+					tick.css('font-size', '120%');
+				}
+				tick.html(i === 0 ? '00' : i);
+				hoursView.append(tick);
+				tick.on(mousedownEvent, mousedown);
+			}
 		}
 
 		// Minutes view
@@ -28404,7 +28470,8 @@ return $.widget( "ui.tooltip", {
 			});
 
 			// Mouseup on document
-			$doc.off(mouseupEvent).one(mouseupEvent, function(e){
+			$doc.off(mouseupEvent).on(mouseupEvent, function(e){
+				$doc.off(mouseupEvent);
 				e.preventDefault();
 				var isTouch = /^touch/.test(e.type),
 					x = (isTouch ? e.originalEvent.changedTouches[0] : e).pageX - x0,
@@ -28480,6 +28547,7 @@ return $.widget( "ui.tooltip", {
 		align: 'left',       // popover arrow align
 		donetext: '完成',    // done button text
 		autoclose: false,    // auto close when minute is selected
+		twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
 		vibrate: true        // vibrate the device when dragging clock hand
 	};
 
@@ -28499,7 +28567,7 @@ return $.widget( "ui.tooltip", {
 			align = this.options.align,
 			styles = {},
 			self = this;
-		
+
 		popover.show();
 
 		// Place the popover
@@ -28669,6 +28737,10 @@ return $.widget( "ui.tooltip", {
 			inner = isHours && z < (outerRadius + innerRadius) / 2,
 			radius = inner ? innerRadius : outerRadius,
 			value;
+			
+			if (options.twelvehour) {
+				radius = outerRadius;
+			}
 
 		// Radian should in range [0, 2PI]
 		if (radian < 0) {
@@ -28682,20 +28754,35 @@ return $.widget( "ui.tooltip", {
 		radian = value * unit;
 
 		// Correct the hours or minutes
-		if (isHours) {
-			if (value === 12) {
-				value = 0;
+		if (options.twelvehour) {
+			if (isHours) {
+				if (value === 0) {
+					value = 12;
+				}
+			} else {
+				if (roundBy5) {
+					value *= 5;
+				}
+				if (value === 60) {
+					value = 0;
+				}
 			}
-			value = inner ? (value === 0 ? 12 : value) : value === 0 ? 0 : value + 12;
-		} else {
-			if (roundBy5) {
-				value *= 5;
-			}
-			if (value === 60) {
-				value = 0;
+	   } else {
+			if (isHours) {
+				if (value === 12) {
+					value = 0;
+				}
+				value = inner ? (value === 0 ? 12 : value) : value === 0 ? 0 : value + 12;
+			} else {
+				if (roundBy5) {
+					value *= 5;
+				}
+				if (value === 60) {
+					value = 0;
+				}
 			}
 		}
-
+		
 		// Once hours or minutes changed, vibrate the device
 		if (this[this.currentView] !== value) {
 			if (vibrate && this.options.vibrate) {
@@ -28744,17 +28831,25 @@ return $.widget( "ui.tooltip", {
 		this.fg.setAttribute('cy', cy);
 	};
 
-	// Hours and minuts is selected
+	// Hours and minutes are selected
 	ClockPicker.prototype.done = function() {
 		this.hide();
 		var last = this.input.prop('value'),
 			value = leadingZero(this.hours) + ':' + leadingZero(this.minutes);
+		if  (this.options.twelvehour) {
+			value = value + this.amOrPm;
+		}
+		
 		this.input.prop('value', value);
 		if (value !== last) {
 			this.input.triggerHandler('change');
 			if (! this.isInput) {
 				this.element.trigger('change');
 			}
+		}
+
+		if (this.options.autoclose) {
+			this.input.trigger('blur');
 		}
 	};
 
@@ -28791,12 +28886,12 @@ return $.widget( "ui.tooltip", {
 	};
 }());
 /*!
- * ClockPicker v0.0.6 (http://weareoutman.github.io/clockpicker/)
+ * ClockPicker v0.0.7 (http://weareoutman.github.io/clockpicker/)
  * Copyright 2014 Wang Shenwei.
  * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
  */
 
-!function(){function t(t){return document.createElementNS(a,t)}function i(t){return(10>t?"0":"")+t}function e(t){var i=++v+"";return t?t+i:i}function s(s,n){function a(t,i){var e=l.offset(),s=/^touch/.test(t.type),c=e.left+g,a=e.top+g,p=(s?t.originalEvent.touches[0]:t).pageX-c,u=(s?t.originalEvent.touches[0]:t).pageY-a,f=Math.sqrt(p*p+u*u),v=!1;if(!i||!(m-w>f||f>m+w)){t.preventDefault();var b=setTimeout(function(){o.addClass("clockpicker-moving")},200);h&&l.append(H.canvas),H.setHand(p,u,!i,!0),r.off(d).on(d,function(t){t.preventDefault();var i=/^touch/.test(t.type),e=(i?t.originalEvent.touches[0]:t).pageX-c,s=(i?t.originalEvent.touches[0]:t).pageY-a;(v||e!==p||s!==u)&&(v=!0,H.setHand(e,s,!1,!0))}),r.off(k).one(k,function(t){t.preventDefault();var e=/^touch/.test(t.type),s=(e?t.originalEvent.changedTouches[0]:t).pageX-c,h=(e?t.originalEvent.changedTouches[0]:t).pageY-a;(i||v)&&s===p&&h===u&&H.setHand(s,h),"hours"===H.currentView?H.toggleView("minutes",A/2):n.autoclose&&(H.minutesView.addClass("clockpicker-dial-out"),setTimeout(function(){H.done()},A/2)),l.prepend(z),clearTimeout(b),o.removeClass("clockpicker-moving"),r.off(d)})}}var p=c(M),l=p.find(".clockpicker-plate"),f=p.find(".clockpicker-hours"),v=p.find(".clockpicker-minutes"),V="INPUT"===s.prop("tagName"),T=V?s:s.find("input"),C=s.find(".input-group-addon"),H=this;this.id=e("cp"),this.element=s,this.options=n,this.isAppended=!1,this.isShown=!1,this.currentView="hours",this.isInput=V,this.input=T,this.addon=C,this.popover=p,this.plate=l,this.hoursView=f,this.minutesView=v,this.spanHours=p.find(".clockpicker-span-hours"),this.spanMinutes=p.find(".clockpicker-span-minutes"),n.autoclose||c('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">'+n.donetext+"</button>").click(c.proxy(this.done,this)).appendTo(p),"top"!==n.placement&&"bottom"!==n.placement||"top"!==n.align&&"bottom"!==n.align||(n.align="left"),"left"!==n.placement&&"right"!==n.placement||"left"!==n.align&&"right"!==n.align||(n.align="top"),p.addClass(n.placement),p.addClass("clockpicker-align-"+n.align),this.spanHours.click(c.proxy(this.toggleView,this,"hours")),this.spanMinutes.click(c.proxy(this.toggleView,this,"minutes")),T.on("focus.clockpicker click.clockpicker",c.proxy(this.show,this)),C.on("click.clockpicker",c.proxy(this.toggle,this));var x,E,S,I=c('<div class="clockpicker-tick"></div>');for(x=0;24>x;x+=1){E=I.clone(),S=x/6*Math.PI;var D=x>0&&13>x,P=D?b:m;E.css({left:g+Math.sin(S)*P-w,top:g-Math.cos(S)*P-w}),D&&E.css("font-size","120%"),E.html(0===x?"00":x),f.append(E),E.on(u,a)}for(x=0;60>x;x+=5)E=I.clone(),S=x/30*Math.PI,E.css({left:g+Math.sin(S)*m-w,top:g-Math.cos(S)*m-w}),E.css("font-size","120%"),E.html(i(x)),v.append(E),E.on(u,a);if(l.on(u,function(t){0===c(t.target).closest(".clockpicker-tick").length&&a(t,!0)}),h){var z=p.find(".clockpicker-canvas"),B=t("svg");B.setAttribute("class","clockpicker-svg"),B.setAttribute("width",y),B.setAttribute("height",y);var L=t("g");L.setAttribute("transform","translate("+g+","+g+")");var U=t("circle");U.setAttribute("class","clockpicker-canvas-bearing"),U.setAttribute("cx",0),U.setAttribute("cy",0),U.setAttribute("r",2);var W=t("line");W.setAttribute("x1",0),W.setAttribute("y1",0);var j=t("circle");j.setAttribute("class","clockpicker-canvas-bg"),j.setAttribute("r",w);var N=t("circle");N.setAttribute("class","clockpicker-canvas-fg"),N.setAttribute("r",3.5),L.appendChild(W),L.appendChild(j),L.appendChild(N),L.appendChild(U),B.appendChild(L),z.append(B),this.hand=W,this.bg=j,this.fg=N,this.bearing=U,this.g=L,this.canvas=z}}var o,c=window.jQuery,n=c(window),r=c(document),a="http://www.w3.org/2000/svg",h="SVGAngle"in window&&function(){var t,i=document.createElement("div");return i.innerHTML="<svg/>",t=(i.firstChild&&i.firstChild.namespaceURI)==a,i.innerHTML="",t}(),p=function(){var t=document.createElement("div").style;return"transition"in t||"WebkitTransition"in t||"MozTransition"in t||"msTransition"in t||"OTransition"in t}(),l="ontouchstart"in window,u="mousedown"+(l?" touchstart":""),d="mousemove.clockpicker"+(l?" touchmove.clockpicker":""),k="mouseup.clockpicker"+(l?" touchend.clockpicker":""),f=navigator.vibrate?"vibrate":navigator.webkitVibrate?"webkitVibrate":null,v=0,g=100,m=80,b=54,w=13,y=2*g,A=p?350:1,M=['<div class="popover clockpicker-popover">','<div class="arrow"></div>','<div class="popover-title">','<span class="clockpicker-span-hours text-primary"></span>'," : ",'<span class="clockpicker-span-minutes"></span>',"</div>",'<div class="popover-content">','<div class="clockpicker-plate">','<div class="clockpicker-canvas"></div>','<div class="clockpicker-dial clockpicker-hours"></div>','<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',"</div>","</div>","</div>"].join("");s.DEFAULTS={"default":"",fromnow:0,placement:"bottom",align:"left",donetext:"完成",autoclose:!1,vibrate:!0},s.prototype.toggle=function(){this[this.isShown?"hide":"show"]()},s.prototype.locate=function(){var t=this.element,i=this.popover,e=t.offset(),s=t.outerWidth(),o=t.outerHeight(),c=this.options.placement,n=this.options.align,r={};switch(i.show(),c){case"bottom":r.top=e.top+o;break;case"right":r.left=e.left+s;break;case"top":r.top=e.top-i.outerHeight();break;case"left":r.left=e.left-i.outerWidth()}switch(n){case"left":r.left=e.left;break;case"right":r.left=e.left+s-i.outerWidth();break;case"top":r.top=e.top;break;case"bottom":r.top=e.top+o-i.outerHeight()}i.css(r)},s.prototype.show=function(){if(!this.isShown){var t=this;this.isAppended||(o=c(document.body).append(this.popover),n.on("resize.clockpicker"+this.id,function(){t.isShown&&t.locate()}),this.isAppended=!0);var e=((this.input.prop("value")||this.options["default"]||"")+"").split(":");if("now"===e[0]){var s=new Date(+new Date+this.options.fromnow);e=[s.getHours(),s.getMinutes()]}this.hours=+e[0]||0,this.minutes=+e[1]||0,this.spanHours.html(i(this.hours)),this.spanMinutes.html(i(this.minutes)),this.toggleView("hours"),this.locate(),this.isShown=!0,r.on("click.clockpicker."+this.id+" focusin.clockpicker."+this.id,function(i){var e=c(i.target);0===e.closest(t.popover).length&&0===e.closest(t.addon).length&&0===e.closest(t.input).length&&t.hide()}),r.on("keyup.clockpicker."+this.id,function(i){27===i.keyCode&&t.hide()})}},s.prototype.hide=function(){this.isShown=!1,r.off("click.clockpicker."+this.id+" focusin.clockpicker."+this.id),r.off("keyup.clockpicker."+this.id),this.popover.hide()},s.prototype.toggleView=function(t,i){var e="hours"===t,s=e?this.hoursView:this.minutesView,o=e?this.minutesView:this.hoursView;this.currentView=t,this.spanHours.toggleClass("text-primary",e),this.spanMinutes.toggleClass("text-primary",!e),o.addClass("clockpicker-dial-out"),s.css("visibility","visible").removeClass("clockpicker-dial-out"),this.resetClock(i),clearTimeout(this.toggleViewTimer),this.toggleViewTimer=setTimeout(function(){o.css("visibility","hidden")},A)},s.prototype.resetClock=function(t){var i=this.currentView,e=this[i],s="hours"===i,o=Math.PI/(s?6:30),c=e*o,n=s&&e>0&&13>e?b:m,r=Math.sin(c)*n,a=-Math.cos(c)*n,p=this;h&&t?(p.canvas.addClass("clockpicker-canvas-out"),setTimeout(function(){p.canvas.removeClass("clockpicker-canvas-out"),p.setHand(r,a)},t)):this.setHand(r,a)},s.prototype.setHand=function(t,e,s,o){var n,r=Math.atan2(t,-e),a="hours"===this.currentView,p=Math.PI/(a||s?6:30),l=Math.sqrt(t*t+e*e),u=(this.options,a&&(m+b)/2>l),d=u?b:m;if(0>r&&(r=2*Math.PI+r),n=Math.round(r/p),r=n*p,a?(12===n&&(n=0),n=u?0===n?12:n:0===n?0:n+12):(s&&(n*=5),60===n&&(n=0)),this[this.currentView]!==n&&f&&this.options.vibrate&&(this.vibrateTimer||(navigator[f](10),this.vibrateTimer=setTimeout(c.proxy(function(){this.vibrateTimer=null},this),100))),this[this.currentView]=n,this[a?"spanHours":"spanMinutes"].html(i(n)),!h)return void this[a?"hoursView":"minutesView"].find(".clockpicker-tick").each(function(){var t=c(this);t.toggleClass("active",n===+t.html())});o||!a&&n%5?(this.g.insertBefore(this.hand,this.bearing),this.g.insertBefore(this.bg,this.fg),this.bg.setAttribute("class","clockpicker-canvas-bg clockpicker-canvas-bg-trans")):(this.g.insertBefore(this.hand,this.bg),this.g.insertBefore(this.fg,this.bg),this.bg.setAttribute("class","clockpicker-canvas-bg"));var k=Math.sin(r)*d,v=-Math.cos(r)*d;this.hand.setAttribute("x2",k),this.hand.setAttribute("y2",v),this.bg.setAttribute("cx",k),this.bg.setAttribute("cy",v),this.fg.setAttribute("cx",k),this.fg.setAttribute("cy",v)},s.prototype.done=function(){this.hide();var t=this.input.prop("value"),e=i(this.hours)+":"+i(this.minutes);this.input.prop("value",e),e!==t&&(this.input.triggerHandler("change"),this.isInput||this.element.trigger("change"))},s.prototype.remove=function(){this.element.removeData("clockpicker"),this.input.off("focus.clockpicker click.clockpicker"),this.addon.off("click.clockpicker"),this.isShown&&this.hide(),this.isAppended&&(n.off("resize.clockpicker"+this.id),this.popover.remove())},c.fn.clockpicker=function(t){var i=Array.prototype.slice.call(arguments,1);return this.each(function(){var e=c(this),o=e.data("clockpicker");if(o)"function"==typeof o[t]&&o[t].apply(o,i);else{var n=c.extend({},s.DEFAULTS,e.data(),"object"==typeof t&&t);e.data("clockpicker",new s(e,n))}})}}();
+!function(){function t(t){return document.createElementNS(a,t)}function i(t){return(10>t?"0":"")+t}function e(t){var i=++v+"";return t?t+i:i}function s(s,n){function a(t,i){var e=h.offset(),s=/^touch/.test(t.type),c=e.left+m,a=e.top+m,l=(s?t.originalEvent.touches[0]:t).pageX-c,u=(s?t.originalEvent.touches[0]:t).pageY-a,f=Math.sqrt(l*l+u*u),v=!1;if(!i||!(g-w>f||f>g+w)){t.preventDefault();var b=setTimeout(function(){o.addClass("clockpicker-moving")},200);p&&h.append(H.canvas),H.setHand(l,u,!i,!0),r.off(k).on(k,function(t){t.preventDefault();var i=/^touch/.test(t.type),e=(i?t.originalEvent.touches[0]:t).pageX-c,s=(i?t.originalEvent.touches[0]:t).pageY-a;(v||e!==l||s!==u)&&(v=!0,H.setHand(e,s,!1,!0))}),r.off(d).on(d,function(t){r.off(d),t.preventDefault();var e=/^touch/.test(t.type),s=(e?t.originalEvent.changedTouches[0]:t).pageX-c,p=(e?t.originalEvent.changedTouches[0]:t).pageY-a;(i||v)&&s===l&&p===u&&H.setHand(s,p),"hours"===H.currentView?H.toggleView("minutes",M/2):n.autoclose&&(H.minutesView.addClass("clockpicker-dial-out"),setTimeout(function(){H.done()},M/2)),h.prepend(O),clearTimeout(b),o.removeClass("clockpicker-moving"),r.off(k)})}}var l=c(A),h=l.find(".clockpicker-plate"),f=l.find(".clockpicker-hours"),v=l.find(".clockpicker-minutes"),T=l.find(".clockpicker-am-pm-block"),V="INPUT"===s.prop("tagName"),C=V?s:s.find("input"),P=s.find(".input-group-addon"),H=this;if(this.id=e("cp"),this.element=s,this.options=n,this.isAppended=!1,this.isShown=!1,this.currentView="hours",this.isInput=V,this.input=C,this.addon=P,this.popover=l,this.plate=h,this.hoursView=f,this.minutesView=v,this.amPmBlock=T,this.spanHours=l.find(".clockpicker-span-hours"),this.spanMinutes=l.find(".clockpicker-span-minutes"),this.spanAmPm=l.find(".clockpicker-span-am-pm"),this.amOrPm="PM",n.twelvehour){{var x=['<div class="clockpicker-am-pm-block">','<button type="button" class="btn btn-sm btn-default clockpicker-button clockpicker-am-button">',"AM</button>",'<button type="button" class="btn btn-sm btn-default clockpicker-button clockpicker-pm-button">',"PM</button>","</div>"].join("");c(x)}c('<button type="button" class="btn btn-sm btn-default clockpicker-button am-button">AM</button>').on("click",function(){H.amOrPm="AM",c(".clockpicker-span-am-pm").empty().append("AM")}).appendTo(this.amPmBlock),c('<button type="button" class="btn btn-sm btn-default clockpicker-button pm-button">PM</button>').on("click",function(){H.amOrPm="PM",c(".clockpicker-span-am-pm").empty().append("PM")}).appendTo(this.amPmBlock)}n.autoclose||c('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">'+n.donetext+"</button>").click(c.proxy(this.done,this)).appendTo(l),"top"!==n.placement&&"bottom"!==n.placement||"top"!==n.align&&"bottom"!==n.align||(n.align="left"),"left"!==n.placement&&"right"!==n.placement||"left"!==n.align&&"right"!==n.align||(n.align="top"),l.addClass(n.placement),l.addClass("clockpicker-align-"+n.align),this.spanHours.click(c.proxy(this.toggleView,this,"hours")),this.spanMinutes.click(c.proxy(this.toggleView,this,"minutes")),C.on("focus.clockpicker click.clockpicker",c.proxy(this.show,this)),P.on("click.clockpicker",c.proxy(this.toggle,this));var E,S,I,D=c('<div class="clockpicker-tick"></div>');if(n.twelvehour)for(E=1;13>E;E+=1){S=D.clone(),I=E/6*Math.PI;var B=g;S.css("font-size","120%"),S.css({left:m+Math.sin(I)*B-w,top:m-Math.cos(I)*B-w}),S.html(0===E?"00":E),f.append(S),S.on(u,a)}else for(E=0;24>E;E+=1){S=D.clone(),I=E/6*Math.PI;var z=E>0&&13>E,B=z?b:g;S.css({left:m+Math.sin(I)*B-w,top:m-Math.cos(I)*B-w}),z&&S.css("font-size","120%"),S.html(0===E?"00":E),f.append(S),S.on(u,a)}for(E=0;60>E;E+=5)S=D.clone(),I=E/30*Math.PI,S.css({left:m+Math.sin(I)*g-w,top:m-Math.cos(I)*g-w}),S.css("font-size","120%"),S.html(i(E)),v.append(S),S.on(u,a);if(h.on(u,function(t){0===c(t.target).closest(".clockpicker-tick").length&&a(t,!0)}),p){var O=l.find(".clockpicker-canvas"),j=t("svg");j.setAttribute("class","clockpicker-svg"),j.setAttribute("width",y),j.setAttribute("height",y);var L=t("g");L.setAttribute("transform","translate("+m+","+m+")");var U=t("circle");U.setAttribute("class","clockpicker-canvas-bearing"),U.setAttribute("cx",0),U.setAttribute("cy",0),U.setAttribute("r",2);var W=t("line");W.setAttribute("x1",0),W.setAttribute("y1",0);var N=t("circle");N.setAttribute("class","clockpicker-canvas-bg"),N.setAttribute("r",w);var X=t("circle");X.setAttribute("class","clockpicker-canvas-fg"),X.setAttribute("r",3.5),L.appendChild(W),L.appendChild(N),L.appendChild(X),L.appendChild(U),j.appendChild(L),O.append(j),this.hand=W,this.bg=N,this.fg=X,this.bearing=U,this.g=L,this.canvas=O}}var o,c=window.jQuery,n=c(window),r=c(document),a="http://www.w3.org/2000/svg",p="SVGAngle"in window&&function(){var t,i=document.createElement("div");return i.innerHTML="<svg/>",t=(i.firstChild&&i.firstChild.namespaceURI)==a,i.innerHTML="",t}(),l=function(){var t=document.createElement("div").style;return"transition"in t||"WebkitTransition"in t||"MozTransition"in t||"msTransition"in t||"OTransition"in t}(),h="ontouchstart"in window,u="mousedown"+(h?" touchstart":""),k="mousemove.clockpicker"+(h?" touchmove.clockpicker":""),d="mouseup.clockpicker"+(h?" touchend.clockpicker":""),f=navigator.vibrate?"vibrate":navigator.webkitVibrate?"webkitVibrate":null,v=0,m=100,g=80,b=54,w=13,y=2*m,M=l?350:1,A=['<div class="popover clockpicker-popover">','<div class="arrow"></div>','<div class="popover-title">','<span class="clockpicker-span-hours text-primary"></span>'," : ",'<span class="clockpicker-span-minutes"></span>','<span class="clockpicker-span-am-pm"></span>',"</div>",'<div class="popover-content">','<div class="clockpicker-plate">','<div class="clockpicker-canvas"></div>','<div class="clockpicker-dial clockpicker-hours"></div>','<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',"</div>",'<span class="clockpicker-am-pm-block">',"</span>","</div>","</div>"].join("");s.DEFAULTS={"default":"",fromnow:0,placement:"bottom",align:"left",donetext:"完成",autoclose:!1,twelvehour:!1,vibrate:!0},s.prototype.toggle=function(){this[this.isShown?"hide":"show"]()},s.prototype.locate=function(){var t=this.element,i=this.popover,e=t.offset(),s=t.outerWidth(),o=t.outerHeight(),c=this.options.placement,n=this.options.align,r={};switch(i.show(),c){case"bottom":r.top=e.top+o;break;case"right":r.left=e.left+s;break;case"top":r.top=e.top-i.outerHeight();break;case"left":r.left=e.left-i.outerWidth()}switch(n){case"left":r.left=e.left;break;case"right":r.left=e.left+s-i.outerWidth();break;case"top":r.top=e.top;break;case"bottom":r.top=e.top+o-i.outerHeight()}i.css(r)},s.prototype.show=function(){if(!this.isShown){var t=this;this.isAppended||(o=c(document.body).append(this.popover),n.on("resize.clockpicker"+this.id,function(){t.isShown&&t.locate()}),this.isAppended=!0);var e=((this.input.prop("value")||this.options["default"]||"")+"").split(":");if("now"===e[0]){var s=new Date(+new Date+this.options.fromnow);e=[s.getHours(),s.getMinutes()]}this.hours=+e[0]||0,this.minutes=+e[1]||0,this.spanHours.html(i(this.hours)),this.spanMinutes.html(i(this.minutes)),this.toggleView("hours"),this.locate(),this.isShown=!0,r.on("click.clockpicker."+this.id+" focusin.clockpicker."+this.id,function(i){var e=c(i.target);0===e.closest(t.popover).length&&0===e.closest(t.addon).length&&0===e.closest(t.input).length&&t.hide()}),r.on("keyup.clockpicker."+this.id,function(i){27===i.keyCode&&t.hide()})}},s.prototype.hide=function(){this.isShown=!1,r.off("click.clockpicker."+this.id+" focusin.clockpicker."+this.id),r.off("keyup.clockpicker."+this.id),this.popover.hide()},s.prototype.toggleView=function(t,i){var e="hours"===t,s=e?this.hoursView:this.minutesView,o=e?this.minutesView:this.hoursView;this.currentView=t,this.spanHours.toggleClass("text-primary",e),this.spanMinutes.toggleClass("text-primary",!e),o.addClass("clockpicker-dial-out"),s.css("visibility","visible").removeClass("clockpicker-dial-out"),this.resetClock(i),clearTimeout(this.toggleViewTimer),this.toggleViewTimer=setTimeout(function(){o.css("visibility","hidden")},M)},s.prototype.resetClock=function(t){var i=this.currentView,e=this[i],s="hours"===i,o=Math.PI/(s?6:30),c=e*o,n=s&&e>0&&13>e?b:g,r=Math.sin(c)*n,a=-Math.cos(c)*n,l=this;p&&t?(l.canvas.addClass("clockpicker-canvas-out"),setTimeout(function(){l.canvas.removeClass("clockpicker-canvas-out"),l.setHand(r,a)},t)):this.setHand(r,a)},s.prototype.setHand=function(t,e,s,o){var n,r=Math.atan2(t,-e),a="hours"===this.currentView,l=Math.PI/(a||s?6:30),h=Math.sqrt(t*t+e*e),u=this.options,k=a&&(g+b)/2>h,d=k?b:g;if(u.twelvehour&&(d=g),0>r&&(r=2*Math.PI+r),n=Math.round(r/l),r=n*l,u.twelvehour?a?0===n&&(n=12):(s&&(n*=5),60===n&&(n=0)):a?(12===n&&(n=0),n=k?0===n?12:n:0===n?0:n+12):(s&&(n*=5),60===n&&(n=0)),this[this.currentView]!==n&&f&&this.options.vibrate&&(this.vibrateTimer||(navigator[f](10),this.vibrateTimer=setTimeout(c.proxy(function(){this.vibrateTimer=null},this),100))),this[this.currentView]=n,this[a?"spanHours":"spanMinutes"].html(i(n)),!p)return void this[a?"hoursView":"minutesView"].find(".clockpicker-tick").each(function(){var t=c(this);t.toggleClass("active",n===+t.html())});o||!a&&n%5?(this.g.insertBefore(this.hand,this.bearing),this.g.insertBefore(this.bg,this.fg),this.bg.setAttribute("class","clockpicker-canvas-bg clockpicker-canvas-bg-trans")):(this.g.insertBefore(this.hand,this.bg),this.g.insertBefore(this.fg,this.bg),this.bg.setAttribute("class","clockpicker-canvas-bg"));var v=Math.sin(r)*d,m=-Math.cos(r)*d;this.hand.setAttribute("x2",v),this.hand.setAttribute("y2",m),this.bg.setAttribute("cx",v),this.bg.setAttribute("cy",m),this.fg.setAttribute("cx",v),this.fg.setAttribute("cy",m)},s.prototype.done=function(){this.hide();var t=this.input.prop("value"),e=i(this.hours)+":"+i(this.minutes);this.options.twelvehour&&(e+=this.amOrPm),this.input.prop("value",e),e!==t&&(this.input.triggerHandler("change"),this.isInput||this.element.trigger("change")),this.options.autoclose&&this.input.trigger("blur")},s.prototype.remove=function(){this.element.removeData("clockpicker"),this.input.off("focus.clockpicker click.clockpicker"),this.addon.off("click.clockpicker"),this.isShown&&this.hide(),this.isAppended&&(n.off("resize.clockpicker"+this.id),this.popover.remove())},c.fn.clockpicker=function(t){var i=Array.prototype.slice.call(arguments,1);return this.each(function(){var e=c(this),o=e.data("clockpicker");if(o)"function"==typeof o[t]&&o[t].apply(o,i);else{var n=c.extend({},s.DEFAULTS,e.data(),"object"==typeof t&&t);e.data("clockpicker",new s(e,n))}})}}();
 /*!
 Chosen, a Select Box Enhancer for jQuery and Prototype
 by Patrick Filler for Harvest, http://getharvest.com
@@ -30017,624 +30112,26 @@ This file is generated by `grunt build`, do not edit it by hand.
 
 
 }).call(this);
-/*!
- * ClockPicker v0.0.6 (http://weareoutman.github.io/clockpicker/)
- * Copyright 2014 Wang Shenwei.
- * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
- */
+(function() {
 
 
-;(function(){
-	var $ = window.jQuery,
-		$win = $(window),
-		$doc = $(document),
-		$body;
+}).call(this);
 
-	// Can I use inline svg ?
-	var svgNS = 'http://www.w3.org/2000/svg',
-		svgSupported = 'SVGAngle' in window && (function(){
-			var supported,
-				el = document.createElement('div');
-			el.innerHTML = '<svg/>';
-			supported = (el.firstChild && el.firstChild.namespaceURI) == svgNS;
-			el.innerHTML = '';
-			return supported;
-		})();
 
-	// Can I use transition ?
-	var transitionSupported = (function(){
-		var style = document.createElement('div').style;
-		return 'transition' in style ||
-			'WebkitTransition' in style ||
-			'MozTransition' in style ||
-			'msTransition' in style ||
-			'OTransition' in style;
-	})();
+$(document).ready(function($) {
+    var objHeight=0;
+    $.each($('#p-edit').children(),
+        function() {
+            if($(this).is(":visible") && $(this).hasClass("sf")){
+                objHeight+=$(this).height();
+            }
+        }
 
-	// Listen touch events in touch screen device, instead of mouse events in desktop.
-	var touchSupported = 'ontouchstart' in window,
-		mousedownEvent = 'mousedown' + ( touchSupported ? ' touchstart' : ''),
-		mousemoveEvent = 'mousemove.clockpicker' + ( touchSupported ? ' touchmove.clockpicker' : ''),
-		mouseupEvent = 'mouseup.clockpicker' + ( touchSupported ? ' touchend.clockpicker' : '');
-
-	// Vibrate the device if supported
-	var vibrate = navigator.vibrate ? 'vibrate' : navigator.webkitVibrate ? 'webkitVibrate' : null;
-
-	function createSvgElement(name) {
-		return document.createElementNS(svgNS, name);
-	}
-
-	function leadingZero(num) {
-		return (num < 10 ? '0' : '') + num;
-	}
-
-	// Get a unique id
-	var idCounter = 0;
-	function uniqueId(prefix) {
-		var id = ++idCounter + '';
-		return prefix ? prefix + id : id;
-	}
-
-	// Clock size
-	var dialRadius = 100,
-		outerRadius = 80,
-		innerRadius = 54,
-		tickRadius = 13,
-		diameter = dialRadius * 2,
-		duration = transitionSupported ? 350 : 1;
-
-	// Popover template
-	var tpl = [
-		'<div class="popover clockpicker-popover">',
-			'<div class="arrow"></div>',
-			'<div class="popover-title">',
-				'<span class="clockpicker-span-hours text-primary"></span>',
-				' : ',
-				'<span class="clockpicker-span-minutes"></span>',
-			'</div>',
-			'<div class="popover-content">',
-				'<div class="clockpicker-plate">',
-					'<div class="clockpicker-canvas"></div>',
-					'<div class="clockpicker-dial clockpicker-hours"></div>',
-					'<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',
-				'</div>',
-			'</div>',
-		'</div>'
-	].join('');
-
-	// ClockPicker
-	function ClockPicker(element, options) {
-		var popover = $(tpl),
-			plate = popover.find('.clockpicker-plate'),
-			hoursView = popover.find('.clockpicker-hours'),
-			minutesView = popover.find('.clockpicker-minutes'),
-			isInput = element.prop('tagName') === 'INPUT',
-			input = isInput ? element : element.find('input'),
-			addon = element.find('.input-group-addon'),
-			self = this,
-			timer;
-
-		this.id = uniqueId('cp');
-		this.element = element;
-		this.options = options;
-		this.isAppended = false;
-		this.isShown = false;
-		this.currentView = 'hours';
-		this.isInput = isInput;
-		this.input = input;
-		this.addon = addon;
-		this.popover = popover;
-		this.plate = plate;
-		this.hoursView = hoursView;
-		this.minutesView = minutesView;
-		this.spanHours = popover.find('.clockpicker-span-hours');
-		this.spanMinutes = popover.find('.clockpicker-span-minutes');
-
-		if (! options.autoclose) {
-			// If autoclose is not setted, append a button
-			$('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">' + options.donetext + '</button>')
-				.click($.proxy(this.done, this))
-				.appendTo(popover);
-		}
-
-		// Placement and arrow align - make sure they make sense.
-		if ((options.placement === 'top' || options.placement === 'bottom') && (options.align === 'top' || options.align === 'bottom')) options.align = 'left';
-		if ((options.placement === 'left' || options.placement === 'right') && (options.align === 'left' || options.align === 'right')) options.align = 'top';
-
-		popover.addClass(options.placement);
-		popover.addClass('clockpicker-align-' + options.align);
-
-		this.spanHours.click($.proxy(this.toggleView, this, 'hours'));
-		this.spanMinutes.click($.proxy(this.toggleView, this, 'minutes'));
-
-		// Show or toggle
-		input.on('focus.clockpicker click.clockpicker', $.proxy(this.show, this));
-		addon.on('click.clockpicker', $.proxy(this.toggle, this));
-
-		// Build ticks
-		var tickTpl = $('<div class="clockpicker-tick"></div>'),
-			i, tick, radian;
-
-		// Hours view
-		for (i = 0; i < 24; i += 1) {
-			tick = tickTpl.clone();
-			radian = i / 6 * Math.PI;
-			var inner = i > 0 && i < 13,
-				radius = inner ? innerRadius : outerRadius;
-			tick.css({
-				left: dialRadius + Math.sin(radian) * radius - tickRadius,
-				top: dialRadius - Math.cos(radian) * radius - tickRadius
-			});
-			if (inner) {
-				tick.css('font-size', '120%');
-			}
-			tick.html(i === 0 ? '00' : i);
-			hoursView.append(tick);
-			tick.on(mousedownEvent, mousedown);
-		}
-
-		// Minutes view
-		for (i = 0; i < 60; i += 5) {
-			tick = tickTpl.clone();
-			radian = i / 30 * Math.PI;
-			tick.css({
-				left: dialRadius + Math.sin(radian) * outerRadius - tickRadius,
-				top: dialRadius - Math.cos(radian) * outerRadius - tickRadius
-			});
-			tick.css('font-size', '120%');
-			tick.html(leadingZero(i));
-			minutesView.append(tick);
-			tick.on(mousedownEvent, mousedown);
-		}
-
-		// Clicking on minutes view space
-		plate.on(mousedownEvent, function(e){
-			if ($(e.target).closest('.clockpicker-tick').length === 0) {
-				mousedown(e, true);
-			}
-		});
-
-		// Mousedown or touchstart
-		function mousedown(e, space) {
-			var offset = plate.offset(),
-				isTouch = /^touch/.test(e.type),
-				x0 = offset.left + dialRadius,
-				y0 = offset.top + dialRadius,
-				dx = (isTouch ? e.originalEvent.touches[0] : e).pageX - x0,
-				dy = (isTouch ? e.originalEvent.touches[0] : e).pageY - y0,
-				z = Math.sqrt(dx * dx + dy * dy),
-				moved = false;
-
-			// When clicking on minutes view space, check the mouse position
-			if (space && (z < outerRadius - tickRadius || z > outerRadius + tickRadius)) {
-				return;
-			}
-			e.preventDefault();
-
-			// Set cursor style of body after 200ms
-			var movingTimer = setTimeout(function(){
-				$body.addClass('clockpicker-moving');
-			}, 200);
-
-			// Place the canvas to top
-			if (svgSupported) {
-				plate.append(self.canvas);
-			}
-
-			// Clock
-			self.setHand(dx, dy, ! space, true);
-
-			// Mousemove on document
-			$doc.off(mousemoveEvent).on(mousemoveEvent, function(e){
-				e.preventDefault();
-				var isTouch = /^touch/.test(e.type),
-					x = (isTouch ? e.originalEvent.touches[0] : e).pageX - x0,
-					y = (isTouch ? e.originalEvent.touches[0] : e).pageY - y0;
-				if (! moved && x === dx && y === dy) {
-					// Clicking in chrome on windows will trigger a mousemove event
-					return;
-				}
-				moved = true;
-				self.setHand(x, y, false, true);
-			});
-
-			// Mouseup on document
-			$doc.off(mouseupEvent).one(mouseupEvent, function(e){
-				e.preventDefault();
-				var isTouch = /^touch/.test(e.type),
-					x = (isTouch ? e.originalEvent.changedTouches[0] : e).pageX - x0,
-					y = (isTouch ? e.originalEvent.changedTouches[0] : e).pageY - y0;
-				if ((space || moved) && x === dx && y === dy) {
-					self.setHand(x, y);
-				}
-				if (self.currentView === 'hours') {
-					self.toggleView('minutes', duration / 2);
-				} else {
-					if (options.autoclose) {
-						self.minutesView.addClass('clockpicker-dial-out');
-						setTimeout(function(){
-							self.done();
-						}, duration / 2);
-					}
-				}
-				plate.prepend(canvas);
-
-				// Reset cursor style of body
-				clearTimeout(movingTimer);
-				$body.removeClass('clockpicker-moving');
-
-				// Unbind mousemove event
-				$doc.off(mousemoveEvent);
-			});
-		}
-
-		if (svgSupported) {
-			// Draw clock hands and others
-			var canvas = popover.find('.clockpicker-canvas'),
-				svg = createSvgElement('svg');
-			svg.setAttribute('class', 'clockpicker-svg');
-			svg.setAttribute('width', diameter);
-			svg.setAttribute('height', diameter);
-			var g = createSvgElement('g');
-			g.setAttribute('transform', 'translate(' + dialRadius + ',' + dialRadius + ')');
-			var bearing = createSvgElement('circle');
-			bearing.setAttribute('class', 'clockpicker-canvas-bearing');
-			bearing.setAttribute('cx', 0);
-			bearing.setAttribute('cy', 0);
-			bearing.setAttribute('r', 2);
-			var hand = createSvgElement('line');
-			hand.setAttribute('x1', 0);
-			hand.setAttribute('y1', 0);
-			var bg = createSvgElement('circle');
-			bg.setAttribute('class', 'clockpicker-canvas-bg');
-			bg.setAttribute('r', tickRadius);
-			var fg = createSvgElement('circle');
-			fg.setAttribute('class', 'clockpicker-canvas-fg');
-			fg.setAttribute('r', 3.5);
-			g.appendChild(hand);
-			g.appendChild(bg);
-			g.appendChild(fg);
-			g.appendChild(bearing);
-			svg.appendChild(g);
-			canvas.append(svg);
-
-			this.hand = hand;
-			this.bg = bg;
-			this.fg = fg;
-			this.bearing = bearing;
-			this.g = g;
-			this.canvas = canvas;
-		}
-	}
-
-	// Default options
-	ClockPicker.DEFAULTS = {
-		'default': '',       // default time, 'now' or '13:14' e.g.
-		fromnow: 0,          // set default time to * milliseconds from now (using with default = 'now')
-		placement: 'bottom', // clock popover placement
-		align: 'left',       // popover arrow align
-		donetext: '完成',    // done button text
-		autoclose: false,    // auto close when minute is selected
-		vibrate: true        // vibrate the device when dragging clock hand
-	};
-
-	// Show or hide popover
-	ClockPicker.prototype.toggle = function(){
-		this[this.isShown ? 'hide' : 'show']();
-	};
-
-	// Set popover position
-	ClockPicker.prototype.locate = function(){
-		var element = this.element,
-			popover = this.popover,
-			offset = element.offset(),
-			width = element.outerWidth(),
-			height = element.outerHeight(),
-			placement = this.options.placement,
-			align = this.options.align,
-			styles = {},
-			self = this;
-		
-		popover.show();
-
-		// Place the popover
-		switch (placement) {
-			case 'bottom':
-				styles.top = offset.top + height;
-				break;
-			case 'right':
-				styles.left = offset.left + width;
-				break;
-			case 'top':
-				styles.top = offset.top - popover.outerHeight();
-				break;
-			case 'left':
-				styles.left = offset.left - popover.outerWidth();
-				break;
-		}
-
-		// Align the popover arrow
-		switch (align) {
-			case 'left':
-				styles.left = offset.left;
-				break;
-			case 'right':
-				styles.left = offset.left + width - popover.outerWidth();
-				break;
-			case 'top':
-				styles.top = offset.top;
-				break;
-			case 'bottom':
-				styles.top = offset.top + height - popover.outerHeight();
-				break;
-		}
-
-		popover.css(styles);
-	};
-
-	// Show popover
-	ClockPicker.prototype.show = function(e){
-		// Not show again
-		if (this.isShown) {
-			return;
-		}
-
-		var self = this;
-
-		// Initialize
-		if (! this.isAppended) {
-			// Append popover to body
-			$body = $(document.body).append(this.popover);
-
-			// Reset position when resize
-			$win.on('resize.clockpicker' + this.id, function(){
-				if (self.isShown) {
-					self.locate();
-				}
-			});
-
-			this.isAppended = true;
-		}
-
-		// Get the time
-		var value = ((this.input.prop('value') || this.options['default'] || '') + '').split(':');
-		if (value[0] === 'now') {
-			var now = new Date(+ new Date() + this.options.fromnow);
-			value = [
-				now.getHours(),
-				now.getMinutes()
-			];
-		}
-		this.hours = + value[0] || 0;
-		this.minutes = + value[1] || 0;
-		this.spanHours.html(leadingZero(this.hours));
-		this.spanMinutes.html(leadingZero(this.minutes));
-
-		// Toggle to hours view
-		this.toggleView('hours');
-
-		// Set position
-		this.locate();
-
-		this.isShown = true;
-
-		// Hide when clicking or tabbing on any element except the clock, input and addon
-		$doc.on('click.clockpicker.' + this.id + ' focusin.clockpicker.' + this.id, function(e){
-			var target = $(e.target);
-			if (target.closest(self.popover).length === 0 &&
-					target.closest(self.addon).length === 0 &&
-					target.closest(self.input).length === 0) {
-				self.hide();
-			}
-		});
-
-		// Hide when ESC is pressed
-		$doc.on('keyup.clockpicker.' + this.id, function(e){
-			if (e.keyCode === 27) {
-				self.hide();
-			}
-		});
-	};
-
-	// Hide popover
-	ClockPicker.prototype.hide = function(){
-		this.isShown = false;
-
-		// Unbinding events on document
-		$doc.off('click.clockpicker.' + this.id + ' focusin.clockpicker.' + this.id);
-		$doc.off('keyup.clockpicker.' + this.id);
-
-		this.popover.hide();
-	};
-
-	// Toggle to hours or minutes view
-	ClockPicker.prototype.toggleView = function(view, delay){
-		var isHours = view === 'hours',
-			nextView = isHours ? this.hoursView : this.minutesView,
-			hideView = isHours ? this.minutesView : this.hoursView;
-
-		this.currentView = view;
-
-		this.spanHours.toggleClass('text-primary', isHours);
-		this.spanMinutes.toggleClass('text-primary', ! isHours);
-
-		// Let's make transitions
-		hideView.addClass('clockpicker-dial-out');
-		nextView.css('visibility', 'visible').removeClass('clockpicker-dial-out');
-
-		// Reset clock hand
-		this.resetClock(delay);
-
-		// After transitions ended
-		clearTimeout(this.toggleViewTimer);
-		this.toggleViewTimer = setTimeout(function(){
-			hideView.css('visibility', 'hidden');
-		}, duration);
-	};
-
-	// Reset clock hand
-	ClockPicker.prototype.resetClock = function(delay){
-		var view = this.currentView,
-			value = this[view],
-			isHours = view === 'hours',
-			unit = Math.PI / (isHours ? 6 : 30),
-			radian = value * unit,
-			radius = isHours && value > 0 && value < 13 ? innerRadius : outerRadius,
-			x = Math.sin(radian) * radius,
-			y = - Math.cos(radian) * radius,
-			self = this;
-		if (svgSupported && delay) {
-			self.canvas.addClass('clockpicker-canvas-out');
-			setTimeout(function(){
-				self.canvas.removeClass('clockpicker-canvas-out');
-				self.setHand(x, y);
-			}, delay);
-		} else {
-			this.setHand(x, y);
-		}
-	};
-
-	// Set clock hand to (x, y)
-	ClockPicker.prototype.setHand = function(x, y, roundBy5, dragging){
-		var radian = Math.atan2(x, - y),
-			isHours = this.currentView === 'hours',
-			unit = Math.PI / (isHours || roundBy5 ? 6 : 30),
-			z = Math.sqrt(x * x + y * y),
-			options = this.options,
-			inner = isHours && z < (outerRadius + innerRadius) / 2,
-			radius = inner ? innerRadius : outerRadius,
-			value;
-
-		// Radian should in range [0, 2PI]
-		if (radian < 0) {
-			radian = Math.PI * 2 + radian;
-		}
-
-		// Get the round value
-		value = Math.round(radian / unit);
-
-		// Get the round radian
-		radian = value * unit;
-
-		// Correct the hours or minutes
-		if (isHours) {
-			if (value === 12) {
-				value = 0;
-			}
-			value = inner ? (value === 0 ? 12 : value) : value === 0 ? 0 : value + 12;
-		} else {
-			if (roundBy5) {
-				value *= 5;
-			}
-			if (value === 60) {
-				value = 0;
-			}
-		}
-
-		// Once hours or minutes changed, vibrate the device
-		if (this[this.currentView] !== value) {
-			if (vibrate && this.options.vibrate) {
-				// Do not vibrate too frequently
-				if (! this.vibrateTimer) {
-					navigator[vibrate](10);
-					this.vibrateTimer = setTimeout($.proxy(function(){
-						this.vibrateTimer = null;
-					}, this), 100);
-				}
-			}
-		}
-
-		this[this.currentView] = value;
-		this[isHours ? 'spanHours' : 'spanMinutes'].html(leadingZero(value));
-
-		// If svg is not supported, just add an active class to the tick
-		if (! svgSupported) {
-			this[isHours ? 'hoursView' : 'minutesView'].find('.clockpicker-tick').each(function(){
-				var tick = $(this);
-				tick.toggleClass('active', value === + tick.html());
-			});
-			return;
-		}
-
-		// Place clock hand at the top when dragging
-		if (dragging || (! isHours && value % 5)) {
-			this.g.insertBefore(this.hand, this.bearing);
-			this.g.insertBefore(this.bg, this.fg);
-			this.bg.setAttribute('class', 'clockpicker-canvas-bg clockpicker-canvas-bg-trans');
-		} else {
-			// Or place it at the bottom
-			this.g.insertBefore(this.hand, this.bg);
-			this.g.insertBefore(this.fg, this.bg);
-			this.bg.setAttribute('class', 'clockpicker-canvas-bg');
-		}
-
-		// Set clock hand and others' position
-		var cx = Math.sin(radian) * radius,
-			cy = - Math.cos(radian) * radius;
-		this.hand.setAttribute('x2', cx);
-		this.hand.setAttribute('y2', cy);
-		this.bg.setAttribute('cx', cx);
-		this.bg.setAttribute('cy', cy);
-		this.fg.setAttribute('cx', cx);
-		this.fg.setAttribute('cy', cy);
-	};
-
-	// Hours and minuts is selected
-	ClockPicker.prototype.done = function() {
-		this.hide();
-		var last = this.input.prop('value'),
-			value = leadingZero(this.hours) + ':' + leadingZero(this.minutes);
-		this.input.prop('value', value);
-		if (value !== last) {
-			this.input.triggerHandler('change');
-			if (! this.isInput) {
-				this.element.trigger('change');
-			}
-		}
-	};
-
-	// Remove clockpicker from input
-	ClockPicker.prototype.remove = function() {
-		this.element.removeData('clockpicker');
-		this.input.off('focus.clockpicker click.clockpicker');
-		this.addon.off('click.clockpicker');
-		if (this.isShown) {
-			this.hide();
-		}
-		if (this.isAppended) {
-			$win.off('resize.clockpicker' + this.id);
-			this.popover.remove();
-		}
-	};
-
-	// Extends $.fn.clockpicker
-	$.fn.clockpicker = function(option){
-		var args = Array.prototype.slice.call(arguments, 1);
-		return this.each(function(){
-			var $this = $(this),
-				data = $this.data('clockpicker');
-			if (! data) {
-				var options = $.extend({}, ClockPicker.DEFAULTS, $this.data(), typeof option == 'object' && option);
-				$this.data('clockpicker', new ClockPicker($this, options));
-			} else {
-				// Manual operatsions. show, hide, remove, e.g.
-				if (typeof data[option] === 'function') {
-					data[option].apply(data, args);
-				}
-			}
-		});
-	};
-}());
-/*!
- * ClockPicker v0.0.6 (http://weareoutman.github.io/clockpicker/)
- * Copyright 2014 Wang Shenwei.
- * Licensed under MIT (https://github.com/weareoutman/clockpicker/blob/master/LICENSE)
- */
-
-!function(){function t(t){return document.createElementNS(a,t)}function i(t){return(10>t?"0":"")+t}function e(t){var i=++v+"";return t?t+i:i}function s(s,n){function a(t,i){var e=l.offset(),s=/^touch/.test(t.type),c=e.left+g,a=e.top+g,p=(s?t.originalEvent.touches[0]:t).pageX-c,u=(s?t.originalEvent.touches[0]:t).pageY-a,f=Math.sqrt(p*p+u*u),v=!1;if(!i||!(m-w>f||f>m+w)){t.preventDefault();var b=setTimeout(function(){o.addClass("clockpicker-moving")},200);h&&l.append(H.canvas),H.setHand(p,u,!i,!0),r.off(d).on(d,function(t){t.preventDefault();var i=/^touch/.test(t.type),e=(i?t.originalEvent.touches[0]:t).pageX-c,s=(i?t.originalEvent.touches[0]:t).pageY-a;(v||e!==p||s!==u)&&(v=!0,H.setHand(e,s,!1,!0))}),r.off(k).one(k,function(t){t.preventDefault();var e=/^touch/.test(t.type),s=(e?t.originalEvent.changedTouches[0]:t).pageX-c,h=(e?t.originalEvent.changedTouches[0]:t).pageY-a;(i||v)&&s===p&&h===u&&H.setHand(s,h),"hours"===H.currentView?H.toggleView("minutes",A/2):n.autoclose&&(H.minutesView.addClass("clockpicker-dial-out"),setTimeout(function(){H.done()},A/2)),l.prepend(z),clearTimeout(b),o.removeClass("clockpicker-moving"),r.off(d)})}}var p=c(M),l=p.find(".clockpicker-plate"),f=p.find(".clockpicker-hours"),v=p.find(".clockpicker-minutes"),V="INPUT"===s.prop("tagName"),T=V?s:s.find("input"),C=s.find(".input-group-addon"),H=this;this.id=e("cp"),this.element=s,this.options=n,this.isAppended=!1,this.isShown=!1,this.currentView="hours",this.isInput=V,this.input=T,this.addon=C,this.popover=p,this.plate=l,this.hoursView=f,this.minutesView=v,this.spanHours=p.find(".clockpicker-span-hours"),this.spanMinutes=p.find(".clockpicker-span-minutes"),n.autoclose||c('<button type="button" class="btn btn-sm btn-default btn-block clockpicker-button">'+n.donetext+"</button>").click(c.proxy(this.done,this)).appendTo(p),"top"!==n.placement&&"bottom"!==n.placement||"top"!==n.align&&"bottom"!==n.align||(n.align="left"),"left"!==n.placement&&"right"!==n.placement||"left"!==n.align&&"right"!==n.align||(n.align="top"),p.addClass(n.placement),p.addClass("clockpicker-align-"+n.align),this.spanHours.click(c.proxy(this.toggleView,this,"hours")),this.spanMinutes.click(c.proxy(this.toggleView,this,"minutes")),T.on("focus.clockpicker click.clockpicker",c.proxy(this.show,this)),C.on("click.clockpicker",c.proxy(this.toggle,this));var x,E,S,I=c('<div class="clockpicker-tick"></div>');for(x=0;24>x;x+=1){E=I.clone(),S=x/6*Math.PI;var D=x>0&&13>x,P=D?b:m;E.css({left:g+Math.sin(S)*P-w,top:g-Math.cos(S)*P-w}),D&&E.css("font-size","120%"),E.html(0===x?"00":x),f.append(E),E.on(u,a)}for(x=0;60>x;x+=5)E=I.clone(),S=x/30*Math.PI,E.css({left:g+Math.sin(S)*m-w,top:g-Math.cos(S)*m-w}),E.css("font-size","120%"),E.html(i(x)),v.append(E),E.on(u,a);if(l.on(u,function(t){0===c(t.target).closest(".clockpicker-tick").length&&a(t,!0)}),h){var z=p.find(".clockpicker-canvas"),B=t("svg");B.setAttribute("class","clockpicker-svg"),B.setAttribute("width",y),B.setAttribute("height",y);var L=t("g");L.setAttribute("transform","translate("+g+","+g+")");var U=t("circle");U.setAttribute("class","clockpicker-canvas-bearing"),U.setAttribute("cx",0),U.setAttribute("cy",0),U.setAttribute("r",2);var W=t("line");W.setAttribute("x1",0),W.setAttribute("y1",0);var j=t("circle");j.setAttribute("class","clockpicker-canvas-bg"),j.setAttribute("r",w);var N=t("circle");N.setAttribute("class","clockpicker-canvas-fg"),N.setAttribute("r",3.5),L.appendChild(W),L.appendChild(j),L.appendChild(N),L.appendChild(U),B.appendChild(L),z.append(B),this.hand=W,this.bg=j,this.fg=N,this.bearing=U,this.g=L,this.canvas=z}}var o,c=window.jQuery,n=c(window),r=c(document),a="http://www.w3.org/2000/svg",h="SVGAngle"in window&&function(){var t,i=document.createElement("div");return i.innerHTML="<svg/>",t=(i.firstChild&&i.firstChild.namespaceURI)==a,i.innerHTML="",t}(),p=function(){var t=document.createElement("div").style;return"transition"in t||"WebkitTransition"in t||"MozTransition"in t||"msTransition"in t||"OTransition"in t}(),l="ontouchstart"in window,u="mousedown"+(l?" touchstart":""),d="mousemove.clockpicker"+(l?" touchmove.clockpicker":""),k="mouseup.clockpicker"+(l?" touchend.clockpicker":""),f=navigator.vibrate?"vibrate":navigator.webkitVibrate?"webkitVibrate":null,v=0,g=100,m=80,b=54,w=13,y=2*g,A=p?350:1,M=['<div class="popover clockpicker-popover">','<div class="arrow"></div>','<div class="popover-title">','<span class="clockpicker-span-hours text-primary"></span>'," : ",'<span class="clockpicker-span-minutes"></span>',"</div>",'<div class="popover-content">','<div class="clockpicker-plate">','<div class="clockpicker-canvas"></div>','<div class="clockpicker-dial clockpicker-hours"></div>','<div class="clockpicker-dial clockpicker-minutes clockpicker-dial-out"></div>',"</div>","</div>","</div>"].join("");s.DEFAULTS={"default":"",fromnow:0,placement:"bottom",align:"left",donetext:"完成",autoclose:!1,vibrate:!0},s.prototype.toggle=function(){this[this.isShown?"hide":"show"]()},s.prototype.locate=function(){var t=this.element,i=this.popover,e=t.offset(),s=t.outerWidth(),o=t.outerHeight(),c=this.options.placement,n=this.options.align,r={};switch(i.show(),c){case"bottom":r.top=e.top+o;break;case"right":r.left=e.left+s;break;case"top":r.top=e.top-i.outerHeight();break;case"left":r.left=e.left-i.outerWidth()}switch(n){case"left":r.left=e.left;break;case"right":r.left=e.left+s-i.outerWidth();break;case"top":r.top=e.top;break;case"bottom":r.top=e.top+o-i.outerHeight()}i.css(r)},s.prototype.show=function(){if(!this.isShown){var t=this;this.isAppended||(o=c(document.body).append(this.popover),n.on("resize.clockpicker"+this.id,function(){t.isShown&&t.locate()}),this.isAppended=!0);var e=((this.input.prop("value")||this.options["default"]||"")+"").split(":");if("now"===e[0]){var s=new Date(+new Date+this.options.fromnow);e=[s.getHours(),s.getMinutes()]}this.hours=+e[0]||0,this.minutes=+e[1]||0,this.spanHours.html(i(this.hours)),this.spanMinutes.html(i(this.minutes)),this.toggleView("hours"),this.locate(),this.isShown=!0,r.on("click.clockpicker."+this.id+" focusin.clockpicker."+this.id,function(i){var e=c(i.target);0===e.closest(t.popover).length&&0===e.closest(t.addon).length&&0===e.closest(t.input).length&&t.hide()}),r.on("keyup.clockpicker."+this.id,function(i){27===i.keyCode&&t.hide()})}},s.prototype.hide=function(){this.isShown=!1,r.off("click.clockpicker."+this.id+" focusin.clockpicker."+this.id),r.off("keyup.clockpicker."+this.id),this.popover.hide()},s.prototype.toggleView=function(t,i){var e="hours"===t,s=e?this.hoursView:this.minutesView,o=e?this.minutesView:this.hoursView;this.currentView=t,this.spanHours.toggleClass("text-primary",e),this.spanMinutes.toggleClass("text-primary",!e),o.addClass("clockpicker-dial-out"),s.css("visibility","visible").removeClass("clockpicker-dial-out"),this.resetClock(i),clearTimeout(this.toggleViewTimer),this.toggleViewTimer=setTimeout(function(){o.css("visibility","hidden")},A)},s.prototype.resetClock=function(t){var i=this.currentView,e=this[i],s="hours"===i,o=Math.PI/(s?6:30),c=e*o,n=s&&e>0&&13>e?b:m,r=Math.sin(c)*n,a=-Math.cos(c)*n,p=this;h&&t?(p.canvas.addClass("clockpicker-canvas-out"),setTimeout(function(){p.canvas.removeClass("clockpicker-canvas-out"),p.setHand(r,a)},t)):this.setHand(r,a)},s.prototype.setHand=function(t,e,s,o){var n,r=Math.atan2(t,-e),a="hours"===this.currentView,p=Math.PI/(a||s?6:30),l=Math.sqrt(t*t+e*e),u=(this.options,a&&(m+b)/2>l),d=u?b:m;if(0>r&&(r=2*Math.PI+r),n=Math.round(r/p),r=n*p,a?(12===n&&(n=0),n=u?0===n?12:n:0===n?0:n+12):(s&&(n*=5),60===n&&(n=0)),this[this.currentView]!==n&&f&&this.options.vibrate&&(this.vibrateTimer||(navigator[f](10),this.vibrateTimer=setTimeout(c.proxy(function(){this.vibrateTimer=null},this),100))),this[this.currentView]=n,this[a?"spanHours":"spanMinutes"].html(i(n)),!h)return void this[a?"hoursView":"minutesView"].find(".clockpicker-tick").each(function(){var t=c(this);t.toggleClass("active",n===+t.html())});o||!a&&n%5?(this.g.insertBefore(this.hand,this.bearing),this.g.insertBefore(this.bg,this.fg),this.bg.setAttribute("class","clockpicker-canvas-bg clockpicker-canvas-bg-trans")):(this.g.insertBefore(this.hand,this.bg),this.g.insertBefore(this.fg,this.bg),this.bg.setAttribute("class","clockpicker-canvas-bg"));var k=Math.sin(r)*d,v=-Math.cos(r)*d;this.hand.setAttribute("x2",k),this.hand.setAttribute("y2",v),this.bg.setAttribute("cx",k),this.bg.setAttribute("cy",v),this.fg.setAttribute("cx",k),this.fg.setAttribute("cy",v)},s.prototype.done=function(){this.hide();var t=this.input.prop("value"),e=i(this.hours)+":"+i(this.minutes);this.input.prop("value",e),e!==t&&(this.input.triggerHandler("change"),this.isInput||this.element.trigger("change"))},s.prototype.remove=function(){this.element.removeData("clockpicker"),this.input.off("focus.clockpicker click.clockpicker"),this.addon.off("click.clockpicker"),this.isShown&&this.hide(),this.isAppended&&(n.off("resize.clockpicker"+this.id),this.popover.remove())},c.fn.clockpicker=function(t){var i=Array.prototype.slice.call(arguments,1);return this.each(function(){var e=c(this),o=e.data("clockpicker");if(o)"function"==typeof o[t]&&o[t].apply(o,i);else{var n=c.extend({},s.DEFAULTS,e.data(),"object"==typeof t&&t);e.data("clockpicker",new s(e,n))}})}}();
-$(document).ready(function($) { 
-    $("#tabs").tabs({
-    });
+        );
+    $("#p-edit").height(objHeight+50+"px");
+    $("#needp").click(function(){ alert("You are already logged in as a Client")})
+    $("#needc").click(function(){ alert("You are already logged in as a Provider")})
+    $("#tabs").tabs({})
     $("#tabs").tabs("option", {
         "selected": 3,
         "disabled": true,
@@ -30642,9 +30139,25 @@ $(document).ready(function($) {
         "show": { effect: "fade", duration: 150}
     });
     $("#tabs").hide();
-    $("#p-edit").find("input[type=checkbox]").each(function(){
-        $(this).bind('click', function() {
 
+    $("#p-edit input[type=checkbox].d-field").each(function () {
+        alert("box");
+        if($(this).is(":checked")){
+            $("#tabs").show();
+            var regexp, time,value,dlabel;
+            alert($(this).val());
+            value = $(this).val();
+            dlabel= value.split('-').pop();
+            time = new Date().getTime();
+            regexp = new RegExp($(this).data('id'), 'g');
+            $('.insert-'.concat(dlabel)).before($(this).data('fields').replace(regexp, time));
+            $('#tabs').tabs("enable", value);
+
+        }
+    });
+    $("#p-edit").find("input[type=checkbox].d-check").each(function(){
+            
+        $(this).bind('click', function() {
             if ($(this).is(':checked')) {
                 var regexp, time,value,dlabel;
                 value = $(this).val();
@@ -30655,6 +30168,7 @@ $(document).ready(function($) {
                 $('#tabs').tabs("enable", value);
                 var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
                 $('#tabs').tabs("option","active", index);
+
             }
             else{
                 $('#tabs #'+$(this).val()+ ' input[type=hidden]#ruhroh').prop('checked',true);
@@ -30664,30 +30178,27 @@ $(document).ready(function($) {
                 var index = $('#tabs a[href="#'+$(this).val()+'"]').parent().index();
                 $('#tabs').tabs("option","active", index-1);
             }
-            if(!$("#p-edit input[type='checkbox']").is(":checked")) {
+            if(!$("#p-edit input[type=checkbox].dcheck").is(":checked")) {
                 $('#tabs').toggle();
             } 
             else if(!$('#tabs').is(":visible")) {
                 $('#tabs').toggle();
             }
-        });
-    });
+        })
+    })
 
-    $( "#datepicker1" ).datepicker();
-    $( "#datepicker2" ).datepicker();
-
+$( "#datepicker1" ).datepicker()
+    $( "#datepicker2" ).datepicker()
     $("#p-reg").find("#frb, #agb").each(function (){
         $(this).bind('click', function() {
             $("#btn-input").val($(this).children(".ptype-btn").val());
-        });
-    });
-
-
-    var d;
-    //breakdown the labels into single character spans
-    $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").each(function(){
+        })
+    })
+/*.parent(":not(.chosen-search,.search-field)").children().first()*/
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").each(function(){
+    if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
         if($(this).val()!=""){
-            $(this).next().css("top","-22px");
+            $(this).next().css("top","-25px");
             $(this).next().addClass("focussed");
             $(this).next().addClass("preset");
         }
@@ -30696,132 +30207,164 @@ $(document).ready(function($) {
         var scl = '</span>'; //span closing
         //split the label into single letters and inject span tags around them
         $(this).next().html(sop + $(this).next().html().split("").join(scl+sop) + scl);
+
         //to prevent space-only spans from collapsing
         $(".ch:contains(' ')").html("&nbsp;");
+    }
 
-    })
+})
 
-    //animation time
-    var tm=-23;
-    $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").focus(function(){
-        //calculate movement for .ch = half of input height
-        //label = next sibling of input
-        //to prevent multiple animation trigger by mistake we will use .stop() before animating any character and clear any animation queued by .delay()
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").focus(function(){
+    //calculate movement for .ch = half of input height
+    //label = next sibling of input
+    //to prevent multiple animation trigger by mistake we will use .stop() before animating any character and clear any animation queued by .delay()
+    if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
+
         if($(this).next().hasClass("preset")){
             $(this).next().addClass("focussed").children().stop(true).each(function(i){
-                d = i*50;//delay
                 $(this).delay(0).animate({top: 0+"px"}, 300, 'easeOutBack');
             })
         }
         else {
             $(this).next().addClass("focussed").children().stop(true).each(function(i){
-                d = i*50;//delay
-                $(this).delay(0).animate({top: -23+"px"}, 300, 'easeOutBack');
+                $(this).delay(0).animate({top: -25+"px"}, 300, 'easeOutBack');
             })
         }
-    })
-    $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").blur(function(){
-        //animate the label down if content of the input is empty
+    }
+})
+$(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea").blur(function(){
+    //animate the label down if content of the input is empty
+    if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
+
         if($(this).val() == "") {
             if($(this).next().hasClass("preset")){
                 $(this).next().removeClass("focussed").children().stop(true).each(function(i){
-                    d = i*50;
-                    $(this).delay(0).animate({top: 22}, 200, 'easeInOutBack');
+                    $(this).delay(0).animate({top: 25}, 200, 'easeInOutBack');
                 })
                 //$(this).next().removeClass("preset");
             }
             else {
                 $(this).next().removeClass("focussed").children().stop(true).each(function(i){
-                    d = i*50;
                     $(this).delay(0).animate({top: 0}, 200, 'easeInOutBack');
                 })
 
             }
         }
+    }
+})
+$(".chosen-select").each(function() {
+    if($(this).parent().parent().hasClass("citystate")){
+        $(this).chosen({
+            width:"150px"
+        }); 
+    }
+    else {
+        $(this).chosen({
+            width:"220px"
+        });
+    }
+})
+$("input[type=text]").addClass("form-control");
+$("#p-edit #avatar-upload").change(function() {
+    var oFReader = new FileReader();
+    oFReader.readAsDataURL(this.files[0]);
+    oFReader.onload = function (oFREvent) {
+        $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200px" height="200px"">');
+    }
+})
+
+$("#c-edit #avatar-upload2").change(function() {
+    var oFReader1 = new FileReader();
+    oFReader1.readAsDataURL(this.files[0]);
+    oFReader1.onload = function (oFREvent) {
+        $('#preview2').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200px" height="200px"">');
+    }
+})
+var current_fs, next_fs, previous_fs; //fieldsets
+var left, opacity, scale; //fieldset properties which we will animate
+var animating; //flag to prevent quick multi-click glitches
+
+$(".next").click(function(){
+    if(animating) return false;
+    animating = true;
+
+    current_fs = $(this).parent().parent();
+    next_fs = $(this).parent().parent().next();
+
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+
+    next_fs.show();
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+                  opacity = 1 - now;
+                  current_fs.css({'left': "50%", 'opacity': opacity});
+                  next_fs.css({'left': "50%", 'opacity': opacity});
+              }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
+
+            $("#p-edit").height($(this).closest("fieldset.sf").next().height()+50+"px");
+        }, 
+        easing: 'easeInOutBack'
     })
+})
 
-    $(".chosen-select").chosen({
-        width: "220px"
-    }); 
+$(".previous").click(function(){
+    if(animating) return false;
+    animating = true;
 
-    $("#p-edit #avatar-upload").change(function() {
-        var oFReader = new FileReader();
-        oFReader.readAsDataURL(this.files[0]);
-        oFReader.onload = function (oFREvent) {
-            $('#preview').html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200" height="200"">');
-        };
-    });
+    current_fs = $(this).parent().parent();
+    previous_fs = $(this).parent().parent().prev();
 
-    //jQuery time
-    var current_fs, next_fs, previous_fs; //fieldsets
-    var left, opacity, scale; //fieldset properties which we will animate
-    var animating; //flag to prevent quick multi-click glitches
+    //de-activate current step on progressbar
+    $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 
-    $(".next").click(function(){
-        if(animating) return false;
-        animating = true;
+    //show the previous fieldset
+    previous_fs.show(); 
+    //hide the current fieldset with style
 
-        current_fs = $(this).parent().parent();
-        next_fs = $(this).parent().parent().next();
+    current_fs.animate({opacity: 0}, {
+        step: function(now, mx) {
+                  //as the opacity of current_fs reduces to 0 - stored in "now"
+                  //1. scale previous_fs from 80% to 100%
+                  //2. take current_fs to the right(50%) - from 0%
+                  //3. increase opacity of previous_fs to 1 as it moves in
+                  opacity = 1 - now;
+                  current_fs.css({'left': "50%", 'opacity': opacity});
+                  previous_fs.css({'left': "50%", 'opacity': opacity});
+              }, 
+        duration: 800, 
+        complete: function(){
+            current_fs.hide();
+            animating = false;
 
-        $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+            $("#p-edit").height($(this).closest("fieldset.sf").prev().height()+50+"px");
+        }, 
+        //this comes from the custom easing plugin
+        easing: 'easeInOutBack'
+    })
+})
 
-        next_fs.show(); 
-        current_fs.animate({opacity: 0}, {
-            step: function(now, mx) {
-                scale = 1 - (1 - now) * 0.2;
-                left = (now * 50)+"%";
-                opacity = 1 - now;
-                current_fs.css({'transform': 'scale('+scale+')'});
-                next_fs.css({'left': left, 'opacity': opacity});
-            }, 
-            duration: 800, 
-            complete: function(){
-                current_fs.hide();
-                animating = false;
-            }, 
-            easing: 'easeInOutBack'
-            });
-        });
-
-        $(".previous").click(function(){
-            if(animating) return false;
-            animating = true;
-
-            current_fs = $(this).parent();
-            previous_fs = $(this).parent().prev();
-
-            //de-activate current step on progressbar
-            $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
-
-            //show the previous fieldset
-            previous_fs.show(); 
-            //hide the current fieldset with style
-            current_fs.animate({opacity: 0}, {
-                step: function(now, mx) {
-                    //as the opacity of current_fs reduces to 0 - stored in "now"
-                    //1. scale previous_fs from 80% to 100%
-                    scale = 0.8 + (1 - now) * 0.2;
-                    //2. take current_fs to the right(50%) - from 0%
-                    left = ((1-now) * 50)+"%";
-                    //3. increase opacity of previous_fs to 1 as it moves in
-                    opacity = 1 - now;
-                    current_fs.css({'left': left});
-                    previous_fs.css({'transform': 'scale('+scale+')', 'opacity': opacity});
-                }, 
-                duration: 800, 
-                complete: function(){
-                    current_fs.hide();
-                    animating = false;
-                }, 
-                //this comes from the custom easing plugin
-                easing: 'easeInOutBack'
-            });
-        });
-    $(".clockpicker").clockpicker();
+$(".clockpicker").clockpicker({
+    donetext: "Set Time",
+    twelvehour: true
+});
+$(".btn-file").click(function() {
+    $(this).prev().click();
+});
+$(".btn-file").prev().change(function () {
+    alert("uploaded");
+});
+$(".badge").tooltip({});
 });
 
 
+(function() {
+
+
+}).call(this);
 (function() {
 
 

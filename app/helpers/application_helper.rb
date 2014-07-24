@@ -18,8 +18,12 @@ module ApplicationHelper
         f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
     end
 
-    def add_fields_arguments(f, association,name)
-        new_object = f.object.send(association).klass.new
+    def add_fields_arguments(f, association,name,exists)
+        unless exists
+            new_object = f.object.send(association).klass.new
+        else
+            new_object = f.object.send(association).klass.find_by_name(name)
+        end
         id = new_object.object_id
         fields = f.fields_for(association, new_object, child_index: id) do |builder|
             render partial: association.to_s.singularize + "_fields", :locals =>{:f=> builder, :nom=> name}

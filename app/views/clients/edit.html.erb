@@ -24,8 +24,15 @@
                 </tr>
             </table>
             <div class="quick-align">
-                <%= f.file_field :avatar, id: "avatar-upload2"%>
-                <span type="button" class="btn btn-default btn-file">Upload Image</span>
+                <%if @client.avatar==nil or @client.avatar.to_s=="/assets/missing_original.png"%>
+                    <%= f.file_field :avatar, id: "avatar-upload2"%>
+                    <span type="button" class="btn btn-default btn-file">Upload Image</span>
+                <%else%>
+                    <%= f.file_field :avatar, {id: "avatar-upload2",class: "gotFile"}%>
+                    <span type="button" class="btn btn-default btn-file">Upload Image<span/>
+                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                    </span>
+                <%end%>
             </div>
             <br></br>
             <br></br>
