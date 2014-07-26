@@ -567,7 +567,6 @@ height: 46px;
         margin-top:10px;
         /*stacking fieldsets above each other*/
         overflow: hidden;
-        white-space:nowrap;
         li { 
             list-style-type: none;
         }
@@ -604,6 +603,9 @@ height: 46px;
         float: left;
         position: relative;
         color: white;
+    }
+    .p4 li {
+        width: 228px!important;
     }
     #progressbar li:before {
         content: counter(step);
@@ -679,7 +681,7 @@ height: 46px;
     background: white;
     border-style: none;
     margin: 0 auto 0 auto;
-
+    white-space:normal!important;
 }
 .badge {
     margin-right:10px;

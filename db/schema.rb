@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140724003127) do
+ActiveRecord::Schema.define(version: 20140725224234) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20140724003127) do
     t.string   "mockups_content_type"
     t.integer  "mockups_file_size"
     t.datetime "mockups_updated_at"
+    t.string   "question"
   end
 
   create_table "skills", force: true do |t|

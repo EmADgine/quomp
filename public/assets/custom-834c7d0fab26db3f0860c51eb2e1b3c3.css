@@ -1,0 +1,1025 @@
+/* universal */
+@import url("http://fonts.googleapis.com/css?family=Lato");
+/* line 5, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  min-height: 100%;
+}
+
+/* line 11, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+body {
+  font-family: 'Palatino', sans-serif;
+  background: url("http://thecodeplayer.com/uploads/media/gs.png");
+}
+/* line 15, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+body h4 {
+  font-style: bold;
+  font-weight: 500;
+}
+
+/* line 21, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#wrapper {
+  min-height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+/* line 26, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#header {
+  padding: 10px;
+}
+/* line 28, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#header ul {
+  display: inline-block;
+  list-style-type: none;
+}
+/* line 32, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#header #droplog {
+  padding: 10px;
+}
+/* line 34, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#header #droplog input[type=text] {
+  width: 200px;
+}
+
+/* line 39, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#content {
+  padding-bottom: 120px;
+}
+
+/* line 42, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 45px;
+  border-top: 1px solid #999;
+  color: #fff;
+}
+/* line 50, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#footer a {
+  color: #ddd;
+  font-size: 1.3em;
+}
+/* line 53, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#footer a:hover {
+  color: #fff;
+}
+/* line 57, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#footer ul {
+  float: right;
+  overflow: hidden;
+  white-space: nowrap;
+}
+/* line 61, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#footer ul li {
+  display: inline-block;
+  padding: 10px;
+}
+
+/* line 67, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+input[type="file"] {
+  visibility: hidden;
+  width: 1px;
+}
+
+/* line 71, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ui-state-disabled {
+  visibility: hidden;
+}
+
+/* line 75, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.center {
+  text-align: center;
+}
+
+/* line 79, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.center h1 {
+  margin-bottom: 10px;
+}
+
+/* typography */
+/* line 84, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+h1, h2, h3, h4, h5, h6 {
+  line-height: 1;
+  font-family: "Palatino", "sans-serif";
+}
+
+/* line 89, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+h1 {
+  font-size: 3em;
+  letter-spacing: -2px;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+/* line 95, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+h1.special {
+  background: #edf7ed;
+  color: #3d8f3d;
+  margin-bottom: 40px;
+}
+
+/* line 100, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+h2 {
+  font-size: 1.2em;
+  letter-spacing: -1px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: normal;
+  color: #999;
+}
+
+/* line 108, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+h3 {
+  font-size: 1.4em;
+  letter-spacing: -1px;
+  line-height: 1.2em;
+  text-align: center;
+  font-weight: normal;
+}
+
+/* line 116, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+p {
+  font-size: 1.1em;
+  line-height: 1.7em;
+}
+
+/* line 121, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+textarea {
+  resize: vertical !important;
+}
+
+/* line 125, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+ul {
+  margin-bottom: 0 !important;
+}
+
+/* line 128, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ui-state-disabled {
+  display: none;
+}
+
+/* line 132, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slogan {
+  font-size: 1.85em;
+  letterspacing: -1px;
+  line-height: 1.2em;
+  text-align: center;
+  font-weight: normal;
+}
+
+/* line 139, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#logo {
+  float: left;
+  margin-right: 10px;
+  margin-left: 5px;
+  font-size: 2.3em;
+  color: #0096FA;
+  text-transform: capitalize;
+  letter-spacing: -1px;
+  padding-top: 9px;
+  font-weight: bold;
+  line-height: 1;
+}
+/* line 150, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#logo:hover {
+  color: #61c0ff;
+  text-decoration: none;
+}
+
+/* home */
+/* line 158, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#hometownhero {
+  margin-top: 130px;
+  padding-top: 30px;
+  border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  height: 400px;
+  width: 900px;
+  background: white;
+}
+
+/* line 169, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#homebuttons li {
+  display: inline-block;
+  list-style-type: none;
+  padding-right: 2%;
+  padding-left: 2%;
+  margin-top: 24px;
+}
+/* line 173, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#homebuttons li .btn {
+  font-size: 28px;
+}
+/* line 178, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#homebuttons li div {
+  width: 275px;
+}
+
+/* line 182, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#logo2 {
+  color: #0096FA;
+}
+
+/* line 187, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet {
+  background: white;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 20px;
+  width: 400px;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+/* line 188, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet h3 {
+  margin-bottom: 22px;
+}
+/* line 201, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet ol li {
+  list-style-type: none;
+  padding-right: 40px;
+}
+/* line 204, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet ol li label {
+  display: inline-block;
+}
+
+/* line 209, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet2 {
+  background: white;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 20px;
+  width: 800px;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+}
+/* line 210, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet2 h3 {
+  margin-bottom: 22px;
+}
+/* line 223, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet2 ul li {
+  list-style-type: none;
+}
+/* line 227, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet2 fieldset .form-group {
+  width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 234, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#createsheet3 {
+  margin-top: 100px;
+}
+
+/* line 237, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#oneliner {
+  white-space: nowrap;
+}
+/* line 239, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#oneliner li {
+  display: inline-block;
+}
+
+/* line 243, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.citystate {
+  padding: 0 !important;
+}
+
+/* line 248, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.quick-align {
+  float: left;
+  margin-left: 180px;
+  padding-left: 0;
+}
+
+/* line 254, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.quick-align2 {
+  float: left;
+  margin-left: 170px;
+  padding-left: 0;
+}
+
+/* line 260, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#error_explanation {
+  margin-bottom: 18px;
+}
+/* line 262, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#error_explanation ul {
+  list-style: none;
+  margin: 0px 0 18px 0;
+}
+
+/* line 268, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+aside section {
+  padding: 10px 0;
+}
+/* line 270, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+aside section:first-child {
+  border: 0;
+  padding-top: 0;
+}
+/* line 274, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+aside section span {
+  display: block;
+  margin-bottom: 3px;
+  line-height: 1;
+}
+/* line 279, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+aside section h1 {
+  display: inline-block;
+  font-size: 2.0em;
+  text-align: left;
+  letter-spacing: -1px;
+  margin-bottom: 3px;
+  margin-top: 17px;
+}
+
+/* line 290, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#prof {
+  margin-top: 4px;
+  margin-bottom: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+}
+
+/* line 295, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#name-text {
+  width: 80%;
+  margin-left: -40px;
+  margin-top: 30px;
+}
+/* line 300, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#name-text h1 {
+  float: left;
+  margin-left: 15px;
+  font-size: 3em;
+}
+
+/* line 306, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#profile {
+  padding-left: 100px;
+}
+
+/* line 310, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#fancybutton {
+  display: none;
+}
+
+/* line 315, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile {
+  background: white;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  padding: 20px;
+  width: 1000px;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 100px;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+/* line 329, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile ul {
+  padding: 0;
+}
+/* line 333, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile ul li {
+  list-style-type: none;
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+/* line 339, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile #main-left {
+  float: left;
+  width: 50%;
+}
+/* line 343, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile #main-right {
+  padding-left: 20px;
+  float: right;
+  width: 50%;
+}
+/* line 349, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile fieldset {
+  width: 45%px;
+  margin-bottom: 10px;
+}
+/* line 350, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile fieldset legend {
+  font-size: 1.5em;
+}
+/* line 357, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile .show-prof {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
+  width: 200px !important;
+  height: 200px !important;
+}
+/* line 367, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile .profilebutton {
+  border: none;
+  background: #222;
+  color: #FFF;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 17px;
+  font-family: Palatino;
+  font-weight: bold;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+/* line 380, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.profile .profilebutton a {
+  color: white;
+}
+
+/* line 387, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.details-left {
+  float: left;
+  width: 50%;
+}
+
+/* line 391, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.details-right {
+  float: right;
+  width: 50%;
+}
+
+/* line 395, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.show-group {
+  margin-bottom: 20px;
+}
+
+/* line 398, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.clear {
+  clear: both;
+}
+
+/* line 403, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#jobbutton {
+  border: none;
+  background: #F07830;
+  color: #FFF;
+  padding: 10px 30px;
+  font-size: 40px;
+  font-family: Palatino;
+  font-weight: bold;
+}
+/* line 414, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#jobbutton a {
+  color: white;
+}
+
+/* line 419, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#namelist li {
+  display: inline;
+  padding: 0;
+  margin: 0;
+}
+/* line 423, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#namelist li h1 {
+  padding: 0px;
+  margin: 0px;
+}
+
+/* line 428, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#profilebutton {
+  border: none;
+  background: #222;
+  color: #FFF;
+  padding: 5px 20px;
+  margin: 5px;
+  font-size: 17px;
+  font-family: Palatino;
+  font-weight: bold;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+}
+/* line 442, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#profilebutton a {
+  color: white;
+}
+
+/* line 447, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#cancelbutton {
+  background: #781800;
+}
+
+/*Let's place the label over the input*/
+/* line 454, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.flp div.sfield {
+  position: relative;
+  margin-bottom: 26px;
+}
+
+/* line 456, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.flp input.sfield, .flp label.sfield {
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
+  /*fixed height for FF line height issue. 
+  height = 24(lineheight) + 10*2(padding) + 2(border)*/
+  height: 46px;
+}
+
+/* line 462, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.flp input.sfield {
+  padding: 10px;
+  outline: none;
+  border-radius: 3px;
+}
+
+/* line 463, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.flp label.sfield {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /*left/right padding will be 2px less, adjusted by padding on .ch*/
+  padding: 10px 8px;
+  border-color: transparent;
+  color: #666;
+  cursor: text;
+}
+
+/*label styles*/
+/* line 472, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ch {
+  display: block;
+  float: left;
+  position: relative;
+  /*for upward animation*/
+  background: white;
+}
+
+/* line 477, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ch:first-child {
+  padding-left: 2px;
+}
+
+/* line 478, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ch:last-child {
+  padding-right: 2px;
+}
+
+/*active input label*/
+/* line 481, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.focussed {
+  /*when any input is already focussed clicking on it(label) again won't do anything*/
+  pointer-events: none;
+}
+
+/* line 485, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.form-control {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* line 490, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks {
+  /*Adding custom checkbox icons*/
+  /*hiding the original checkboxes*/
+  /*when the user checks the checkbox the checked icon will animate in*/
+  /*adding some colors for fun*/
+}
+/* line 492, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks ul {
+  margin: 0 auto;
+}
+/* line 495, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks ul li {
+  list-style-type: none;
+  padding: 10px;
+}
+/* line 500, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks label {
+  position: relative;
+  padding-left: 20px;
+  padding-right: 10px;
+  padding-top: 5px;
+  font-size: 14px;
+  cursor: pointer;
+}
+/* line 508, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks label:before, #discipline-checks label:after {
+  font-family: FontAwesome;
+  font-size: 21px;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+/* line 513, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks label:before {
+  content: '\f096';
+  /*unchecked*/
+}
+/* line 516, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks label:after {
+  content: '\f046';
+  /*checked*/
+  /*checked icon will be hidden by default by using 0 max-width and overflow hidden*/
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0.5;
+  /*CSS3 transitions for animated effect*/
+  transition: all 0.35s;
+}
+/* line 527, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks input[type="checkbox"] {
+  display: none;
+}
+/* line 531, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks input[type="checkbox"]:checked + label:after {
+  max-width: 25px;
+  /*an arbitratry number more than the icon's width*/
+  opacity: 1;
+  /*for fade in effect*/
+}
+/* line 537, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-ms + label:before, #discipline-checks #tab-ms + label:after {
+  color: #943838;
+}
+/* line 538, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-em + label:before, #discipline-checks #tab-em + label:after {
+  color: #949438;
+}
+/* line 539, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-ps + label:before, #discipline-checks #tab-ps + label:after {
+  color: #389438;
+}
+/* line 540, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-am + label:before, #discipline-checks #tab-am + label:after {
+  color: #389494;
+}
+/* line 541, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-seo + label:before, #discipline-checks #tab-seo + label:after {
+  color: #383894;
+}
+/* line 542, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#discipline-checks #tab-sm + label:before, #discipline-checks #tab-sm + label:after {
+  color: #943894;
+}
+
+/* line 548, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit .form-group.sfield, #p-edit .form-group.wandc, #j-create .form-group.sfield, #j-create .form-group.wandc {
+  width: 400px !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+/* line 553, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit fieldset.sf, #j-create fieldset.sf {
+  background: white;
+  margin-top: 10px;
+  border: 0 none;
+  border-radius: 3px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+  padding: 20px 30px;
+  box-sizing: border-box;
+  width: 800px;
+  position: absolute;
+  left: 50%;
+  margin-left: -400px;
+  margin-top: 10px;
+  /*stacking fieldsets above each other*/
+  overflow: hidden;
+}
+/* line 571, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit fieldset.sf li, #j-create fieldset.sf li {
+  list-style-type: none;
+}
+/* line 575, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit fieldset.sf:not(:first-of-type), #j-create fieldset.sf:not(:first-of-type) {
+  display: none;
+}
+/* line 578, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit .action-button, #j-create .action-button {
+  width: 100px;
+  background: #27AE60;
+  font-weight: bold;
+  color: white;
+  border: 0 none;
+  border-radius: 1px;
+  cursor: pointer;
+  padding: 10px 5px;
+  margin: 10px 5px;
+}
+/* line 589, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit .action-button:hover, #p-edit .action-button:focus, #j-create .action-button:hover, #j-create .action-button:focus {
+  box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+/* line 592, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar, #j-create #progressbar {
+  overflow: hidden;
+  counter-reset: step;
+  margin-left: -916px;
+}
+/* line 598, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar li, #j-create #progressbar li {
+  list-style-type: none;
+  text-transform: uppercase;
+  font-size: 9px;
+  left: 50%;
+  width: 304px;
+  float: left;
+  position: relative;
+  color: white;
+}
+/* line 608, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit .p4 li, #j-create .p4 li {
+  width: 228px !important;
+}
+/* line 611, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar li:before, #j-create #progressbar li:before {
+  content: counter(step);
+  counter-increment: step;
+  width: 20px;
+  line-height: 20px;
+  display: block;
+  font-size: 10px;
+  color: #333;
+  background: white;
+  border-radius: 3px;
+  margin: 0 auto 5px auto;
+}
+/* line 623, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar li:after, #j-create #progressbar li:after {
+  content: '';
+  width: 100%;
+  height: 2px;
+  background: white;
+  position: absolute;
+  left: -50%;
+  top: 9px;
+  z-index: -1;
+  /*put it behind the numbers*/
+}
+/* line 633, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar li:first-child:after, #j-create #progressbar li:first-child:after {
+  content: none;
+}
+/* line 636, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#p-edit #progressbar li.active:before, #p-edit #progressbar li.active:after, #j-create #progressbar li.active:before, #j-create #progressbar li.active:after {
+  background: #27AE60;
+  color: white;
+}
+
+/* line 642, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.clockpicker {
+  width: 180px !important;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* line 647, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.form-group {
+  margin-bottom: 26px !important;
+}
+
+/* line 651, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.chosen-container .chosen-results li {
+  display: list-item !important;
+}
+
+/* line 656, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.chosen-choices .search-field input {
+  width: 700px !important;
+}
+
+/* line 660, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.search-field input {
+  height: 20px !important;
+  color: #888888 !important;
+  line-height: 15px !important;
+  padding: 5px 0px 5px 5px !important;
+  border-radius: 4px !important;
+}
+
+/* line 669, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#resume-prev .modal-dialog {
+  width: 900px !important;
+}
+
+/* line 672, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.doc-prev {
+  width: 840px;
+  height: 800px !important;
+  background: white;
+  border-style: none;
+  margin: 0 auto 0 auto;
+}
+
+/* line 679, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.modalstuff {
+  width: 550px;
+  height: 600px !important;
+  background: white;
+  border-style: none;
+  margin: 0 auto 0 auto;
+  white-space: normal !important;
+}
+
+/* line 687, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.badge {
+  margin-right: 10px;
+  padding: auto !important;
+}
+
+/* line 692, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs {
+  background: transparent;
+  border: none;
+}
+
+/* line 696, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs .ui-widget-header {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #c0c0c0;
+  -moz-border-radius: 0px;
+  -webkit-border-radius: 0px;
+  border-radius: 0px;
+}
+
+/* line 704, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs .ui-tabs-nav .ui-state-default {
+  background: transparent;
+  border: none;
+}
+
+/* line 708, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs .ui-tabs-nav .ui-state-active {
+  background: transparent url("uiTabsArrow.png") no-repeat bottom center;
+  border: none;
+}
+
+/* line 712, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs .ui-tabs-nav .ui-state-default a {
+  color: #c0c0c0;
+}
+
+/* line 715, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs .ui-tabs-nav .ui-state-active a {
+  color: #459e00;
+}
+
+/* line 718, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#tabs *:focus {
+  outline: none !important;
+}
+
+/* line 721, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-vertical {
+  width: 48px;
+}
+
+/* line 724, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-vertical *:focus {
+  outline: none !important;
+}
+
+/* line 729, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ui-slider-range {
+  background: #87e0fd;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #87e0fd 0%, #53cbf1 40%, #05abe0 100%);
+  /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #87e0fd), color-stop(40%, #53cbf1), color-stop(100%, #05abe0));
+  /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #87e0fd 0%, #53cbf1 40%, #05abe0 100%);
+  /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #87e0fd 0%, #53cbf1 40%, #05abe0 100%);
+  /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #87e0fd 0%, #53cbf1 40%, #05abe0 100%);
+  /* IE10+ */
+  background: linear-gradient(to bottom, #87e0fd 0%, #53cbf1 40%, #05abe0 100%);
+  /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=0 );
+  /* IE6-9 */
+}
+
+/* line 740, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+.ui-slider-handle {
+  width: 54px !important;
+  height: 27px !important;
+  color: #1592cc !important;
+  font-size: 14px !important;
+  padding: 3px !important;
+  text-shadow: 0 1px 0 white !important;
+  text-decoration: none !important;
+  background: #fffcfa !important;
+}
+
+/* line 751, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-left {
+  float: left;
+  width: 80px;
+  height: 500px;
+}
+
+/* line 756, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right {
+  float: right;
+  width: 660px;
+}
+/* line 760, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right * {
+  float: left;
+}
+/* line 763, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right .tier-wrap {
+  width: 100%;
+}
+/* line 766, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0, #slider-right #tier1, #slider-right #tier2, #slider-right #tier3 {
+  height: 100px;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+/* line 771, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 h1, #slider-right #tier1 h1, #slider-right #tier2 h1, #slider-right #tier3 h1 {
+  margin-top: 30px;
+}
+/* line 774, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 span, #slider-right #tier1 span, #slider-right #tier2 span, #slider-right #tier3 span {
+  margin-top: 5px;
+  float: right;
+}
+/* line 778, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 p, #slider-right #tier1 p, #slider-right #tier2 p, #slider-right #tier3 p {
+  margin-top: 10px;
+  white-space: normal !important;
+  width: 400px;
+  float: left;
+  margin-left: 40px;
+}
+/* line 785, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 p.compressed, #slider-right #tier1 p.compressed, #slider-right #tier2 p.compressed, #slider-right #tier3 p.compressed {
+  margin-top: 10px;
+  white-space: normal !important;
+  width: 200px;
+  float: left;
+  margin-left: 40px;
+}
+/* line 795, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier3 {
+  width: 300px;
+  background: #CFF09E;
+}
+/* line 798, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier3 h1 {
+  margin-left: 10px;
+}
+/* line 802, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier2 {
+  width: 400px;
+  background: #A8DBA8;
+}
+/* line 805, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier2 h1 {
+  margin-left: 10px;
+}
+/* line 810, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier1 {
+  width: 500px;
+  background: #79BD9A;
+}
+/* line 813, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier1 h1 {
+  margin-left: 10px;
+}
+/* line 818, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 {
+  width: 600px;
+  background: #3B8686;
+}
+/* line 821, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right #tier0 h1 {
+  margin-left: 10px;
+}
+/* line 825, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right * .modal-dialog {
+  width: 700px !important;
+}
+/* line 828, /Users/chrisdock/Documents/quomp/ruby/testproj/quomp/app/assets/stylesheets/custom.css.scss */
+#slider-right * .modal-content {
+  word-wrap: break-word !important;
+}
