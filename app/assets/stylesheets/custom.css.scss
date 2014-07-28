@@ -14,7 +14,7 @@ body {
     h4 {
         font-style: bold;
         font-weight: 500;
-    }
+}
 
 }
 #wrapper {
@@ -27,13 +27,13 @@ body {
     ul {
         display: inline-block;
         list-style-type: none;
-    }
-    #droplog{
-        padding:10px;
-        input[type=text] {
-            width: 200px;
-        }
-    }
+}
+#droplog{
+    padding:10px;
+    input[type=text] {
+        width: 200px;
+}
+}
 }
 #content {
     padding-bottom: 120px;
@@ -51,17 +51,17 @@ body {
         font-size:1.3em;
         &:hover {
             color: #fff;
-        }
-    }
-    ul {
-        float:right;
-        overflow: hidden;
-        white-space:nowrap;
-        li { 
-            display: inline-block;
-            padding:10px;
-        }
-    }
+}
+}
+ul {
+    float:right;
+    overflow: hidden;
+    white-space:nowrap;
+    li { 
+        display: inline-block;
+        padding:10px;
+}
+}
 }
 input[type="file"] {
     visibility: hidden;
@@ -118,16 +118,18 @@ p {
 }
 
 textarea {
-    resize: vertical !important;
+    resize: none !important;
 }
 
 ul {
-    margin-bottom: 0 !important
+    margin-bottom: 0 !important;
 }
 .ui-state-disabled {
     display: none;
 }
-
+.modal-open {
+    margin-right:0px!important;
+}
 #slogan {
     font-size:1.85em;
     letterspacing:-1px;
@@ -149,7 +151,7 @@ ul {
     &:hover {
         color: lighten(#0096FA,20%);
         text-decoration: none;
-    }
+}
 }
 
 
@@ -171,12 +173,12 @@ ul {
     padding-right:2%;
     .btn {
         font-size: 28px;
-    }
-    padding-left:2%;
-    margin-top:24px;
-    div {
-        width: 275px;
-    }
+}
+padding-left:2%;
+margin-top:24px;
+div {
+    width: 275px;
+}
 }
 #logo2{
     color:#0096FA;
@@ -186,49 +188,49 @@ ul {
 #createsheet {
     h3 {
         margin-bottom: 22px;
-    }
-    background:white;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 20px;
-    width: 400px;
-    vertical-align:middle;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:100px;
-    ol li {
-        list-style-type:none;
-        padding-right: 40px;
-        label{
-            display:inline-block;
-        }
-    }
+}
+background:white;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+padding: 20px;
+width: 400px;
+vertical-align:middle;
+margin-left: auto;
+margin-right: auto;
+margin-top:100px;
+ol li {
+    list-style-type:none;
+    padding-right: 40px;
+    label{
+        display:inline-block;
+}
+}
 }
 #createsheet2 {
     h3 {
         margin-bottom: 22px;
-    }
-    background: white;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    padding: 20px;
-    width: 800px;
-    vertical-align:middle;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top:100px;
-    ul li {
-        list-style-type:none;
-    }
-    fieldset {
-        .form-group{
-            width: 400px;
-            margin-left:auto;
-            margin-right: auto;
-        }
-    }
+}
+background: white;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+padding: 20px;
+width: 800px;
+vertical-align:middle;
+margin-left: auto;
+margin-right: auto;
+margin-top:100px;
+ul li {
+    list-style-type:none;
+}
+fieldset {
+    .form-group{
+        width: 400px;
+        margin-left:auto;
+        margin-right: auto;
+}
+}
 }
 #createsheet3 {
     margin-top:100px;
@@ -237,12 +239,12 @@ ul {
     white-space:nowrap;
     li { 
         display: inline-block; 
-    }
+}
 }
 .citystate {
     padding:0!important;
     input {
-    }
+}
 }
 .quick-align {
 
@@ -261,7 +263,7 @@ ul {
     ul {
         list-style: none;
         margin: 0px 0 18px 0;
-    }
+}
 }
 aside {
     section {
@@ -269,21 +271,21 @@ aside {
         &:first-child {
             border: 0;
             padding-top: 0;
-        }
-        span {
-            display: block;
-            margin-bottom: 3px;
-            line-height: 1;
-        }
-        h1 {
-            display:inline-block;
-            font-size: 2.0em;
-            text-align: left;
-            letter-spacing: -1px;
-            margin-bottom: 3px;
-            margin-top: 17px;
-        }
-    }
+}
+span {
+    display: block;
+    margin-bottom: 3px;
+    line-height: 1;
+}
+h1 {
+    display:inline-block;
+    font-size: 2.0em;
+    text-align: left;
+    letter-spacing: -1px;
+    margin-bottom: 3px;
+    margin-top: 17px;
+}
+}
 }
 
 #prof {
@@ -300,7 +302,7 @@ aside {
         float: left;
         margin-left:15px;
         font-size:3em;
-    }
+}
 }
 #profile{
     padding-left: 100px;
@@ -327,60 +329,60 @@ aside {
     font-size: 20px;
     ul {
         padding:0
-    }
+}
 
-    ul li {
-        list-style-type:none;
-display: inline;
+ul li {
+    list-style-type:none;
+    display: inline;
     padding:0;
     margin:0;
-    }
-    #main-left{
-        float: left;
-        width: 50%;
-    }
-    #main-right {
-        padding-left:20px;
-        float: right;
-        width:50%;
-    }
-    
-    fieldset{
-        legend{
-            font-size:1.5em;
-        }
+}
+#main-left{
+    float: left;
+    width: 50%;
+}
+#main-right {
+    padding-left:20px;
+    float: right;
+    width:50%;
+}
 
-        width: 45%px;
-        margin-bottom:10px;
-    }
-    .show-prof {
-        box-shadow: 0 0 8px rgba(0, 0, 0, .8);
-        width: 200px!important;
-        height:200px!important;
-    }
-    
-    table {
-            td.spacer {
-            }
-        }
-    .profilebutton {
+fieldset{
+    legend{
+        font-size:1.5em;
+}
 
-        border: none;
-        background: #222;
-        color: #FFF;
-        padding: 5px 20px;
-        margin: 5px;
-        font-size:17px;
-        font-family: Palatino;
-        font-weight: bold;
-        border-radius:0px;
-        -moz-border-radius: 0px;
-        -webkit-border-radius: 0px;
-        a {
-            color: white;
-        }
-    }
-    
+width: 45%px;
+margin-bottom:10px;
+}
+.show-prof {
+    box-shadow: 0 0 8px rgba(0, 0, 0, .8);
+    width: 200px!important;
+    height:200px!important;
+}
+
+table {
+    td.spacer {
+}
+}
+.profilebutton {
+
+    border: none;
+    background: #222;
+    color: #FFF;
+    padding: 5px 20px;
+    margin: 5px;
+    font-size:17px;
+    font-family: Palatino;
+    font-weight: bold;
+    border-radius:0px;
+    -moz-border-radius: 0px;
+    -webkit-border-radius: 0px;
+    a {
+        color: white;
+}
+}
+
 
 }
 .details-left {
@@ -490,152 +492,152 @@ height: 46px;
 
     ul {
         margin: 0 auto;
-    }
-    ul li {
-        list-style-type: none;
-        padding: 10px;
-    }
+}
+ul li {
+    list-style-type: none;
+    padding: 10px;
+}
 /*Adding custom checkbox icons*/
-    label {
-        position: relative;
-        padding-left: 20px;
-        padding-right: 10px;
-        padding-top:5px;
-        font-size: 14px;
-        cursor: pointer;
-    }
-    label:before, label:after {
-        font-family: FontAwesome;
-        font-size: 21px;
-        position: absolute; top: 0; left: 0;
-    }
-    label:before {
-        content: '\f096'; /*unchecked*/
-    }
-    label:after {
-        content: '\f046'; /*checked*/
-        /*checked icon will be hidden by default by using 0 max-width and overflow hidden*/
-        max-width: 0;
-        overflow: hidden;
-        opacity: 0.5;
-        /*CSS3 transitions for animated effect*/
-        transition: all 0.35s;
-    }
+label {
+    position: relative;
+    padding-left: 20px;
+    padding-right: 10px;
+    padding-top:5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+label:before, label:after {
+    font-family: FontAwesome;
+    font-size: 21px;
+    position: absolute; top: 0; left: 0;
+}
+label:before {
+    content: '\f096'; /*unchecked*/
+}
+label:after {
+    content: '\f046'; /*checked*/
+    /*checked icon will be hidden by default by using 0 max-width and overflow hidden*/
+    max-width: 0;
+    overflow: hidden;
+    opacity: 0.5;
+    /*CSS3 transitions for animated effect*/
+    transition: all 0.35s;
+}
 
-    /*hiding the original checkboxes*/
-    input[type="checkbox"] {
+/*hiding the original checkboxes*/
+input[type="checkbox"] {
     display: none;
-    }
-    /*when the user checks the checkbox the checked icon will animate in*/
-    input[type="checkbox"]:checked + label:after {
-        max-width: 25px; /*an arbitratry number more than the icon's width*/
-        opacity: 1; /*for fade in effect*/
-    }
+}
+/*when the user checks the checkbox the checked icon will animate in*/
+input[type="checkbox"]:checked + label:after {
+    max-width: 25px; /*an arbitratry number more than the icon's width*/
+    opacity: 1; /*for fade in effect*/
+}
 
-    /*adding some colors for fun*/
-    #tab-ms+label:before, #tab-ms+label:after {color: hsl(0, 45%, 40%);}
-    #tab-em+label:before, #tab-em+label:after {color: hsl(60, 45%, 40%);}
-    #tab-ps+label:before, #tab-ps+label:after {color: hsl(120, 45%, 40%);}
-    #tab-am+label:before, #tab-am+label:after {color: hsl(180, 45%, 40%);}
-    #tab-seo+label:before, #tab-seo+label:after {color: hsl(240, 45%, 40%);}
-    #tab-sm+label:before, #tab-sm+label:after {color: hsl(300, 45%, 40%);}
+/*adding some colors for fun*/
+#tab-ms+label:before, #tab-ms+label:after {color: hsl(0, 45%, 40%);}
+#tab-em+label:before, #tab-em+label:after {color: hsl(60, 45%, 40%);}
+#tab-ps+label:before, #tab-ps+label:after {color: hsl(120, 45%, 40%);}
+#tab-am+label:before, #tab-am+label:after {color: hsl(180, 45%, 40%);}
+#tab-seo+label:before, #tab-seo+label:after {color: hsl(240, 45%, 40%);}
+#tab-sm+label:before, #tab-sm+label:after {color: hsl(300, 45%, 40%);}
 }
 
 
 
 #p-edit,#j-create{
-   .form-group.sfield, .form-group.wandc {
-       width: 400px !important;
-       margin-right:auto;
-       margin-left: auto;
+    .form-group.sfield, .form-group.wandc {
+        width: 400px !important;
+        margin-right:auto;
+        margin-left: auto;
    }
-    fieldset.sf {
+   fieldset.sf {
 
-        background: white; 
-        margin-top:10px;
-        border: 0 none;
-        border-radius: 3px;
-        -moz-border-radius: 5px;
-        -webkit-border-radius: 5px;
-        box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
-        padding: 20px 30px;
-        box-sizing: border-box;
-        width: 800px;
-        position:absolute;
-        left: 50%;
-        margin-left:-400px;
-        margin-top:10px;
-        /*stacking fieldsets above each other*/
-        overflow: hidden;
-        li { 
-            list-style-type: none;
-        }
-    }
-    fieldset.sf:not(:first-of-type) {
-        display: none;
-    }
-    .action-button {
-        width: 100px;
-        background: #27AE60;
-        font-weight: bold;
-        color: white;
-        border: 0 none;
-        border-radius: 1px;
-        cursor: pointer;
-        padding: 10px 5px;
-        margin: 10px 5px;
-    }
-    .action-button:hover, .action-button:focus {
-        box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
-    }
-    #progressbar {
-        overflow: hidden;
-        counter-reset: step;
-        margin-left:-916px;
+       background: white; 
+       margin-top:10px;
+       border: 0 none;
+       border-radius: 3px;
+       -moz-border-radius: 5px;
+       -webkit-border-radius: 5px;
+       box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+       padding: 20px 30px;
+       box-sizing: border-box;
+       width: 800px;
+       position:absolute;
+       left: 50%;
+       margin-left:-400px;
+       margin-top:10px;
+       /*stacking fieldsets above each other*/
+       overflow: hidden;
+       li { 
+           list-style-type: none;
+}
+}
+fieldset.sf:not(:first-of-type) {
+    display: none;
+}
+.action-button {
+    width: 100px;
+    background: #27AE60;
+    font-weight: bold;
+    color: white;
+    border: 0 none;
+    border-radius: 1px;
+    cursor: pointer;
+    padding: 10px 5px;
+    margin: 10px 5px;
+}
+.action-button:hover, .action-button:focus {
+    box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+}
+#progressbar {
+    overflow: hidden;
+    counter-reset: step;
+    margin-left:-916px;
 
-    }
-    #progressbar li {
-        list-style-type: none;
-        text-transform: uppercase;
-        font-size: 9px;
-        left:50%;
-        width: 304px;
-        float: left;
-        position: relative;
-        color: white;
-    }
-    .p4 li {
-        width: 228px!important;
-    }
-    #progressbar li:before {
-        content: counter(step);
-        counter-increment: step;
-        width: 20px;
-        line-height: 20px;
-        display: block;
-        font-size: 10px;
-        color: #333;
-        background: white;
-        border-radius: 3px;
-        margin: 0 auto 5px auto;
-    }
-    #progressbar li:after {
-        content: '';
-        width: 100%;
-        height: 2px;
-        background: white;
-        position: absolute;
-        left: -50%;
-        top: 9px;
-        z-index: -1; /*put it behind the numbers*/
-    }
-    #progressbar li:first-child:after {
-        content: none; 
-    }
-    #progressbar li.active:before,  #progressbar li.active:after{
-        background: #27AE60;
-        color: white;
-    }
+}
+#progressbar li {
+    list-style-type: none;
+    text-transform: uppercase;
+    font-size: 9px;
+    left:50%;
+    width: 304px;
+    float: left;
+    position: relative;
+    color: white;
+}
+.p4 li {
+    width: 228px!important;
+}
+#progressbar li:before {
+    content: counter(step);
+    counter-increment: step;
+    width: 20px;
+    line-height: 20px;
+    display: block;
+    font-size: 10px;
+    color: #333;
+    background: white;
+    border-radius: 3px;
+    margin: 0 auto 5px auto;
+}
+#progressbar li:after {
+    content: '';
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    left: -50%;
+    top: 9px;
+    z-index: -1; /*put it behind the numbers*/
+}
+#progressbar li:first-child:after {
+    content: none; 
+}
+#progressbar li.active:before,  #progressbar li.active:after{
+    background: #27AE60;
+    color: white;
+}
 }
 
 .clockpicker {
@@ -649,7 +651,7 @@ height: 46px;
 .chosen-container .chosen-results{
     li {
         display: list-item!important;
-    }
+}
 }
 
 .chosen-choices .search-field input {
@@ -754,79 +756,204 @@ height: 46px;
 }
 #slider-right {
     float:right;
-    
+
     width:660px;
-    * {
-        float:left;
-    }
-    .tier-wrap {
-        width:100%;
-    }
-    #tier0,#tier1,#tier2,#tier3 {
-        height:100px;
-        -moz-border-radius: 5px; 
-        -webkit-border-radius: 5px; 
-        border-radius: 5px;
-        h1 {
-            margin-top:30px;
-        }
-        span{
-            margin-top:5px;
-            float: right;
-        }
-        p{
-            margin-top:10px;
-            white-space:normal!important;
-            width:400px;
-            float:left;
-            margin-left:40px;
-        }
-        p.compressed {
-            margin-top:10px;
-            white-space:normal!important;
-            width:200px;
-            float:left;
-            margin-left:40px;
-
-        }
-        
-    }
-    #tier3{
-        width:300px;
-        background: #CFF09E;
-        h1 {
-            margin-left:10px;
-        }
-    }
-    #tier2{
-        width:400px;
-        background: #A8DBA8;
-        h1 {
-            margin-left:10px;
-        }
-
-    }
-    #tier1{
-        width:500px;
-        background: #79BD9A;
-        h1 {
-            margin-left:10px;
-        }
-
-    }
-    #tier0{
-        width:600px;
-        background: #3B8686;
-        h1 {
-            margin-left:10px;
-        }
-    }
-    * .modal-dialog {
-        width: 700px!important;
-    }
-    * .modal-content {
-        word-wrap: break-word!important;
-    }
+          * {
+              float:left;
+}
+.tier-wrap {
+    width:100%;
+}
+#tier0,#tier1,#tier2,#tier3 {
+    height:100px;
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border-radius: 5px;
+    h1 {
+        margin-top:30px;
+}
+span{
+    margin-top:5px;
+    float: right;
+}
+p{
+    margin-top:10px;
+    white-space:normal!important;
+    width:400px;
+    float:left;
+    margin-left:40px;
+}
+p.compressed {
+    margin-top:10px;
+    white-space:normal!important;
+    width:200px;
+    float:left;
+    margin-left:40px;
+}
 
 }
+#tier3{
+    width:300px;
+    background: #CFF09E;
+    h1 {
+        margin-left:10px;
+}
+}
+#tier2{
+    width:400px;
+    background: #A8DBA8;
+    h1 {
+        margin-left:10px;
+}
+
+}
+#tier1{
+    width:500px;
+    background: #79BD9A;
+    h1 {
+        margin-left:10px;
+}
+
+}
+#tier0{
+    width:600px;
+    background: #3B8686;
+    h1 {
+        margin-left:10px;
+}
+}
+* .modal-dialog {
+    width: 700px!important;
+}
+* .modal-content {
+    word-wrap: break-word!important;
+}
+
+}
+.logo {
+    width:120px;
+    height:80px;
+    -moz-border-radius: 5px; 
+    -webkit-border-radius: 5px; 
+    border-radius: 5px;
+    border: 3px solid black;
+}
+
+.ll-skin-nigran {
+    font-size: 90%;
+}
+
+.ll-skin-nigran .ui-widget {
+    font-family: "Helvetica Neue","Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
+    background: #29a2d9;
+    border: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    box-shadow: 0 1px 3px #252525;
+}
+
+.ll-skin-nigran .ui-datepicker {
+    padding: 0;
+}
+
+.ll-skin-nigran .ui-datepicker-header {
+    border: none;
+    border-bottom: 1px solid #2d97cb;
+    background: transparent;
+    font-weight: normal;
+    font-size: 11px;
+    text-transform: uppercase;
+}
+
+.ll-skin-nigran .ui-datepicker-header .ui-state-hover {
+    background: transparent;
+    border-color: transparent;
+    cursor: pointer;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+}
+
+.ll-skin-nigran .ui-datepicker .ui-datepicker-title {
+    margin-top: 1.5em;
+    margin-bottom: 1em;
+    }
+
+    .ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover,
+    .ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover,
+    .ll-skin-nigran .ui-datepicker .ui-datepicker-next,
+    .ll-skin-nigran .ui-datepicker .ui-datepicker-prev {
+        top: 1.7em;
+        border:none;
+            }
+
+            .ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover {
+                left: 2px;
+                }
+
+                .ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover {
+                    right: 2px;
+                    }
+
+                    .ll-skin-nigran .ui-datepicker .ui-datepicker-next span,
+                    .ll-skin-nigran .ui-datepicker .ui-datepicker-prev span {
+                        background-image: image-url('ui-icons_ffffff_256x240.png');
+                        background-position: -32px -32px;
+                        margin-top: 0;
+                        top: 0;
+                        font-weight: normal;
+                                        }
+
+                                        .ll-skin-nigran .ui-datepicker .ui-datepicker-prev span {
+                                            background-position: -96px -32px;
+                                            }
+
+                                            .ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover span {
+                                                background-position: -96px -48px;
+                                                }
+
+                                                .ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover span {
+                                                    background-position: -32px -48px;
+                                                    }
+
+                                                    .ll-skin-nigran .ui-datepicker table {
+                                                        margin: 0;
+                                                        }
+
+                                                        .ll-skin-nigran .ui-datepicker th {
+                                                            padding: 3em 0;
+                                                            color: #9fd9f1;
+                                                            font-size: 8px;
+                                                            font-weight: normal;
+                                                            text-shadow: 0 0 2px #45c4f8;
+                                                            text-transform: uppercase;
+                                                            border: none;
+                                                            border-top: 1px solid #3fabdc;
+                                                                                        }
+
+                                                                                        .ll-skin-nigran .ui-datepicker td {
+                                                                                            border: none;
+                                                                                            padding: 0;
+                                                                                                }
+
+                                                                                                .ll-skin-nigran td .ui-state-default {
+                                                                                                    background: transparent;
+                                                                                                    border: none;
+                                                                                                    text-align: center;
+                                                                                                    padding: 1em 0;
+                                                                                                    margin: 0;
+                                                                                                    font-weight: normal;
+                                                                                                    color: #efefef;
+                                                                                                    font-size: 12px;
+                                                                                                                                }
+
+                                                                                                                                .ll-skin-nigran td .ui-state-active,
+                                                                                                                                .ll-skin-nigran td .ui-state-hover {
+                                                                                                                                    background: #1b7fb0;
+                                                                                                                                    border-radius: 4px;
+                                                                                                                                    -webkit-border-radius: 4px;
+                                                                                                                                    -moz-border-radius: 4px;
+                                                                                                                                                }
+
 

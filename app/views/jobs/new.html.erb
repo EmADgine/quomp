@@ -20,10 +20,13 @@
                 <%= f.collection_select :skill_ids,Skill.order(:name),:id, :name, {},{"data-placeholder"=>"Select required skills",class: "skill-select",multiple:true,id: "skills"}%>
             </div>
 
-            <div class="form-group sfield">
+            <div class="form-group sfield input-group">
                 <%=f.text_area :description,rows: 3,class: "form-control sfield", id:"jdfield"%>
                 <label for="jdfield" class="sfield">Briefly describe your project</label>
+
+                <span class="btn input-group-addon" data-toggle="modal" data-target="#samplejobs-prev"><i class="fa fa-question fa-2x"></i></span>
             </div>
+            <%=render partial: "jobs/samplejobs"%>
             <div class="form-group">
                 <%if @job.mockups==nil or @job.mockups.to_s=="/mockups/original/missing.png"%>
                     <%= f.file_field :mockups, id: "mockup-upload"%>
@@ -54,11 +57,12 @@
                     </div>
                     <div class="form-group wandc">
                         <%=f.label :startdate, "What is your start date?"%>
-                        <%=f.text_field :startdate, id: "datepicker1", class: "notme form-control"%>
+                        <div class="datepicker ll-skin-nigran">
+                        <%=f.text_field :startdate, class: "datepicker ll-skin-nigran notme form-control"%>
                     </div>
                     <div class="form-group wandc">
                         <%=f.label :deadline, "What is your deadline?"%>
-                        <%=f.text_field :deadline, id: "datepicker2", class: "notme form-control"%>
+                        <%=f.text_field :deadline, class: "datepicker ll-skin-nigran notme form-control"%>
                     </div>
 
 
@@ -126,8 +130,16 @@
                     <div class="form-group">
                         <legend>Tell us when you want to advertise your job to Our Engine</legend>
                     </div>
-                    <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job.Would you like to schedule another time?</p>
+                        <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
                     <div class="form-group">
+                         <div class="input-group clockpicker center">
+                        <%= f.text_field :posttime, class: 'form-control notme', value: '9:00AM'%>
+
+                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                        </div>
+                    </div>
+                        <p>Based on your local time zone, we recommend posting the job at <%="9:00AM"%></p>
+
                         <input type="button" name="previous" class="previous action-button" value="Previous">
                         <%=f.submit "Submit Job", class: "action-button"%>
                     </div>

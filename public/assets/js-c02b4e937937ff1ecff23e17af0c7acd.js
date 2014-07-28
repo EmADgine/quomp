@@ -66,12 +66,7 @@ $("#p-edit").find("input[type=checkbox].d-check").each(function(){
     })
 })
 
-$( ".datepicker" ).datepicker({
- inline: true,
- showOtherMonths: true,
- selectOtherMonths: true,
- dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-});
+$( ".datepicker" ).datepicker()
 $("#p-reg").find("#frb, #agb").each(function (){
     $(this).bind('click', function() {
         $("#btn-input").val($(this).children(".ptype-btn").val());
