@@ -1,5 +1,5 @@
 
-$(document).ready(function($) {
+jQuery(document).ready(function($) {
     var objHeight=0;
     $.each($('#p-edit').children(),
         function() {
@@ -65,12 +65,17 @@ $("#p-edit").find("input[type=checkbox].d-check").each(function(){
         }
     })
 })
-
-$( ".datepicker" ).datepicker({
- inline: true,
- showOtherMonths: true,
- selectOtherMonths: true,
- dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+jQuery(".datepicker").datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    dayNamesMin: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+});
+$("#jobdates").daterangepicker({format: 'MM/DD/YYYY'});
+$("#jobdates").on('apply.daterangepicker', function(ev,picker) {
+    alert(picker.startDate);
+    alert(picker.endDate);
+    $("#startdatehidden").val(picker.startDate.format('MM/DD/YYYY'));
+    $("#enddatehidden").val(picker.endDate.format('MM/DD/YYYY'));
 });
 $("#p-reg").find("#frb, #agb").each(function (){
     $(this).bind('click', function() {
@@ -201,8 +206,8 @@ $(".previous").click(function(){
     if(animating) return false;
     animating = true;
 
-    current_fs = $(this).parent().parent();
-    previous_fs = $(this).parent().parent().prev();
+    current_fs = $(this).closest("fieldset.sf");
+    previous_fs = $(this).closest("fieldset.sf").prev();
 
     //de-activate current step on progressbar
     $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");

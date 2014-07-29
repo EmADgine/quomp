@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140725224234) do
+ActiveRecord::Schema.define(version: 20140729154039) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -61,12 +61,39 @@ ActiveRecord::Schema.define(version: 20140725224234) do
     t.string   "question"
   end
 
+  create_table "pastjobs", force: true do |t|
+    t.string  "pj_employer"
+    t.string  "pj_position"
+    t.date    "startdate"
+    t.date    "enddate"
+    t.boolean "current"
+  end
+
+  create_table "references", force: true do |t|
+    t.string "ref_name"
+    t.string "ref_email"
+  end
+
   create_table "skills", force: true do |t|
     t.string   "name"
     t.integer  "strength"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "discipline"
+  end
+
+  create_table "user_pastjobs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "pastjob_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "user_references", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "reference_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|

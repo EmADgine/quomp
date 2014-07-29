@@ -38,132 +38,136 @@
                 <%else%>
                     <%= f.file_field :avatar, {id: "avatar-upload",class: "gotFile"}%>
                     <span type="button" class="btn btn-default btn-file">Upload Image<span/>
-                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                    </span>
-                <%end%>
+                            <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                            </span>
+                        <%end%>
 
 
-            </div>
-            <br></br>
-            <br></br>
-            <div class= "form-group sfield">
-                <ul id="oneliner" class= "citystate">
-                    <li>
-                    <%= f.text_field :city, class: 'form-control sfield', id: 'city', autofocus: true%>
-                    <label class="sfield" for='city'>City</label>
-                    </li>
-                    <li>
-                    <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
-                    </li>
-                </ul>
-            </div>
-
-
-            <div class="form-group sfield">
-                <%= f.text_field :website, class: 'form-control sfield', id: 'site'%>
-                <label for='site' class="sfield">Website (if applicable)</label> 
-            </div>
-            <div class="form-group">
-                <%= f.select :university, get_universities.unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
-            </div>
-            <div class="form-group">
-                <%= f.select :education, get_educations.unshift(""),{}, {class: 'chosen-select',"data-placeholder"=>"Highest Level of Education"}%>
-            </div>
-
-            <div class= "form-group sfield">
-                <%= f.text_area :description, class: 'form-control sfield', id: 'dfield', :cols=>"30", :rows=>"4"%>
-                <label for='dfield' class='sfield'>Brief Biography</label>
-            </div>
-            <div class="form-group sfield">
-                <%= f.text_field :linkedin, class: 'form-control sfield',id: 'linkedin'%>
-                <label for='linkedin' class='sfield'>Linkedin Profile</label>
-            </div>
-            <div class="form-group">
-                <%if @provider.resume==nil or @provider.resume.to_s=="/resumes/original/missing.png"%>
-                    <%= f.file_field :resume%>
-                    <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;</span>
-                <%else%>
-                    <%= f.file_field :resume, {class: "gotFile"}%>
-                    <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;<span/>
-                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                    </span>
-                <%end%>
-
-            </div>
-            <div class="form-group">
-                <input type="button" name="next" class="next action-button" value="Next" />
-            </div>
-        </fieldset>
-        <fieldset class="sf">
-            <div class="form-group">
-                <legend>Disciplines</legend>
-            </div>
-            <div id="discipline-checks">
-                <div class="form-group">
-                    <% get_disciplines.each do |key, value| %>
-                        <%=check_box_tag "tab-#{key}", "tab-#{key}",@provider.disciplines.pluck('name').include?(value), data: add_fields_arguments(f,:disciplines,value,@provider.disciplines.pluck('name').include?(value)), class: "d-check notme"%>
-                        <label for="tab-<%=key%>"><%=value%></label>
-                    <% end %>
-                </div>
-            </div>
-            <div id="tabs">
-                <ul>
-                    <%get_disciplines.each do |key,value|%>
-                        <li><a href="#tab-<%=key%>"><%=value%></a></li>
-                    <%end%>
-                </ul>
-                <%get_disciplines.each do |key, value|%>
-                    <div id="tab-<%=key%>">
-                        <div class="insert-<%=key%>"></div>
                     </div>
-                <%end%>
-            </div>
-            <div class="form-group">
-                <input type="button" name="previous" class="previous action-button" value="Previous">
-                <input type="button" name="next" class="next action-button" value="Next" />
-            </div>
-
-        </fieldset>
-        <fieldset class="sf">
-            <div class="form-group">
-                <legend>Availability</legend>
-            </div>
-            <span id="avail-des"> Keeping us informed of your availability to accept new jobs is important. After all, it affects your responsiveness<br> score! Let us know when you can be  matched for jobs -and your current availability if different from your typical <br> schedule</span>
-            <br></br>
-            <div class="form-group sfield">
-                <ul>
-                    <li>
-                    <label for="starttime">Beginning of Availability</label>
-                    </li>
-                    <li>
-                    <div class="input-group clockpicker">
-                        <%= f.text_field :begin, class: 'form-control notme', value: '9:30AM'%>
-
-                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    <br></br>
+                    <br></br>
+                    <div class= "form-group sfield">
+                        <ul id="oneliner" class= "citystate">
+                            <li>
+                            <%= f.text_field :city, class: 'form-control sfield', id: 'city', autofocus: true%>
+                            <label class="sfield" for='city'>City</label>
+                            </li>
+                            <li>
+                            <%= f.select :state, us_states.unshift(""),{}, {class: "chosen-select","data-placeholder"=> "Select State"}%>
+                            </li>
+                        </ul>
                     </div>
-                    </li>
-
-                </ul>
-            </div>
-            <div class="form-group sfield">
-                <ul>
-                    <li>
-
-                    <label for="endtime">End of Availability </label>
-                    </li>
-                    <li>
-                    <div class="input-group clockpicker" id="endtime">
-                        <input type="text" class="form-control notme" name="provider[end]" value="5:30PM">
-                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                    <div class= "form-group sfield">
+                        <%= f.text_area :description, class: 'form-control sfield', id: 'dfield', :cols=>"30", :rows=>"4"%>
+                        <label for='dfield' class='sfield'>Brief Biography</label>
                     </div>
-                    <li>
-                </div>
-                <div class= "form-group">
-                    <input type="button" name="previous" class="previous action-button" value="Previous">
-                    <%= f.submit "Submit", class: "action-button" %>
-                </div>
-            </fieldset>
-        <% end %>
-    </div>
+
+                    <div class="form-group sfield">
+                        <%= f.text_field :website, class: 'form-control sfield', id: 'site'%>
+                        <label for='site' class="sfield">Website (if applicable)</label> 
+                    </div>
+
+                    <h3>Education</h3>
+                    <div class="form-group">
+                        <%= f.select :university, get_universities.unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
+                    </div>
+                    <div class="form-group">
+                        <%= f.select :education, get_educations.unshift(""),{}, {class: 'chosen-select',"data-placeholder"=>"Highest Level of Education"}%>
+                    </div>
+                    
+                    <h3>Work History</h3>
+
+                    <h3>References and Resum&eacute;</h3>
+                    <div class="form-group sfield">
+                        <%= f.text_field :linkedin, class: 'form-control sfield',id: 'linkedin'%>
+                        <label for='linkedin' class='sfield'>Linkedin Profile</label>
+                    </div>
+                    <div class="form-group">
+                        <%if @provider.resume==nil or @provider.resume.to_s=="/resumes/original/missing.png"%>
+                            <%= f.file_field :resume%>
+                            <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;</span>
+                        <%else%>
+                            <%= f.file_field :resume, {class: "gotFile"}%>
+                            <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;<span/>
+                                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                                    </span>
+                                <%end%>
+
+                            </div>
+                            <div class="form-group">
+                                <input type="button" name="next" class="next action-button" value="Next" />
+                            </div>
+                        </fieldset>
+                        <fieldset class="sf">
+                            <div class="form-group">
+                                <legend>Disciplines</legend>
+                            </div>
+                            <div id="discipline-checks">
+                                <div class="form-group">
+                                    <% get_disciplines.each do |key, value| %>
+                                        <%=check_box_tag "tab-#{key}", "tab-#{key}",@provider.disciplines.pluck('name').include?(value), data: add_fields_arguments(f,:disciplines,value,@provider.disciplines.pluck('name').include?(value)), class: "d-check notme"%>
+                                        <label for="tab-<%=key%>"><%=value%></label>
+                                    <% end %>
+                                </div>
+                            </div>
+                            <div id="tabs">
+                                <ul>
+                                    <%get_disciplines.each do |key,value|%>
+                                        <li><a href="#tab-<%=key%>"><%=value%></a></li>
+                                    <%end%>
+                                </ul>
+                                <%get_disciplines.each do |key, value|%>
+                                    <div id="tab-<%=key%>">
+                                        <div class="insert-<%=key%>"></div>
+                                    </div>
+                                <%end%>
+                            </div>
+                            <div class="form-group">
+                                <input type="button" name="previous" class="previous action-button" value="Previous">
+                                <input type="button" name="next" class="next action-button" value="Next" />
+                            </div>
+
+                        </fieldset>
+                        <fieldset class="sf">
+                            <div class="form-group">
+                                <legend>Availability</legend>
+                            </div>
+                            <span id="avail-des"> Keeping us informed of your availability to accept new jobs is important. After all, it affects your responsiveness<br> score! Let us know when you can be  matched for jobs -and your current availability if different from your typical <br> schedule</span>
+                            <br></br>
+                            <div class="form-group sfield">
+                                <ul>
+                                    <li>
+                                    <label for="starttime">Beginning of Availability</label>
+                                    </li>
+                                    <li>
+                                    <div class="input-group clockpicker">
+                                        <%= f.text_field :begin, class: 'form-control notme', value: '9:30AM'%>
+
+                                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div class="form-group sfield">
+                                <ul>
+                                    <li>
+
+                                    <label for="endtime">End of Availability </label>
+                                    </li>
+                                    <li>
+                                    <div class="input-group clockpicker" id="endtime">
+                                        <input type="text" class="form-control notme" name="provider[end]" value="5:30PM">
+                                        <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+                                    </div>
+                                    <li>
+                                </div>
+                                <div class= "form-group">
+                                    <input type="button" name="previous" class="previous action-button" value="Previous">
+                                    <%= f.submit "Submit", class: "action-button" %>
+                                </div>
+                            </fieldset>
+                        <% end %>
+                    </div>
 
 
