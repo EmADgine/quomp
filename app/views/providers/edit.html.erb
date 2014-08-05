@@ -34,13 +34,12 @@
             <div class="quick-align2">
                 <%if @provider.avatar==nil or @provider.avatar.to_s=="/assets/missing_original.png"%>
                     <%= f.file_field :avatar, id: "avatar-upload"%>
-                    <span type="button" class="btn btn-default btn-file">Upload Image</span>
+                    <span type="button" class="btn btn-default btn-file picup">Upload Image</span>
                 <%else%>
                     <%= f.file_field :avatar, {id: "avatar-upload",class: "gotFile"}%>
-                    <span type="button" class="btn btn-default btn-file">Upload Image<span/>
-                            <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                            </span>
-                        <%end%>
+                    <span type="button" class="btn btn-default btn-file picup">Upload Image<span/>
+                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/></span>
+                <%end%>
 
 
                     </div>

@@ -72,8 +72,6 @@ jQuery(".datepicker").datepicker({
 });
 $("#jobdates").daterangepicker({format: 'MM/DD/YYYY'});
 $("#jobdates").on('apply.daterangepicker', function(ev,picker) {
-    alert(picker.startDate);
-    alert(picker.endDate);
     $("#startdatehidden").val(picker.startDate.format('MM/DD/YYYY'));
     $("#enddatehidden").val(picker.endDate.format('MM/DD/YYYY'));
 });
@@ -250,7 +248,11 @@ $(".btn-file").prev().change(function () {
         $(this).next().html($(this).next().html()+"<span>&nbsp;&nbsp;</span>");
         $(this).next().html($(this).next().html()+"<span style='color: #A1C436;' class='fa fa-check'></span>"); 
         $(this).addClass("gotFile");
-    }
+                }
+});
+$(".btn-file:not(.picup)").prev().change(function() {
+    $(this).parent().html($(this).parent().html()+"<span type='button' class='btn btn-default prev-btn' data-toggle='modal' data-target='#"+$(this).next().text().split(" ")[1].toLowerCase().trim()+"-prev'>Preview "+$(this).next().text().split(" ")[1]+"</span>");
+    
 });
 $(".badge").tooltip({});
 
