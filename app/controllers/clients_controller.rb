@@ -17,6 +17,6 @@ class ClientsController < ApplicationController
         end
     end
     def client_params_edit
-        params.require(:client).permit(:avatar,:industry,:city,:state,:website, :description)
+        params.require(:client).permit(:avatar,:industry,:city,:state,:website, :description,:use_desc)
     end
 end

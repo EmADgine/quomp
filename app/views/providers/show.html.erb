@@ -49,7 +49,7 @@
                             <th><span style="display: inline-block; width:240px;">Discipline</span></th>
                             <th><span>Portfolio Uploaded?</span></th>
                         </tr>
-                        <%@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each do |discipline|%>
+                        <%@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each_with_index do |discipline,i|%>
                         <tr>
                             <td style="width:350px;"><span style="display: inline-block; width: 300px;"><%=discipline.name%>: <%=pluralize(discipline.years,"year")%> exp.</span></td>
                             <%if discipline.portfolio.to_s.split('/')[-1]!="missing.png"%>
@@ -65,8 +65,9 @@
                                 <%discipline.skills.each do |skill|%>
                                     <tr><td><small><%=skill.name%></small></td></tr>
                                 <%end%>
-
-                            <tr><td><hr></hr></td></tr>
+                            <%if i!=@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.length-1%>
+                                <tr><td><hr></hr></td></tr>
+                            <%end%>
                     <%end%>
                     </table>
                 <%end%>

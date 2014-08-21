@@ -2,7 +2,7 @@
 
     <%=render 'shared/error_messages'%>
     <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'jaxForm form-horizontal flp', :role=>'form', :id=>"p-edit"} do |f|%>
-        <div id="whichprev" style="visibility:hidden;"></div>
+        <div id="whichprev" style="visibility:hidden;" data-method="PATCH"></div>
         <ul id="progressbar">
             <li class="active">Provider Details</li>
             <li>Disciplines</li>

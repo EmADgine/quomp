@@ -19,6 +19,7 @@ class User < ActiveRecord::Base
 
 
     has_many :disciplines, dependent: :destroy
+    has_many :jobs, dependent: :destroy
 
     accepts_nested_attributes_for :disciplines, allow_destroy: true, :reject_if => proc {|a| a['portfolio']=="/portfolios/original/missing.png"}
 end

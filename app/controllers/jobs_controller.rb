@@ -4,9 +4,11 @@ class JobsController < ApplicationController
     def new
         @job= Job.new(:user_id=>current_user.id)
         @job.budget="$"
+        @parentclient = Client.find(current_user.id)
     end
     def create
         @job= Job.new(job_params)
+        
         Rails.logger.debug("Hello!")
         respond_to do |format|
             if @job.save
@@ -25,6 +27,6 @@ class JobsController < ApplicationController
     end
     private
     def job_params
-        params.require(:job).permit(:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups)
+        params.require(:job).permit(:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req)
     end
 end

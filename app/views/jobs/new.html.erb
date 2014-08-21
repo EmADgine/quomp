@@ -1,5 +1,6 @@
 <div id="createsheet3" class="center">
     <%=nested_form_for [current_user,@job], :html=> {:class=> 'jaxForm form-horizontal flp', :role=>'form',:id=>"j-create"},:method=>"POST" do |f|%>
+        <div id="whichprev" style="visibility:hidden;" data-method="POST"></div>
         <ul id="progressbar" class="p4">
             <li class="active">Job Details</li>
             <li>Job Timeline</li>
@@ -27,10 +28,21 @@
 
             <div class="form-group sfield input-group">
                 <%=f.text_area :description,rows: 3,class: "form-control sfield", id:"jdfield"%>
-                <label for="jdfield" class="sfield">Briefly describe your project</label>
+                <label for="jdfield" class="sfield">Project Description</label>
 
                 <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="To the extent you know what your project entails, please provide details. Make sure to be as specific as possible as this information helps the provider gauge whether or not they are best suited to complete the job. Ask yourself, what exactly do I need done?"><i class="fa fa-question fa-2x"></i></span>
             </div>
+            <div class= "form-group sfield input-group">
+                <%if @parentclient.use_desc%>
+
+                    <%=f.text_area :description, rows: 3, class: "form-control sfield", id: "jbdfield",value: @parentclient.description%>
+                <%else%>
+                    <%=f.text_area :description, rows: 3, class: "form-control sfield", id: "jbdfield"%>
+                <%end%>
+                <label for="jbdfield" class="sfield">Business Description</label>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s helpful for the provider to know a little bit about your company and the industry it operates in. Ask yourself, what does my company do?"><i class="fa fa-question fa-2x"></i></span>
+            </div>
+
             <%=render partial: "jobs/samplejobs"%>
             <div class="form-group">
                 <%if @job.mockups==nil or @job.mockups.to_s=="/mockups/original/missing.png"%>
@@ -50,7 +62,7 @@
 
             <%=render partial: 'jobs/mockups',:locals=>{mockup_url: @job.mockups.to_s}%>
             <div class="form-group">
-                <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
+                <%=f.label :expreq, "Do you require experience in this specific discipline?"%><span data-toggle="tooltip" data-placement="right" title="The best way to become an expert in any field is to learn while on the job. Ask yourself, what is the minimum amount of experience I would feel comfortable with my provider having in this discipline?"style="margin-left: 18px;"class="btn btn badge default"><i class="fa fa-question fa-1x"></i></span>
                 <ul id="oneliner">
                     <li>
                         <%=f.select :expreq, ["No","Yes"], {},class: "exp-req",id: "exp-req"%>
@@ -60,9 +72,10 @@
                     <li class="insert-years"></li>
                 </ul>
             </div>
-            <div class="form-group sfield">
-                <%=f.text_field :question, id: "jobq", class: "form-control sfield"%>
-                <label for="jobq" class="sfield">Ask your provider a specific question?</label>
+            <div class="form-group sfield input-group">
+                <%=f.text_area :question, rows: 3, id: "jobq", class: "form-control sfield"%>
+                <label for="jobq" class="sfield">Short Term and Long Term Goals</label>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="Stating your short and long term goals sets clear expectations for the provider. This enables them to determine whether or not they feel they can help you reach your desired objectives. Ask yourself, how would I define success for this project?"><i class="fa fa-question fa-2x"></i></span>
             </div>
             <div class="form-group">
                 <input type="button" name="next" class="next action-button" value="Next" />

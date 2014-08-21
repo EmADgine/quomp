@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821072551) do
+ActiveRecord::Schema.define(version: 20140821171711) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -135,6 +135,7 @@ ActiveRecord::Schema.define(version: 20140821072551) do
     t.time     "begin"
     t.time     "end"
     t.string   "university"
+    t.boolean  "use_desc"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true
