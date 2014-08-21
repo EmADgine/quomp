@@ -8,31 +8,18 @@ function cleanUpSpecialChars(str)
     return str.replace(/[^a-z0-9]/gi,''); // final clean up
 
 }
-
-function uploadFile(file,name,action,tempname,tempnameval,nested,method) {
-    var xhr = new XMLHttpRequest();
-    var formData = new FormData();
-    formData.append('authenticity_token',$('meta[name="csrf-token"]').attr('content'));
-    formData.append(name,file);
-    if(nested) {
-        formData.append(tempname,tempnameval);
-    }
-    xhr.open(method,action,true);
-    xhr.onreadystatechange = function(e) {
-        if ( xhr.readyState === 4 ) {
-            if ( xhr.status === 200 ) {
-                alert("good to go");
-                eval(xhr.responseText);
-            } else {
-                alert('failure: '+ xhr.status);
-            }
-        }
-    };
-    xhr.setRequestHeader('accept','*/*;q=0.5, text/javascript');
-    xhr.send(formData);
-}
-
 jQuery(document).ready(function($) {
+
+    $(".jaxForm").ajaxForm(
+    {
+        dataType: 'script',
+        success: function(data) {
+            var $out = $(this).find(".insert-resume-here");
+            $out.html("Your results:");
+            $out.append('<div><pre>'+data+'</pre></div>');
+        }
+    });
+
     var objHeight=0;
     $.each($('#p-edit').children(),
         function() {
@@ -83,7 +70,7 @@ $("#p-edit").find("input[type=checkbox].d-check").each(function(){
 
         }
         else{
-            $('#tabs #'+$(this).val()+ ' .ruhroh').prop('checked',true);
+            $('#tabs #'+$(this).val()+ ' input[type=hidden]#ruhroh').prop('checked',true);
             $('#tabs #'+$(this).val()+ ' fieldset').hide();
 
             $('#tabs').tabs("disable", $(this).val());
@@ -107,8 +94,6 @@ $("#jobdates").daterangepicker({format: 'MM/DD/YYYY'});
 $("#jobdates").on('apply.daterangepicker', function(ev,picker) {
     $("#startdatehidden").val(picker.startDate.format('MM/DD/YYYY'));
     $("#enddatehidden").val(picker.endDate.format('MM/DD/YYYY'));
-    $("#jobdates").val("From " +picker.startDate.format('MM/DD/YYYY')+" to "+picker.endDate.format('MM/DD/YYYY'));
-   
 });
 $("#p-reg").find("#frb, #agb").each(function (){
     $(this).bind('click', function() {
@@ -215,7 +200,7 @@ $(".next").click(function(){
     current_fs = $(this).closest("fieldset.sf");
     next_fs = $(this).closest("fieldset.sf").next();
 
-    $("#progressbar li").eq($("fieldset.sf").index(next_fs)).addClass("active");
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
 
     next_fs.show();
     current_fs.animate({opacity: 0}, {
@@ -243,7 +228,7 @@ $(".previous").click(function(){
     previous_fs = $(this).closest("fieldset.sf").prev();
 
     //de-activate current step on progressbar
-    $("#progressbar li").eq($("fieldset.sf").index(current_fs)).removeClass("active");
+    $("#progressbar li").eq($("fieldset").index(current_fs)).removeClass("active");
 
     //show the previous fieldset
     previous_fs.show(); 
@@ -287,22 +272,21 @@ $(".btn-file").prev().change(function () {
     if(!$(this).next().hasClass("picup")){
         $(this).parent().find(".insert-prev").html("<span type='button' class='btn btn-default prev-btn' data-toggle='modal' data-target='#"+cleanUpSpecialChars($(this).next().text().split(" ")[1].toLowerCase().trim())+"-prev'>Preview "+$(this).next().text().split(" ")[1]+"</span>");
     }
-    var file = this.files[0];
-    $(this).closest(".jaxForm").find("#whichprev").data("previd",$(this).parent().next(".docprevtop").attr('id'));
-    uploadFile(file,$(this).attr('name'),$(this).closest('.jaxForm').attr('action'),null,null,false,$(this).closest(".jaxForm").attr('method'));
-
-});
-$("#j-create #disciplines").change(function () {
-    alert("change");
-    alert($(this).val());
-    if($(this).val()=="Paid Search") {
-        $("#j-create #insert-sample").html(
-        "<h2>Here is an example Project Description in the Paid Search Discipline</h2><br></br><p>"
-        );
+    var temp = $(this);
+    var oFReader2 = new FileReader();
+    oFReader2.readAsDataURL(this.files[0]);
+    oFReader2.onload = function (oFREvent) {
+        alert('loaded');
+        temp.parent().next().find(".insert-"+cleanUpSpecialChars(temp.next().text().split(" ")[1].toLowerCase().trim())+"-here").parent().html('<iframe class="doc-prev" src="http://docs.google.com/viewer?url=embedded=true&'+encodeURIComponent(oFREvent.target.result)+'"></iframe>');
+        
+        /*
+        alert($(this).parent().next().find(".insert-"+cleanUpSpecialChars($(this).next().text().split(" ")[1].toLowerCase().trim())+"-here").parent().html());
+        $(this).parent().next().find(".insert-"+cleanUpSpecialChars($(this).next().text().split(" ")[1].toLowerCase().trim())+"-here").parent().html('<img src="'+oFREvent.target.result+'" id="prof" class="img-circle" width="200px" height="200px"">');
+        */
     }
-
+    /*$(this).parent().next().find(".insert-"+cleanUpSpecialChars($(this).next().text().split(" ")[1].toLowerCase().trim())+"-here").parent().html('<iframe class="doc-prev" src="http://docs.google.com/viewer?url='+'http://ocw.mit.edu/courses/physics/8-02sc-physics-ii-electricity-and-magnetism-fall-2010/maxwells-equations/the-displacement-current-and-maxwells-equations/MIT8_02SC_notes26to30.pdf'+'&embedded=true"></iframe>');*/
 });
-$("#j-create .tooltipfield").tooltip({});
+
 $(".badge").tooltip({});
 
 

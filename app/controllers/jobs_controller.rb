@@ -7,11 +7,17 @@ class JobsController < ApplicationController
     end
     def create
         @job= Job.new(job_params)
-        if @job.save
-            flash[:success]
-            redirect_to current_user
-        else
-            render 'new'
+        Rails.logger.debug("Hello!")
+        respond_to do |format|
+            if @job.save
+                Rails.logger.debug("saved");
+                flash[:success]
+                format.html { redirect_to current_user }
+                format.js {}
+            else
+                format.html { render 'new' }
+                format.js {}
+            end
         end
     end
     def find_user

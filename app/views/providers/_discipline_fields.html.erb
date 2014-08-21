@@ -1,7 +1,7 @@
 <fieldset>
-    <div class="center">
-        <%= f.hidden_field :_destroy, id:'ruhroh', class: "notme"%>
-        <%= f.hidden_field :name, value: nom, class: "notme"%>
+    <div class="center disciplineform">
+        <%= f.check_box :_destroy, :as=> :boolean, class: "ruhroh notme"%>
+        <%= f.hidden_field :name, value: nom, class: "notme", id: "hidden-name"%>
         <div class="form-group">
             <%= f.select :years, (1..40).to_a.unshift(""),{}, {class: "chosen-select notme", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
@@ -15,29 +15,41 @@
             <%if f.object.portfolio==nil or f.object.portfolio.to_s=="/portfolios/original/missing.png"%>
                 <%= f.file_field :portfolio, class: "notme"%>
                 <span type="button" class="btn btn-default btn-file">Upload Portfolio</span>
+                <span class="insert-prev"></span>
             <%else%>
                 <%= f.file_field :portfolio, {class: "notme gotFile"}%>
-                <span type="button" class="btn btn-default btn-file">Upload Portfolio<span/>
-                <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
+                <span type="button" class="btn btn-default btn-file">Upload Portfolio
+                    <span></span>
+                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"></span>
                 </span>
+                <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#portfolio-<%=nom.downcase.gsub(/\s+/,"")%>-prev">Preview Resum&eacute;</span>
             <%end%>
         </div>
+        <%=render partial: nom.downcase.gsub(/\s+/,"")+"port",:locals => {:portfolio_url => f.object.portfolio.to_s}%>
+
     </div>
 </fieldset>
 
 <script>
     $(".chosen-select").chosen({width:"200px"});
     $(".skill-select").chosen({width: "650px"});
-    $(".btn-file").click(function() {
+    $(".disciplineform .btn-file").click(function() {
         $(this).prev().click();
     });
-    $(".btn-file").prev().change(function () {
-    if(!$(this).hasClass("gotFile")){
-    $(this).next().html($(this).next().html()+"<span>&nbsp;&nbsp;</span>");
-    $(this).next().html($(this).next().html()+"<span style='color: #A1C436;' class='fa fa-check'></span>"); 
-    $(this).addClass("gotFile");
-    }
-});
+    $(".disciplineform .btn-file").prev().change(function () {
+        if(!$(this).hasClass("gotFile")){
+            $(this).next().html($(this).next().html()+"<span>&nbsp;&nbsp;</span>");
+            $(this).next().html($(this).next().html()+"<span style='color: #A1C436;' class='fa fa-check'></span>"); 
+            $(this).addClass("gotFile");
+        }
+        if(!$(this).next().hasClass("picup")){
+            $(this).parent().find(".insert-prev").html("<span type='button' class='btn btn-default prev-btn' data-toggle='modal' data-target='#portfolio-"+"<%=nom.downcase.gsub(/\s+/,"")%>"+"-prev'>Preview "+$(this).next().text().split(" ")[1]+"</span>");
+        }
+        var file = this.files[0];
+        $(this).closest(".jaxForm").find("#whichprev").data("previd",$(this).parent().next(".docprevtop").attr('id'));
+        var hidden_name =$(this).closest(".disciplineform").find("#hidden-name");
+        uploadFile(file,$(this).attr('name'),$(this).closest('.jaxForm').attr('action'),hidden_name.attr('name'),"Temp "+hidden_name.val(),true,"PATCH"); 
+    });
 
 </script>
 

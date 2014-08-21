@@ -1,4 +1,4 @@
-<div class="modal fade docprevtop" id="show-resume-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade docprevtop" id="resume-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -6,7 +6,11 @@
                 <h4 class="modal-title" id="myModalLabel">Provider Resum&eacute;</h4>
             </div>
             <div class="modal-body">
-                <iframe class="doc-prev" src="http://docs.google.com/viewer?url=<%=resume_url%>&embedded=true"></iframe>
+                <%if resume_url.split('/')[-1]!="missing.png"%>
+                    <iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url=<%=resume_url%>&embedded=true"></iframe>
+                <%else%>
+                    <div class="insert-doc-here"></div>
+                <%end%> 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

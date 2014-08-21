@@ -1,0 +1,16 @@
+<% if @provider.new_record?%>
+    alert("Failed to upload");
+<% else %>
+    var previd = $("#p-edit #whichprev").data('previd');
+    alert(previd);
+    if(previd=='resume-prev'){
+        $("#p-edit #"+previd+" .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@provider.resume%>')+'&embedded=true"></iframe>');
+    }
+<%get_disciplines.each do |key, value|%>
+    else if(previd=="portfolio-"+"<%=value.downcase.gsub(/\s+/,"")%>"+"-prev")  {
+        $("#p-edit #"+previd+" .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@provider.disciplines.last.try(:portfolio)%>')+'&embedded=true"></iframe>');
+
+    }
+       
+    <%end%>
+<% end %>

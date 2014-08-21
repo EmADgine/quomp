@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140729154039) do
+ActiveRecord::Schema.define(version: 20140821035156) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(version: 20140729154039) do
     t.integer  "mockups_file_size"
     t.datetime "mockups_updated_at"
     t.string   "question"
+    t.string   "name"
+    t.string   "business_description"
+    t.integer  "transaction_frequency"
   end
 
   create_table "pastjobs", force: true do |t|

@@ -1,16 +1,16 @@
-<div class="modal fade docprevtop" id="mockups-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-mockups" aria-hidden="true">
+<div class="modal fade docprevtop" id="portfolio-affiliatemarketing-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel-mockups">Mockups Preview</h4>
+                <h4 class="modal-title" id="myModalLabel">Affiliate Marketing Portfolio</h4>
             </div>
             <div class="modal-body">
-                <%if mockup_url.split('/')[-1]=="missing.png"%>
-                    <div class="insert-doc-here"></div>
+                <%if portfolio_url.split('/')[-1]!="missing.png"%>
+                    <iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url=<%=portfolio_url%>&embedded=true"></iframe>
                 <%else%>
-                    <iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url=<%=mockup_url%>&embedded=true"></iframe>
-                <%end%>
+                    <div class="insert-doc-here"></div>
+                <%end%> 
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

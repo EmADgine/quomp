@@ -35,7 +35,7 @@
                     <a href=<%='http://www.'+linkerate(@provider.linkedin)%> class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
                 <%end%>
                 <%if @provider.resume.to_s.split('/')[-1]!="missing.png"%>
-                    <a href="#" class="btn btn-social btn-linkedin" data-toggle="modal" data-target="#resume-prev"><i class="fa fa-file-text-o"></i>Resum&eacute;</a>
+                    <a href="#" class="btn btn-social btn-linkedin" data-toggle="modal" data-target="#show-resume-prev"><i class="fa fa-file-text-o"></i>Resum&eacute;</a>
                     <%=render partial: 'providers/resume', :locals=>{:resume_url=> @provider.resume.to_s}%>
                 <%end%>
             </fieldset>
@@ -44,15 +44,31 @@
                     <legend>Experience in Job Discipline</legend>
                 <%else%>
                     <legend>Provider Disciplines</legend>
-                    <%@provider.disciplines.each do |discipline|%>
-                        <div class="show-group">
-                            <span><%=discipline.name%>, <%=pluralize(discipline.years,"year")%> of experience</span>
-                        <table>
+                    <table>
+                        <tr>
+                            <th><span style="display: inline-block; width:240px;">Discipline</span></th>
+                            <th><span>Portfolio Uploaded?</span></th>
+                        </tr>
+                        <%@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each do |discipline|%>
+                        <tr>
+                            <td style="width:350px;"><span style="display: inline-block; width: 300px;"><%=discipline.name%>: <%=pluralize(discipline.years,"year")%> exp.</span></td>
+                            <%if discipline.portfolio.to_s.split('/')[-1]!="missing.png"%>
+                                <td><span style="margin-left: 35px; color: rgb(161, 196, 54);" class=" fa fa-check"></span></td>
+
+                            <%else%>
+                                <td><span style="margin-left: 35px; color: rgb(169, 7, 30);" class="fa fa-times"></span></td>
+
+                            <%end%>
+
+
+                        </tr>
                                 <%discipline.skills.each do |skill|%>
                                     <tr><td><small><%=skill.name%></small></td></tr>
                                 <%end%>
-                        </table></div>
+
+                            <tr><td><hr></hr></td></tr>
                     <%end%>
+                    </table>
                 <%end%>
             </fieldset>
             <fieldset>

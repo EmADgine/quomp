@@ -667,7 +667,7 @@ fieldset.sf:not(:first-of-type) {
 }
 
 
-#resume-prev .modal-dialog{
+.docprevtop .modal-dialog{
     width: 900px!important;
 }
 .doc-prev {
@@ -956,3 +956,6 @@ p.compressed {
 }
 .specialDate { background-color: #6F0 !important; }
 
+.ruhroh {
+    visibility: hidden;
+}

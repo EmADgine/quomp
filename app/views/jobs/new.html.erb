@@ -1,5 +1,5 @@
 <div id="createsheet3" class="center">
-    <%=nested_form_for [current_user,@job], :html=> {:class=> 'form-horizontal flp', :role=>'form',:id=>"j-create"} do |f|%>
+    <%=nested_form_for [current_user,@job], :html=> {:class=> 'jaxForm form-horizontal flp', :role=>'form',:id=>"j-create"},:method=>"POST" do |f|%>
         <ul id="progressbar" class="p4">
             <li class="active">Job Details</li>
             <li>Job Timeline</li>
@@ -9,6 +9,10 @@
         <fieldset class="sf">
             <div class="form-group">
                 <legend>Job Details</legend>
+            </div>
+            <div class="form-group sfield">
+                <%=f.text_field :name, id: "jobname",class: "form-control sfield"%>
+                <label for="jobname" class="sfield">Project Name</label>
             </div>
             <div class="form-group">
                 <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline",id: "disciplines"}%>
@@ -31,123 +35,131 @@
                 <%if @job.mockups==nil or @job.mockups.to_s=="/mockups/original/missing.png"%>
                     <%= f.file_field :mockups, id: "mockup-upload"%>
                     <span type="button" class="btn btn-default btn-file">Upload Mockups</span>
+                    <span class="insert-prev"></span>
                 <%else%>
                     <%= f.file_field :mockups, {id: "mockup-upload",class: "gotFile"}%>
-                    <span type="button" class="btn btn-default btn-file">Upload Mockups<span/>
-                            <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                            </span>
-                        <%end%>
+                    <span type="button" class="btn btn-default btn-file">Upload Mockups
+                        <span></span>
+                        <span style="color: rgb(161, 196, 54);" class="fa fa-check"></span>
+                    </span>
+                    <span type='button' class='btn btn-default prev-btn' data-toggle='modal' data-target='#mockups-prev'></span>
+                <%end%>
 
             </div>
 
-                <%=render partial: 'jobs/mockups'%>
-                    <div class="form-group">
-                        <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
-                        <%=f.select :expreq, ["No","Yes"], {},class: "exp-req"%>
-                    </div>
-                    <div class="form-group sfield">
-                        <%=f.text_field :question, id: "jobq", class: "form-control sfield"%>
-                        <label for="jobq" class="sfield">Ask your provider a specific question?</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="button" name="next" class="next action-button" value="Next" />
-                    </div>
+            <%=render partial: 'jobs/mockups',:locals=>{mockup_url: @job.mockups.to_s}%>
+            <div class="form-group">
+                <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
+                <%=f.select :expreq, ["No","Yes"], {},class: "exp-req"%>
+            </div>
+            <div class="form-group sfield">
+                <%=f.text_field :question, id: "jobq", class: "form-control sfield"%>
+                <label for="jobq" class="sfield">Ask your provider a specific question?</label>
+            </div>
+            <div class="form-group">
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </div>
 
-                </fieldset>
-                <fieldset class="sf">
-                    <div class="form-group">
-                        <legend>Job Timeline</legend>
-                    </div>
-                <div class="form-group">
-                    <label for="jobdates">Please select your your start date and deadline</label>
+        </fieldset>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Job Timeline</legend>
+            </div>
+            <div class="form-group">
+                <label for="jobdates">Please select your your start date and deadline</label>
+                <br/>
+                <%=f.hidden_field :startdate, id: "startdatehidden"%>
+                <%=f.hidden_field :deadline, id: "enddatehidden"%>
+                <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input type="text" id="jobdates" class="form-control notme"/>
                 </div>
-                <div class="form-group">
-                        <%=f.hidden_field :startdate, id: "startdatehidden"%>
-                        <%=f.hidden_field :deadline, id: "enddatehidden"%>
-                        <div class="input-group">
-                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span><div id="jobdates" class="form-control notme"></div>
-                        </div>
-                    </div>
+            </div>
+            <div class="form-group">
+                <%=f.label :transaction_frequency, "How many times a week would you like to interact with your provider?"%>
+                <br/>
+                <%=f.select :transaction_frequency, 1..7, class: "transfreq"%>
+            </div>
 
 
-                    <div class="form-group">
-                        <input type="button" name="previous" class="previous action-button" value="Previous">
-                        <input type="button" name="next" class="next action-button" value="Next">
-                    </div>
+        <div class="form-group">
+            <input type="button" name="previous" class="previous action-button" value="Previous">
+            <input type="button" name="next" class="next action-button" value="Next">
+        </div>
 
-                </fieldset>
-                <fieldset class="sf">
-                    <div class="show-group">
-                        <legend>Provider Tier</legend>
+    </fieldset>
+    <fieldset class="sf">
+        <div class="show-group">
+            <legend>Provider Tier</legend>
+        </div>
+        <div style="margin-bottom:0 auto 20 auto; width: 100%;">
+            <p style="margin: auto;width:750px;white-space:normal;"> Please specify your budget and we will indicate the corresponding tier of providers. Bear in mind that all of our providers have been individually vetted.<p>
+        </div>
+        <div class="slider-wrapper">
+            <div id="slider-left">
+                <div name="job[budget]" id="slider-vertical" style="height:460px;"></div>
+            </div>
+            <div id="slider-right">
+                <div class="tier-wrap">
+                    <div class="show-group" id="tier3">
+                        <h1>Tier 3</h1>
+                        <p>Providers in this tier are the "best of the best," consistently receiving stellar client reviews. You won't find better talent on the site, or anywhere for that matter!</p>
+                        <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier3-prev"></span>
                     </div>
-                    <div style="margin-bottom:0 auto 20 auto; width: 100%;">
-                        <p style="margin: auto;width:750px;white-space:normal;"> Please specify your budget and we will indicate the corresponding tier of providers. Bear in mind that all of our providers have been individually vetted.<p>
-                    </div>
-                    <div class="slider-wrapper">
-                        <div id="slider-left">
-                            <div name="job[budget]" id="slider-vertical" style="height:460px;"></div>
-                        </div>
-                        <div id="slider-right">
-                            <div class="tier-wrap">
-                                <div class="show-group" id="tier3">
-                                    <h1>Tier 3</h1>
-                                    <p>Providers in this tier are the "best of the best," consistently receiving stellar client reviews. You won't find better talent on the site, or anywhere for that matter!</p>
-                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier3-prev"></span>
-                                </div>
-                            </div>
-                            <div class="tier-wrap">
-                                <div class="show-group" id="tier2"> 
-                                    <h1>Tier 2</h1>
-                                    <p>Providers in this tier are very experienced, having provided excellent client work enabling them to graduate through two tiers.</p>
-                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier2-prev"></span>
-                                </div>
-                            </div>
-                            <div class="tier-wrap">
-                                <div class="show-group" id="tier1">
-                                    <h1>Tier 1</h1>
-                                    <p>Providers in this tier have completed at least 5 jobs and have graduated from the Testing Ground and entered the general rankings.</p>
-                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier1-prev"></span>
-
-                                </div>
-                            </div>
-                            <div class="tier-wrap">
-                                <div class="show-group" id="tier0">
-                                    <h1>Testing Ground</h1>
-                                    <p class="compressed">Providers in this tier are new to the site and are working hard to move up in the tiers.</p>
-
-                                    <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier0-prev"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear"></div>
-                        <%=render partial: 'jobs/tier3'%>
-                        <%=render partial: 'jobs/tier2'%>
-                        <%=render partial: 'jobs/tier1'%>
-                        <%=render partial: 'jobs/tier0'%>
-
-                    </div>
-                    <div class="form-group">
-                        <input type="button" name="previous" class="previous action-button" value="Previous">
-                    </div>
-                </fieldset>
-                <fieldset class="sf">
-                    <div class="form-group">
-                        <legend>Tell us when you want to advertise your job to Our Engine</legend>
-                    </div>
-                    <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
-                    <div class="form-group">
-                        <div class="input-group clockpicker center">
-                            <%= f.text_field :posttime, class: 'form-control notme', value: '9:00AM'%>
-
-                            <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
-                        </div>
-                    </div>
-                    <p>Based on your local time zone, we recommend posting the job at <%="9:00AM"%></p>
-
-                    <input type="button" name="previous" class="previous action-button" value="Previous">
-                    <%=f.submit "Submit Job", class: "action-button"%>
                 </div>
-            </fieldset>
+                <div class="tier-wrap">
+                    <div class="show-group" id="tier2"> 
+                        <h1>Tier 2</h1>
+                        <p>Providers in this tier are very experienced, having provided excellent client work enabling them to graduate through two tiers.</p>
+                        <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier2-prev"></span>
+                    </div>
+                </div>
+                <div class="tier-wrap">
+                    <div class="show-group" id="tier1">
+                        <h1>Tier 1</h1>
+                        <p>Providers in this tier have completed at least 5 jobs and have graduated from the Testing Ground and entered the general rankings.</p>
+                        <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier1-prev"></span>
+
+                    </div>
+                </div>
+                <div class="tier-wrap">
+                    <div class="show-group" id="tier0">
+                        <h1>Testing Ground</h1>
+                        <p class="compressed">Providers in this tier are new to the site and are working hard to move up in the tiers.</p>
+
+                        <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier0-prev"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <%=render partial: 'jobs/tier3'%>
+            <%=render partial: 'jobs/tier2'%>
+            <%=render partial: 'jobs/tier1'%>
+            <%=render partial: 'jobs/tier0'%>
+
+        </div>
+        <div class="form-group">
+            <input type="button" name="previous" class="previous action-button" value="Previous">
+        </div>
+    </fieldset>
+    <fieldset class="sf">
+        <div class="form-group">
+            <legend>Tell us when you want to advertise your job to Our Engine</legend>
+        </div>
+        <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
+        <div class="form-group">
+            <div class="input-group clockpicker center">
+                <%= f.text_field :posttime, class: 'form-control notme', value: '9:00AM'%>
+
+                <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
+            </div>
+        </div>
+        <p>Based on your local time zone, we recommend posting the job at <%="9:00AM"%></p>
+
+        <input type="button" name="previous" class="previous action-button" value="Previous">
+        <%=f.submit "Submit Job", class: "action-button"%>
+    </div>
+</fieldset>
         <%end%>
     </div>
     <script>
