@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821035156) do
+ActiveRecord::Schema.define(version: 20140821072551) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20140821035156) do
     t.string   "name"
     t.string   "business_description"
     t.integer  "transaction_frequency"
+    t.integer  "years_req"
   end
 
   create_table "pastjobs", force: true do |t|

@@ -292,19 +292,13 @@ $(".btn-file").prev().change(function () {
     uploadFile(file,$(this).attr('name'),$(this).closest('.jaxForm').attr('action'),null,null,false,"PATCH");
 
 });
-$("#j-create #disciplines").change(function () {
-    alert("change");
-    alert($(this).val());
-    if($(this).val()=="Paid Search") {
-        $("#j-create #insert-sample").html(
-        "<h2>Here is an example Project Description in the Paid Search Discipline</h2><br></br><p>"
-        );
-    }
-
+$("#j-create .tooltipfield").tooltip({
+    'container':'body'
 });
-$("#j-create .tooltipfield").tooltip({});
 $(".badge").tooltip({});
 
+$("#exp-req").change(function () {
+    });
 
 $("#tier0 span,#tier1 span, #tier2 span, #tier3 span").hide();
 $("#tier0 p,#tier1 p, #tier2 p, #tier3 p").hide();

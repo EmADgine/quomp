@@ -10,9 +10,10 @@
             <div class="form-group">
                 <legend>Job Details</legend>
             </div>
-            <div class="form-group sfield">
-                <%=f.text_field :name, id: "jobname",class: "form-control sfield"%>
+            <div class="form-group sfield input-group">
+                <%=f.text_field :name, id: "jobname",class: "tooltipfield form-control sfield" %>
                 <label for="jobname" class="sfield">Project Name</label>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="Your project name should be clear and concise as it is the first thing the provider sees. State exactly what you are looking for without going into unnecessary details. Ask yourself, what do I want done in 10 words or less?"><i class="fa fa-question fa-2x"></i></span>
             </div>
             <div class="form-group">
                 <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline",id: "disciplines"}%>
@@ -28,7 +29,7 @@
                 <%=f.text_area :description,rows: 3,class: "form-control sfield", id:"jdfield"%>
                 <label for="jdfield" class="sfield">Briefly describe your project</label>
 
-                <span class="btn input-group-addon" data-toggle="modal" data-target="#samplejobs-prev"><i class="fa fa-question fa-2x"></i></span>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="To the extent you know what your project entails, please provide details. Make sure to be as specific as possible as this information helps the provider gauge whether or not they are best suited to complete the job. Ask yourself, what exactly do I need done?"><i class="fa fa-question fa-2x"></i></span>
             </div>
             <%=render partial: "jobs/samplejobs"%>
             <div class="form-group">
@@ -50,7 +51,14 @@
             <%=render partial: 'jobs/mockups',:locals=>{mockup_url: @job.mockups.to_s}%>
             <div class="form-group">
                 <%=f.label :expreq, "Do you require experience in this specific discipline?"%>
-                <%=f.select :expreq, ["No","Yes"], {},class: "exp-req"%>
+                <ul id="oneliner">
+                    <li>
+                        <%=f.select :expreq, ["No","Yes"], {},class: "exp-req",id: "exp-req"%>
+                    </li>
+                    <li class="insert-atleast"></li>
+                    <li><%=f.select :years_req, 1..10, {}, class: "", id: "years_req"%></li>
+                    <li class="insert-years"></li>
+                </ul>
             </div>
             <div class="form-group sfield">
                 <%=f.text_field :question, id: "jobq", class: "form-control sfield"%>
@@ -165,9 +173,24 @@
     <script>
         $(".skill-select").chosen({width:"600px"});
         $(".chosen-select").chosen({width: "220px"});
+        $("#years_req").hide();
         $(".exp-req").change(function() {
             if($(this).val()=="Yes"){
-                alert("Please be aware that you have chosen to drastically reduce the number of providers available to you.");
+                $("#years_req").show();
+                $(".insert-atleast").html("<li><span class='killme'>At least</span></li>");
+                $(".insert-years").html("<li><span class='killme killyear'>year</li>");
+            }
+            else{
+                $('#years_req').hide();
+                $(".killme").remove();
+            }
+        });
+        $("#years_req").change(function() {
+            if($(this).val()==1){
+                $(".killyear").text("year");
+            }
+            else {
+                $('.killyear').text("years");
             }
         });
         $("#skills,#tasks").prop("disabled",true).trigger("chosen:updated");
