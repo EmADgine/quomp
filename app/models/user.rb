@@ -20,6 +20,9 @@ class User < ActiveRecord::Base
 
     has_many :disciplines, dependent: :destroy
     has_many :jobs, dependent: :destroy
-
-    accepts_nested_attributes_for :disciplines, allow_destroy: true, :reject_if => proc {|a| a['portfolio']=="/portfolios/original/missing.png"}
+    has_many :pastjobs, dependent: :destroy
+    has_many :references, dependent: :destroy
+    accepts_nested_attributes_for :disciplines, allow_destroy: true, :reject_if => proc {|a| a['portfolio']=="/portfolios/original/missing.png"&&a['name'].split()[0]=="Temp"}
+    accepts_nested_attributes_for :references, allow_destroy: true
+    accepts_nested_attributes_for :pastjobs, allow_destroy: true
 end

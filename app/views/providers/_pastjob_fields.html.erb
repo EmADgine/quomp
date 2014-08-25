@@ -1,0 +1,36 @@
+<fieldset>
+    <div class="center">
+        <ul id="oneliner">
+            <li><%=f.text_field :pj_employer,class: "form-control",placeholder: "Employer"%></li>
+            <li><%=f.text_field :pj_position, class: "form-control", placeholder: "Position"%></li>
+            <li><%=f.text_field :location, class: "form-control",placeholder: "Location"%></li>
+            <li>
+                <%=f.hidden_field :startdate, class: "sdatehidden"%>
+                <%=f.hidden_field :enddate, class: "edatehidden"%>
+                <%=f.hidden_field :current, class: "currentcheck"%>
+                <span class="btn btn-primary pastjobdates" style="height:31px;"><i class="fa fa-calendar"></i></span>
+            </li>
+            <li><%=f.hidden_field :_destroy%>
+            <%=link_to "", "#", class: "remove_field fa fa-times",style: "color: rgb(169,7,30);"%></li>
+        </ul>
+    </div>
+    <br/>
+</fieldset>
+<script>
+$('.remove_field').click(function () {
+    $(this).prev('input[type=hidden]').val('1');
+    $(this).closest('fieldset').hide();
+    event.preventDefault();
+});
+$(".pastjobdates").daterangepicker({format: 'MM/YYYY',opens: 'left'});
+$(".pastjobdates").click(function () {
+    $(".calendar-date").hide();
+});
+$(".pastjobdates").on('apply.daterangepicker', function(ev,picker) {
+    $(this).parent().find(".sdatehidden").val(picker.startDate.format('MM/YYYY'));
+    $(this).parent().find(".edatehidden").val(picker.endDate.format('MM/YYYY'));
+    if(picker.endDate.year == (Time.new).year && picker.endDate.month==(Time.new).month){
+        $(this).prev(".currentcheck").val(true);
+    }
+});
+</script>

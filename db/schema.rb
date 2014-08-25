@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140821171711) do
+ActiveRecord::Schema.define(version: 20140825023427) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -34,6 +34,40 @@ ActiveRecord::Schema.define(version: 20140821171711) do
     t.datetime "portfolio_updated_at"
   end
 
+  create_table "goals", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "discipline"
+  end
+
+  create_table "idealattributes", force: true do |t|
+    t.integer  "importance"
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "job_goals", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "job_id"
+    t.integer  "goal_id"
+  end
+
+  add_index "job_goals", ["goal_id"], name: "index_job_goals_on_goal_id"
+  add_index "job_goals", ["job_id"], name: "index_job_goals_on_job_id"
+
+  create_table "job_idealattributes", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "job_id"
+    t.integer  "idealattribute_id"
+  end
+
+  add_index "job_idealattributes", ["idealattribute_id"], name: "index_job_idealattributes_on_idealattribute_id"
+  add_index "job_idealattributes", ["job_id"], name: "index_job_idealattributes_on_job_id"
+
   create_table "job_skills", force: true do |t|
     t.integer  "job_id"
     t.integer  "skill_id"
@@ -43,6 +77,16 @@ ActiveRecord::Schema.define(version: 20140821171711) do
 
   add_index "job_skills", ["job_id"], name: "index_job_skills_on_job_id"
   add_index "job_skills", ["skill_id"], name: "index_job_skills_on_skill_id"
+
+  create_table "job_tasks", force: true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "job_id"
+    t.integer  "task_id"
+  end
+
+  add_index "job_tasks", ["job_id"], name: "index_job_tasks_on_job_id"
+  add_index "job_tasks", ["task_id"], name: "index_job_tasks_on_task_id"
 
   create_table "jobs", force: true do |t|
     t.string   "discipline"
@@ -63,6 +107,7 @@ ActiveRecord::Schema.define(version: 20140821171711) do
     t.string   "business_description"
     t.integer  "transaction_frequency"
     t.integer  "years_req"
+    t.string   "abilities"
   end
 
   create_table "pastjobs", force: true do |t|
@@ -71,11 +116,16 @@ ActiveRecord::Schema.define(version: 20140821171711) do
     t.date    "startdate"
     t.date    "enddate"
     t.boolean "current"
+    t.string  "location"
+    t.integer "user_id"
   end
 
   create_table "references", force: true do |t|
-    t.string "ref_name"
-    t.string "ref_email"
+    t.string  "ref_name"
+    t.string  "ref_email"
+    t.integer "user_id"
+    t.string  "ref_company"
+    t.string  "ref_phone"
   end
 
   create_table "skills", force: true do |t|
@@ -86,18 +136,11 @@ ActiveRecord::Schema.define(version: 20140821171711) do
     t.string   "discipline"
   end
 
-  create_table "user_pastjobs", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "pastjob_id"
+  create_table "tasks", force: true do |t|
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "user_references", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "reference_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "name"
+    t.string   "discipline"
   end
 
   create_table "users", force: true do |t|

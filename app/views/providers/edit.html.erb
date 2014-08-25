@@ -3,8 +3,9 @@
     <%=render 'shared/error_messages'%>
     <%= nested_form_for @provider.becomes(Provider), :html=> {:class=> 'jaxForm form-horizontal flp', :role=>'form', :id=>"p-edit"} do |f|%>
         <div id="whichprev" style="visibility:hidden;" data-method="PATCH"></div>
-        <ul id="progressbar">
+        <ul id="progressbar" class="p4">
             <li class="active">Provider Details</li>
+            <li>Provider Qualifications</li>
             <li>Disciplines</li>
             <li>Availability</li>
         </ul>
@@ -68,7 +69,14 @@
                 <%= f.text_field :website, class: 'form-control sfield', id: 'site'%>
                 <label for='site' class="sfield">Website (if applicable)</label> 
             </div>
-
+            <div class="form-group">
+                <input type="button" name="next" class="next action-button" value="Next" />
+            </div>
+        </fieldset>
+        <fieldset class="sf">
+            <div class="form-group">
+                <legend>Provider Qualifications</legend>
+            </div>
             <h3>Education</h3>
             <div class="form-group">
                 <%= f.select :university, get_universities.unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
@@ -78,13 +86,16 @@
             </div>
 
             <h3>Work History</h3>
-
+            <%=f.fields_for :pastjobs do |builder|%>
+                <%=render 'pastjob_fields', f: builder %>
+            <%end%>
+            <%=link_to_add_fields1 "Add Job", f,:pastjobs %>
             <h3>References and Resum&eacute;</h3>
-            <div class="form-group sfield">
+            <div class="form-group sfield" style="margin-bottom: 0px;height:23px;">
                 <%= f.text_field :linkedin, class: 'form-control sfield',id: 'linkedin'%>
                 <label for='linkedin' class='sfield'>Linkedin Profile</label>
             </div>
-            <div class="form-group">
+            <div style="margin-bottom: 10px;">
                 <%if @provider.resume==nil or @provider.resume.to_s=="/resumes/original/missing.png"%>
                     <%= f.file_field :resume%>
                     <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;</span>
@@ -96,14 +107,20 @@
                     </span>
                     <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#resume-prev">Preview Resum&eacute;</span>
                 <%end%> 
-
             </div>
-
             <%=render partial: 'providers/editresumeprev', :locals=>{:resume_url=>@provider.resume.to_s}%>
+            <%=f.fields_for :references do |builder|%>
+                <%=render 'reference_fields', f: builder %>
+            <%end%>
+            <%=link_to_add_fields1 "Add References", f,:references %>
+            <br/>
             <div class="form-group">
+                <input type="button" name="previous" class="previous action-button" value="Previous">
                 <input type="button" name="next" class="next action-button" value="Next" />
             </div>
+
         </fieldset>
+
         <fieldset class="sf">
             <div class="form-group">
                 <legend>Disciplines</legend>

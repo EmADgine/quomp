@@ -1,0 +1,21 @@
+<fieldset>
+    <div class="center">
+        <ul id="oneliner">
+            <li><%=f.text_field :ref_name,class: 'form-control',placeholder: "Reference Name",style: "width: 178px;"%></li>
+            <li><%=f.text_field :ref_company, class: 'form-control',placeholder: "Company",style: "width: 178px;"%></li>
+            <li><%=f.text_field :ref_email, class: 'form-control', placeholder: "Email",style: "width: 178px;"%></li>
+            <li><%=f.text_field :ref_phone, class: 'form-control', placeholder: "Phone Number",style: "width: 125px;"%></li>
+        <li><%=f.hidden_field :_destroy%>
+            <%=link_to "", "#", class: "remove_field fa fa-times",style: "color: rgb(169,7,30);"%></li>
+        </ul>
+    </div>
+    <br/>
+</fieldset>
+<script>
+$('.remove_field').click(function () {
+    $(this).prev('input[type=hidden]').val('1');
+    $(this).closest('fieldset').hide();
+    event.preventDefault();
+});
+</script>
+

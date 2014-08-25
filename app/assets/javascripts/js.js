@@ -103,6 +103,12 @@ $("#p-edit").find("input[type=checkbox].d-check").each(function(){
         }
     })
 })
+$('form .add_fields').click(function () {
+    time = new Date().getTime();
+    regexp = new RegExp($(this).data('id'),'g');
+    $(this).before($(this).data('fields').replace(regexp,time));
+    event.preventDefault();
+});
 jQuery(".datepicker").datepicker({
     showOtherMonths: true,
 selectOtherMonths: true,
