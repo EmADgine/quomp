@@ -1,43 +1,34 @@
 /* universal */
 
 @import url('http://fonts.googleapis.com/css?family=Lato');
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
+$color: #F3F4E5;//#FAF0DF;//#FDD29D;
 html, body {
     margin: 0;
     padding: 0;
-    height: 100%;
-    min-height: 100%;
+    min-height:100%;
 }
 body {
     font-family: 'Palatino', sans-serif;
-    background:
-    url('http://thecodeplayer.com/uploads/media/gs.png');
+    //background:#566C94;
+    background-image: url(/assets/sky.jpg); 
     h4 {
         font-style: bold;
         font-weight: 500;
-}
-
-}
-#wrapper {
-    min-height:100%;
-    width: 100%;
-    position: relative;
-}
-#header {
-    padding:10px;
-    ul {
-        display: inline-block;
-        list-style-type: none;
-}
-#droplog{
-    padding:10px;
-    input[type=text] {
-        width: 200px;
-}
-}
+    }
+    .form-control {
+        background-color: $color;
+    }
 }
 #content {
-    padding-bottom: 120px;
 }
+.btn-primary,.btn-primary:hover,.btn-primary:active,.btn-primary.selected {
+    background-color:#F98057;
+}
+.modal {
+    z-index: 50000000;
+}
+
 #footer {
     position: absolute;
     bottom: 0;
@@ -46,10 +37,10 @@ body {
     border-top: 1px solid #999;
     color: #fff;
     a {
-        color: #ddd;
+        color: #111;
         font-size:1.3em;
         &:hover {
-            color: #fff;
+            color: #333;
 }
 }
 ul {
@@ -158,12 +149,13 @@ ul {
 #hometownhero {
     margin-top: 130px;
     padding-top: 30px;
+    border: solid black 1px;
     border-radius: 5px;
     margin-left: auto;
     margin-right: auto;
     height:400px;
     width:900px;
-    background: white;
+    background:$color;
     //background: linear-gradient(to top, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
 }
 #homebuttons li {
@@ -180,7 +172,6 @@ div {
 }
 }
 #logo2{
-    color:#0096FA;
 }
 
 
@@ -188,10 +179,11 @@ div {
     h3 {
         margin-bottom: 22px;
 }
-background:white;
+background:$color;
 -moz-border-radius: 5px;
 -webkit-border-radius: 5px;
 border-radius: 5px;
+border: solid black 1px;
 padding: 20px;
 width: 400px;
 vertical-align:middle;
@@ -210,7 +202,8 @@ ol li {
     h3 {
         margin-bottom: 22px;
 }
-background: white;
+border: solid black 1px;
+background: $color;
 -moz-border-radius: 5px;
 -webkit-border-radius: 5px;
 border-radius: 5px;
@@ -232,7 +225,7 @@ fieldset {
 }
 }
 #createsheet3 {
-    margin-top:100px;
+    margin-top: 100px;
 }
 #oneliner {
     white-space:nowrap;
@@ -242,8 +235,6 @@ fieldset {
 }
 .citystate {
     padding:0!important;
-    input {
-}
 }
 .quick-align {
 
@@ -314,9 +305,10 @@ h1 {
 .profile
 {
 
-    background: white;
+    background: $color;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
+    border: solid black 1px;
     border-radius: 5px;
     padding: 20px;
     width: 1000px;
@@ -404,7 +396,7 @@ table {
     //background-color: #F07830;
     //font: 50px sans-serif;
     border: none;
-    background: #F07830;
+    background: #F98057;
     color: #FFF;
     padding: 10px 30px;
     font-size:40px;
@@ -413,7 +405,7 @@ table {
     a 
     {
         color:white;
-}
+    }
 }
 
 #namelist li {
@@ -472,7 +464,7 @@ height: 46px;
 .ch {
     display: block; float: left;
     position: relative; /*for upward animation*/
-    background: white;
+    background: $color;
 }
 .ch:first-child {padding-left: 2px;}
 .ch:last-child {padding-right: 2px;}
@@ -487,7 +479,7 @@ height: 46px;
     margin-left: auto;
 }
 
-#discipline-checks, #usechecks{
+#discipline-checks, #usechecks,#rememberchecks{
 
     ul {
         margin: 0 auto;
@@ -541,6 +533,7 @@ input[type="checkbox"]:checked + label:after {
 #tab-seo+label:before, #tab-seo+label:after {color: hsl(240, 45%, 40%);}
 #tab-sm+label:before, #tab-sm+label:after {color: hsl(300, 45%, 40%);}
 #usecheck+label:before, #usecheck+label:after {color: hsl(240, 45%, 40%);}
+#usecheck+label:before, #usecheck+label:after {color: black;}
 }
 
 
@@ -553,7 +546,8 @@ input[type="checkbox"]:checked + label:after {
    }
    fieldset.sf {
 
-       background: white; 
+       background: $color;
+       border: solid black 1px!important;
        margin-top:10px;
        border: 0 none;
        border-radius: 3px;
@@ -608,6 +602,9 @@ fieldset.sf:not(:first-of-type) {
 }
 .p4 li {
     width: 228px!important;
+}
+.p5 li {
+    width:182px!important;
 }
 #progressbar li:before {
     content: counter(step);
@@ -680,7 +677,6 @@ fieldset.sf:not(:first-of-type) {
 .modalstuff {
     width: 550px;
     height: 600px!important;
-    background: white;
     border-style: none;
     margin: 0 auto 0 auto;
     white-space:normal!important;
@@ -757,7 +753,7 @@ fieldset.sf:not(:first-of-type) {
 #slider-right {
     float:right;
 
-    width:660px;
+    width:650px;
           * {
               float:left;
 }

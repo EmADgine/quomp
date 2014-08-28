@@ -6,7 +6,7 @@
             <%= f.select :years, (1..40).to_a.unshift(""),{}, {class: "chosen-select notme", id:"chooseme","data-placeholder"=>"Years of Experience"}%>
         </div>
         <div class="form-group">
-            <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in this discipline",class: "skill-select",multiple:true,:selected=>f}%>
+            <%= f.collection_select :skill_ids,Skill.all.to_a.select {|i| i.discipline==nom},:id, :name, {},{"data-placeholder"=>"Select your skills in "+nom,class: "form-control skill-select",multiple:true,:selected=>f}%>
         </div>
         <div class= "form-group">
             <%= f.text_area :description, :rows=> 3, class: "form-control notme",id:nom+"-des",placeholder: "Briefly describe your experience"%>

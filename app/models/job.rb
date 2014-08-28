@@ -9,11 +9,9 @@ class Job < ActiveRecord::Base
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
         "text/plain"]
 
-    has_many :job_goals
     has_many :job_idealattributes
     has_many :job_tasks
 
-    has_many :goals, through: :job_goals
     has_many :idealattributes, through: :job_idealattributes
     has_many :tasks, through: :job_tasks
 end

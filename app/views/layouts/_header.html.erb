@@ -1,13 +1,12 @@
-<header class = "navbar navbar-fixed-top navbar-inverse">
-<div class = "container-fluid">
-    <%= link_to "Quomp", root_url, id: "logo" %>
-    <nav>
-    <ul class="nav navbar-nav pull-right">
-        <li class="divider"></li> 
+<div id="cssmenu">
+    <ul>
+        <li><%=link_to "Quomp Home",root_url%></li>
+            <li><%= link_to "About", "http://emadgine.com/about.html" %> </li>
+            <li><%= link_to "Contact Us", "http://emadgine.com/contact.php"%></li>
         <%unless user_signed_in?%>
-            <li class="dropdown">
-            <button class="dropdown-toggle btn btn-default navbar-btn" href= "#" data-toggle="dropdown">Sign In<strong class="caret"></strong></button>
-            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+            <li class="dropdown last">
+            <a href=<%=new_user_session_path%>>Sign In</a>
+            <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px; width: 280px;">
                 <%= form_for(:user, :url=>session_path(:user), :html=> {id: 'droplog'}) do |f|%>
                     <div class ="form-group">
                         <%= f.text_field :email, :placeholder =>"Email", class: "form-control" %>
@@ -18,26 +17,196 @@
 
                     <div class = "form-group">
                         <%= f.submit "Sign In", :class => "btn btn-large btn-primary" %>
-                        <%= f.check_box :remember_me %>
-                        <%= f.label :remember_me %>
+                        
+
                     </div>
-                    <%=link_to "Forgot your password?", new_password_path(:user)%>
+                    <%=link_to "Forgot your password?", new_password_path(:user), class: "last"%>
                 <% end %>
             </div>
             </li>
         <% else %>
             <li>
-            <p class= "navbar-text navbar-left">Signed in as <%=current_user.name.titleize%></p>
-            </li>
-            <li>
             <%= link_to "Profile", current_user,class: 'navbar-link'%>
             </li>
-            <li>
+            <li class="last">
             <%= link_to "Sign Out", destroy_user_session_path, :method=> :delete,class: 'navbar-link'%>            
             </li>
         <%end%>
     </ul>
-    </nav>
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script></div>
-</header>
+</div>
 
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script>
+    $("#remembercheck").change(function() {
+    $("#rememberhidden").val($(this).prop('checked'));
+});
+</script>
+<style>
+    #cssmenu {
+        position: fixed;
+        top: 0px;
+        z-index:100000;
+        width: 100%;
+        background: #F98057;//ADD3ED;
+        padding: 0;
+        display: block;
+        zoom: 1;
+    }
+    #cssmenu ul:after {
+        content: " ";
+        display: block;
+        font-size: 0;
+        height: 0;
+        clear: both;
+        visibility: hidden;
+    }
+    #cssmenu ul li {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        border: none!important;
+    }
+    #cssmenu.align-right ul li {
+        float: right;
+    }
+    #cssmenu.align-center ul {
+        text-align: center;
+    }
+    #cssmenu ul li a {
+        border:none!important;
+        color: #ffffff;
+        text-decoration: none;
+        display: block;
+        padding: 15px 25px;
+        font-family: 'Open Sans', sans-serif;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 14px;
+        position: relative;
+        -webkit-transition: color .25s;
+        -moz-transition: color .25s;
+        -ms-transition: color .25s;
+        -o-transition: color .25s;
+        transition: color .25s;
+    }
+    #cssmenu ul li a:hover {
+        color: #333333;
+    }
+    #cssmenu ul li a:hover:before {
+        width: 100%;
+    }
+    #cssmenu ul li a:after {
+        content: "";
+        display: block;
+        position: absolute;
+        right: -3px;
+        top: 19px;
+        height: 6px;
+        width: 6px;
+        background: #ffffff;
+        opacity: .5;
+    }
+    #cssmenu ul li a:before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        height: 3px;
+        width: 0;
+        background: #333333;
+        -webkit-transition: width .25s;
+        -moz-transition: width .25s;
+        -ms-transition: width .25s;
+        -o-transition: width .25s;
+        transition: width .25s;
+    }
+    #cssmenu ul li.last > a:after,
+    #cssmenu ul li:last-child > a:after {
+        display: none;
+    }
+    #cssmenu ul li.active a {
+        color: #333333;
+    }
+    #cssmenu ul li.active a:before {
+        width: 100%;
+    }
+    #cssmenu.align-right li.last > a:after,
+    #cssmenu.align-right li:last-child > a:after {
+        display: block;
+    }
+    #cssmenu.align-right li:first-child a:after {
+        display: none;
+    }
+    @media screen and (max-width: 768px) {
+        #cssmenu ul li {
+            float: none;
+            display: block;
+        }
+        #cssmenu ul li a {
+            width: 100%;
+            -moz-box-sizing: border-box;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            border-bottom: 1px solid #fb998c;
+        }
+        #cssmenu ul li.last > a,
+        #cssmenu ul li:last-child > a {
+            border: 0;
+        }
+        #cssmenu ul li a:after {
+            display: none;
+        }
+        #cssmenu ul li a:before {
+            display: none;
+        }
+    }
+    #cssmenu ul .dropdown:hover .dropdown-menu {
+        display: block;
+        margin-top: 0px;
+        background: #F98057;
+        border:none;
+        border-radius: 0px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius:5px;
+        #rememberchecks{
+            /*Adding custom checkbox icons*/
+            label {
+                position: relative;
+                padding-left: 20px;
+                padding-right: 10px;
+                padding-top:5px;
+                font-size: 14px;
+                cursor: pointer;
+            }
+            label:before, label:after {
+                font-family: FontAwesome;
+                font-size: 21px;
+                position: absolute; top: 0; left: 0;
+            }
+            label:before {
+                content: '\f046'; /*unchecked*/
+            }
+            label:after {
+                content: '\f046'; /*checked*/
+                /*checked icon will be hidden by default by using 0 max-width and overflow hidden*/
+                max-width: 0;
+                overflow: hidden;
+                opacity: 0.5;
+                /*CSS3 transitions for animated effect*/
+                transition: all 0.35s;
+            }
+
+            /*hiding the original checkboxes*/
+            input[type="checkbox"] {
+                display: none;
+            }
+            /*when the user checks the checkbox the checked icon will animate in*/
+            input[type="checkbox"]:checked + label:after {
+                max-width: 25px; /*an arbitratry number more than the icon's width*/
+                opacity: 1; /*for fade in effect*/
+            }
+            #remembercheck+label:before, #remembercheck+label:after {color: black;}
+        }
+    }
+</style>

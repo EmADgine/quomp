@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140825023427) do
+ActiveRecord::Schema.define(version: 20140828005420) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -34,29 +34,11 @@ ActiveRecord::Schema.define(version: 20140825023427) do
     t.datetime "portfolio_updated_at"
   end
 
-  create_table "goals", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "name"
-    t.string   "discipline"
-  end
-
   create_table "idealattributes", force: true do |t|
-    t.integer  "importance"
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
-
-  create_table "job_goals", force: true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "job_id"
-    t.integer  "goal_id"
-  end
-
-  add_index "job_goals", ["goal_id"], name: "index_job_goals_on_goal_id"
-  add_index "job_goals", ["job_id"], name: "index_job_goals_on_job_id"
 
   create_table "job_idealattributes", force: true do |t|
     t.datetime "created_at"
@@ -108,6 +90,7 @@ ActiveRecord::Schema.define(version: 20140825023427) do
     t.integer  "transaction_frequency"
     t.integer  "years_req"
     t.string   "abilities"
+    t.string   "goal"
   end
 
   create_table "pastjobs", force: true do |t|
