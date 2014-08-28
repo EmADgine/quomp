@@ -30,3 +30,6 @@ doc/
 
 #Ignore yml databases
 database.yml
+
+#Ignore AWS Sourcing
+*.sh

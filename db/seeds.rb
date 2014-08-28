@@ -29,6 +29,8 @@ def get_skills_by_discipline(discipline)
 
 
 Skill.delete_all
+Task.delete_all
+Idealattribute.delete_all
 ["Marketing Strategy",
     "Email Marketing",
     "Paid Search",

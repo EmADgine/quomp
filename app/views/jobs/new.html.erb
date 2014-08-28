@@ -10,7 +10,10 @@
         </ul>
         <fieldset class="sf">
             <div class="form-group">
-                <legend>Job Details</legend>
+                <legend>
+                    Job Details
+                    <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                </legend>
             </div>
             <div class="form-group sfield input-group">
                 <%=f.text_field :name, id: "jobname",class: "tooltipfield form-control sfield" %>
@@ -71,7 +74,9 @@
         </fieldset>
         <fieldset class="sf">
             <div class="form-group">
-                <legend>Provider Details</legend>
+                <legend>Provider Details
+                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                </legend>
                 <div class="form-group">
                     <%=f.label :expreq, "Do you require experience in this specific discipline?"%><span data-toggle="tooltip" data-placement="right" title="The best way to become an expert in any field is to learn while on the job. Ask yourself, what is the minimum amount of experience I would feel comfortable with my provider having in this discipline?"style="margin-left: 18px;"class="btn btn badge default"><i class="fa fa-question fa-1x"></i></span>
                     <ul id="oneliner">
@@ -86,7 +91,10 @@
                 <div class="form-group">
                     <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"Rank the most import qualities for your Provider",class: "skill-select",multiple:true,id: "idealattributes"}%>
                 </div>
-
+                <div class="form-group sfield">
+                    <%=f.text_area :abilities, class: "form-control sfield",id: "abilities"%>
+                    <label for="abilities" class="sfield">Specific Provider Abilities and Knowledge</label>
+                </div>
                 <div class="form-group">
                     <input type="button" name="previous" class="previous action-button" value="Previous" />
                     <input type="button" name="next" class="next action-button" value="Next" />
@@ -96,7 +104,9 @@
         </fieldset>
         <fieldset class="sf">
             <div class="form-group">
-                <legend>Job Timeline</legend>
+                <legend>Job Timeline
+                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                </legend>
             </div>
             <div class="form-group">
                 <label for="jobdates">Please select your your start date and deadline</label>
@@ -123,7 +133,9 @@
         </fieldset>
         <fieldset class="sf">
             <div class="show-group">
-                <legend>Provider Tier</legend>
+                <legend>Provider Tier
+                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                </legend>
             </div>
             <div style="margin-bottom:0 auto 20 auto; width: 100%;">
                 <p style="margin: auto;width:750px;white-space:normal;"> Please specify your budget and we will indicate the corresponding tier of providers. Bear in mind that all of our providers have been individually vetted.<p>
@@ -177,7 +189,9 @@
         </fieldset>
         <fieldset class="sf">
             <div class="form-group">
-                <legend>Tell us when you want to advertise your job to Our Engine</legend>
+                <legend>Tell us when you want to advertise your job to Our Engine
+                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                </legend>
             </div>
             <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
             <div class="form-group">
@@ -193,6 +207,7 @@
             <%=f.submit "Submit Job", class: "action-button"%>
         </div>
     </fieldset>
+    <%= render partial: 'pagehelp',:locals=>{url: ""}%>
 <%end%>
     </div>
     <script>
