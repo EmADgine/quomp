@@ -158,7 +158,14 @@ module ApplicationHelper
     end
     def get_goals_by_discipline(discipline)
         map={"Email Marketing"=>["Increase your email list size or growth rate","Increase click-to-open or click-through-rate (CTR)","Decrease Unsubscribe rate"],"Marketing Strategy"=>["Establish a brand / increase awareness of your product or service","Improve distribution of your product or service","Launch your digital marketing presence"],"Paid Search"=>["Increase overall return on investment (ROI) on return on ad spend (ROAS)","Increase click rate through rate (CTR) relative to my competitors","Increase conversion rate (CVR)"],"SEO"=>["Increase month-over-month unique visitors to my site from organic search","Increase Leads from my website","Increase number of pages per visitor"],"Social Media"=>["Increase my follower base","Increase brand mentions","Increase frequency of my posts"]}
-        return map[discipline]
-
+        map[discipline]
+    end
+    def get_discipline_key(discipline)
+        map={"Email Marketing"=>"EM","Marketing Strategy"=> "MS","Paid Search"=>"PS","Social Media"=>"SM","SEO"=>"SEO"}
+        map[discipline]
+    end
+    def file_by_ptype(ptype)
+        map={"agency"=>"Sales Collateral","freelancer"=>"Resume&eacute;"}
+        map[ptype]
     end
 end

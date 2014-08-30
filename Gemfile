@@ -3,8 +3,9 @@ ruby '2.1.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.1'
-#gem 'bootstrap-sass', '~> 3.1.1'
+gem 'bootstrap-sass','~> 3.1.1'
 gem 'sprockets'
+gem 'sprockets-rails'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'rails-i18n'
 gem 'devise'
@@ -15,34 +16,28 @@ gem 'jquery-turbolinks'
 gem 'jquery-ui-rails'
 gem 'font-awesome-rails'
 gem 'momentjs-rails'
-
 gem "jquery-fileupload-rails"
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
-    #testing suite
-    gem 'rspec-rails'
-    #automated testing
-    gem 'guard-rspec'
 end
 group :test do
     gem 'selenium-webdriver'
     gem 'capybara'
 end
-
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
 gem 'coffee-rails', '~> 4.0.0'
-# See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
-
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+# gem 'therubyracer',  platforms: :ruby
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -60,6 +55,7 @@ group :production  do
     gem 'pg'
     gem 'rails_12factor'
 end
+
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 
 # Use ActiveModel has_secure_password

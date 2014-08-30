@@ -111,8 +111,8 @@ textarea {
     resize: none !important;
 }
 
-ul {
-    margin-bottom: 0 !important;
+ul:not(.chosen-choices) {
+    margin-bottom: 0;
 }
 .ui-state-disabled {
     display: none;
@@ -465,6 +465,7 @@ height: 46px;
     display: block; float: left;
     position: relative; /*for upward animation*/
     background: $color;
+    z-index: 100;
 }
 .ch:first-child {padding-left: 2px;}
 .ch:last-child {padding-right: 2px;}
@@ -651,12 +652,8 @@ fieldset.sf:not(:first-of-type) {
 }
 }
 
-.chosen-choices .search-field input {
-    width: 700px!important;
-}
-
 .search-field input {
-    height: 20px!important;
+    height: 45px!important;
     color: #888!important;
     line-height: 15px!important;
     padding: 5px 0px 5px 5px!important;
@@ -730,7 +727,7 @@ fieldset.sf:not(:first-of-type) {
     background: -webkit-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Chrome10+,Safari5.1+ */
     background: -o-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* Opera 11.10+ */
     background: -ms-linear-gradient(top, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* IE10+ */
-    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 40%,#05abe0 100%); /* W3C */
+    background: linear-gradient(to bottom, #87e0fd 0%,#53cbf1 40%,#05abe0 100%)!important; /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#87e0fd', endColorstr='#05abe0',GradientType=0 ); /* IE6-9 */
 }
 
@@ -748,7 +745,7 @@ fieldset.sf:not(:first-of-type) {
 #slider-left {
     float:left;
     width:80px;
-    height:500px;
+    height:375px;
 }
 #slider-right {
     float:right;

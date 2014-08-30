@@ -77,6 +77,7 @@
             <div class="form-group">
                 <legend>Provider Qualifications</legend>
             </div>
+            <%unless @provider.ptype=="agency"%>
             <h3>Education</h3>
             <div class="form-group">
                 <%= f.select :university, get_universities.unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
@@ -90,7 +91,13 @@
                 <%=render 'pastjob_fields', f: builder %>
             <%end%>
             <%=link_to_add_fields1 "Add Job", f,:pastjobs %>
+            <%end%>
             <h3>References and Resum&eacute;</h3>
+            <%=f.fields_for :references do |builder|%>
+                <%=render 'reference_fields', f: builder %>
+            <%end%>
+            <%=link_to_add_fields1 "Add References", f,:references %>
+            <br></br>
             <div class="form-group sfield" style="margin-bottom: 0px;height:23px;">
                 <%= f.text_field :linkedin, class: 'form-control sfield',id: 'linkedin'%>
                 <label for='linkedin' class='sfield'>Linkedin Profile</label>
@@ -98,22 +105,17 @@
             <div style="margin-bottom: 10px;">
                 <%if @provider.resume==nil or @provider.resume.to_s=="/resumes/original/missing.png"%>
                     <%= f.file_field :resume%>
-                    <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;</span>
+                    <span type="button" class="btn btn-default btn-file">Upload <%=file_by_ptype(@provider.ptype)%></span>
                     <span class="insert-prev"></span>
                 <%else%>
                     <%= f.file_field :resume, {class: "gotFile"}%>
-                    <span type="button" class="btn btn-default btn-file">Upload Resum&eacute;
+                    <span type="button" class="btn btn-default btn-file">Upload <%=file_by_ptype(@provider.ptype)%>
                         <span style="color: rgb(161, 196, 54);" class="fa fa-check"></span>
                     </span>
-                    <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#resume-prev">Preview Resum&eacute;</span>
+                    <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#resume-prev">Preview <%=file_by_ptype(@provider.ptype)%></span>
                 <%end%> 
             </div>
             <%=render partial: 'providers/editresumeprev', :locals=>{:resume_url=>@provider.resume.to_s}%>
-            <%=f.fields_for :references do |builder|%>
-                <%=render 'reference_fields', f: builder %>
-            <%end%>
-            <%=link_to_add_fields1 "Add References", f,:references %>
-            <br/>
             <div class="form-group">
                 <input type="button" name="previous" class="previous action-button" value="Previous">
                 <input type="button" name="next" class="next action-button" value="Next" />

@@ -11,8 +11,7 @@
         <fieldset class="sf">
             <div class="form-group">
                 <legend>
-                    Job Details
-                    <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                    <span>Job Details</span>
                 </legend>
             </div>
             <div class="form-group sfield input-group">
@@ -21,13 +20,14 @@
                 <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="Your project name should be clear and concise as it is the first thing the provider sees. State exactly what you are looking for without going into unnecessary details. Ask yourself, what do I want done in 10 words or less?"><i class="fa fa-question fa-2x"></i></span>
             </div>
             <div class="form-group">
-                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Discipline",id: "disciplines"}%>
+                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Job Discipline",id: "disciplines"}%>
+                <span class="badge default" data-placement="right" style="margin-left:65px;margin-right: -65px;" data-toggle="tooltip" title="Our goal is to connect you with providers that cater to your specific needs. Ask yourself, what type of expertise will serve me the best?"><i class="fa fa-question" ></i></span>
             </div>
             <div class="form-group">
                 <%=f.select :task, [],{},{id:"tasks", class: "skill-select","data-placeholder"=>"Select your tasks",disabled:true,multiple:true}%>
             </div>
             <div class="form-group">
-                <%= f.collection_select :skill_ids,[],:id, :name, {},{"data-placeholder"=>"Select required skills",class: "skill-select",multiple:true,id: "skills",disabled:true}%>
+                <%= f.collection_select :skill_ids,[],:id, :name, {},{"data-placeholder"=>"Select your required skills",class: "skill-select",multiple:true,id: "skills",disabled:true}%>
             </div>
             <div class="form-group">
                 <%=f.select :goal,[],{},{"data-placeholder"=>"Select your primary goal",class: "skill-select", id:"goals",disabled:true}%>
@@ -72,40 +72,68 @@
             </div>
 
         </fieldset>
-        <fieldset class="sf">
-            <div class="form-group">
-                <legend>Provider Details
-                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
-                </legend>
-                <div class="form-group">
-                    <%=f.label :expreq, "Do you require experience in this specific discipline?"%><span data-toggle="tooltip" data-placement="right" title="The best way to become an expert in any field is to learn while on the job. Ask yourself, what is the minimum amount of experience I would feel comfortable with my provider having in this discipline?"style="margin-left: 18px;"class="btn btn badge default"><i class="fa fa-question fa-1x"></i></span>
-                    <ul id="oneliner">
-                        <li>
-                        <%=f.select :expreq, ["No","Yes"], {},class: "exp-req",id: "exp-req"%>
-                        </li>
-                        <li class="insert-atleast"></li>
-                        <li><%=f.select :years_req, 1..10, {}, class: "", id: "years_req"%></li>
-                        <li class="insert-years"></li>
-                    </ul>
-                </div>
-                <div class="form-group">
-                    <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"Rank the most import qualities for your Provider",class: "skill-select",multiple:true,id: "idealattributes"}%>
-                </div>
-                <div class="form-group sfield">
-                    <%=f.text_area :abilities, class: "form-control sfield",id: "abilities"%>
-                    <label for="abilities" class="sfield">Specific Provider Abilities and Knowledge</label>
-                </div>
-                <div class="form-group">
-                    <input type="button" name="previous" class="previous action-button" value="Previous" />
-                    <input type="button" name="next" class="next action-button" value="Next" />
-                </div>
 
+
+
+
+
+
+
+
+
+
+        <fieldset class="sf">           
+            <div class="form-group">
+                <legend>
+                    <span>Provider Details</span>
+                </legend>
+            </div>
+
+            <div class="form-group">
+                <%=f.label :expreq, "Do you require experience in this specific discipline?"%><span data-toggle="tooltip" data-placement="right" title="The best way to become an expert in any field is to learn while on the job. Ask yourself, what is the minimum amount of experience I would feel comfortable with my provider having in this discipline?"style="margin-left: 18px;"class="btn badge default"><i class="fa fa-question fa-1x"></i></span>
+                <ul id="oneliner">
+                    <li>
+                    <%=f.select :expreq, ["No","Yes"], {},class: "exp-req",id: "exp-req"%>
+                    </li>
+                    <li class="insert-atleast"></li>
+                    <li><%=f.select :years_req, 1..10, {}, class: "", id: "years_req"%></li>
+                    <li class="insert-years"></li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <span style="height:0px; width: 0px;" class="ranked"></span>
+                <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"Rank the most import qualities for your Provider",class: "skill-select",multiple:true,id: "idealattributes"}%>
+            </div>
+            <div class="form-group sfield input-group">
+                <%=f.text_area :abilities, id: "abilities",class: "tooltipfield form-control sfield" %>
+                <label for="abilities" class="sfield">Additonal Knowledge and Abilities</label>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s important to list all of the abilities and knowledge you feel your provider will need in order to complete your project to satisfaction. Be as specific as you can. You don’t want to find out at a later date that your provider doesn’t have an ability that is critical to your project."><i class="fa fa-question fa-2x"></i></span>
+            </div>
+            <div class="form-group">
+                <%=f.label :transaction_frequency, "How often would you like to interact with your provider?"%>
+                <br/>
+                <%=f.select :transaction_frequency, [["Every Day", 31], ["2-3 times per week",10],["Once per week",4],["Once per month",1]], class: "transfreq"%>
+            </div>
+
+            <div class="form-group">
+                <input type="button" name="previous" class="previous action-button" value="Previous" />
+                <input type="button" name="next" class="next action-button" value="Next" />
             </div>
         </fieldset>
+
+
+
+
+
+
+
+
+
+
         <fieldset class="sf">
             <div class="form-group">
-                <legend>Job Timeline
-                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                <legend>
+                    <span>Job Timeline</span>
                 </legend>
             </div>
             <div class="form-group">
@@ -118,11 +146,6 @@
                     <input type="text" id="jobdates" class="form-control notme"/>
                 </div>
             </div>
-            <div class="form-group">
-                <%=f.label :transaction_frequency, "How many times a week would you like to interact with your provider?"%>
-                <br/>
-                <%=f.select :transaction_frequency, 1..7, class: "transfreq"%>
-            </div>
 
 
             <div class="form-group">
@@ -131,31 +154,46 @@
             </div>
 
         </fieldset>
+
+
+
+
+
+
+
+
+
+
+
         <fieldset class="sf">
-            <div class="show-group">
-                <legend>Provider Tier
-                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+            <div class="form-group">
+                <legend>
+                    <span>Provider Tier</span>
                 </legend>
             </div>
             <div style="margin-bottom:0 auto 20 auto; width: 100%;">
-                <p style="margin: auto;width:750px;white-space:normal;"> Please specify your budget and we will indicate the corresponding tier of providers. Bear in mind that all of our providers have been individually vetted.<p>
+                <p style="margin: auto;width:750px;white-space:normal;">Based on your job details,
+                we estimate that your project will take approximately 20 hours to complete. We’ve used this estimate to give you a sense of the project costs in each of the corresponding provider tiers below. Please specify your budget.<p>
             </div>
             <div class="slider-wrapper">
                 <div id="slider-left">
-                    <div name="job[budget]" id="slider-vertical" style="height:460px;"></div>
+                    <div name="job[budget]" id="slider-vertical" style="height:345px;"></div>
                 </div>
                 <div id="slider-right">
                     <div class="tier-wrap">
+                        <!--
                         <div class="show-group" id="tier3">
                             <h1>Tier 3</h1>
                             <p>Providers in this tier are the "best of the best," consistently receiving stellar client reviews. You won't find better talent on the site, or anywhere for that matter!</p>
                             <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier3-prev"></span>
-                        </div>
+                        </div>-->
                     </div>
                     <div class="tier-wrap">
                         <div class="show-group" id="tier2"> 
                             <h1>Tier 2</h1>
-                            <p>Providers in this tier are very experienced, having provided excellent client work enabling them to graduate through two tiers.</p>
+                            <p>Providers in this tier are the "best of the best," consistently receiving stellar client reviews. You won't find better talent on the site, or anywhere for that matter!</p>
+
+                            <!--<p>Providers in this tier are very experienced, having provided excellent client work enabling them to graduate through two tiers.</p>-->
                             <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier2-prev"></span>
                         </div>
                     </div>
@@ -187,10 +225,21 @@
                 <input type="button" name="previous" class="previous action-button" value="Previous">
             </div>
         </fieldset>
+
+
+
+
+
+
+
+
+
+
         <fieldset class="sf">
+
             <div class="form-group">
-                <legend>Tell us when you want to advertise your job to Our Engine
-                <span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-10px;" class="btn btn badge default"><i class="fa fa-question fa-2x"></i></span>
+                <legend>
+                    <span>Tell us when you want to advertise your job to Our Engine</span>
                 </legend>
             </div>
             <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>

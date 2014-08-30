@@ -8,10 +8,11 @@
 #
 #
 def get_idealattributes()
-    ["attribute 1","attribute2","attribute3"]
+    ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"]
 end
 def get_tasks_by_discipline(discipline)
-    return ["task 1","task2","task3"]
+    map ={"Email Marketing"=> ["Email Design","Email Coding","Email Deliverability"],"SEO"=>["On Page Optimization","Off Page Optimization"],"Paid Search"=> ["Campaign Research", "Campaign Set-Up","Campaign Optimization","Content and Display","Retargeting"],"Marketing Strategy"=>["Marketing Plan Development","Business Plan Development","Market Research","Consulting"],"Social Media"=>["Facebook Management","Twitter Management","Linkedin Management","Pinterest Management","Google+ Management","Instagram Management","Youtube Management","Vine Management"]}
+    return map[discipline]
 end
 def get_skills_by_discipline(discipline)
 

@@ -1,12 +1,17 @@
 var task=$("#j-create #whichprev").data('previd');
 if(task=="setdiscipline"){
     $("#skills,#tasks,#goals").prop("disabled",false).trigger("chosen:updated");
-    $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"Select your skills in "+ @job.discipline,class: "skill-select",multiple:true}%>');
+    $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"Select your required skills in "+ @job.discipline,class: "skill-select",multiple:true}%>');
     $("#goals").parent().html('<%=select_tag @job.goal, options_for_select(get_goals_by_discipline(@job.discipline).unshift("")),{id: "goals","data-placeholder"=>"Select primary goal in "+@job.discipline,class: "skill-select"}%>');
     $("#tasks").parent().html('<%=collection_select :job,:task_ids,Task.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "tasks","data-placeholder"=>"Select your tasks in "+ @job.discipline,class: "skill-select",multiple:true}%>');
 
     $(".skill-select").chosen({width:"400px"});
+    $.each($("fieldset.sf"), function() {
+        $(this).find('.form-group').find('legend').html('<span>'+$(this).find('.form-group').find('legend').find('span').text()+'</span><small data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-180px;" class="btn btn-default"><%=get_discipline_key(@job.discipline)%> Example Job</small>');
+    });
 }
 else {
     $("#j-create #mockups-prev .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@job.mockups%>')+'&embedded=true"></iframe>');
 }
+
+//<span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-115px;" class="btn btn-default default">View Example?</span>

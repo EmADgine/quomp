@@ -12,9 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery.turbolinks
 //= require turbolinks
+//= require jquery.turbolinks
 //= require jquery-ui
 //= require jquery-fileupload
-//= reuire moment 
 //= require_tree .

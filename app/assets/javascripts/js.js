@@ -349,7 +349,7 @@ $("#slider-vertical").slider({
 
             },
     change: function(event, ui) {
-                if(ui.value<140){
+                if(ui.value<190){
 
                     $("#tier0").animate(
                             {width: "670"},
@@ -367,7 +367,7 @@ $("#slider-vertical").slider({
                     $("#tier0 span,#tier0 p").fadeOut();
                     $("#tier0").removeClass("activeTier");
                 }
-                if(ui.value<260 &&ui.value>=140){
+                if(ui.value<350 &&ui.value>=190){
                     $("#tier1").animate(
                             {width: "670"},
                             {duration:600,
@@ -385,7 +385,7 @@ $("#slider-vertical").slider({
                     $("#tier1").removeClass("activeTier");
 
                 }
-                if(ui.value<380 && ui.value >= 260){
+                if(ui.value<500 && ui.value >= 350){
                     $("#tier2").animate(
                             {width: "670"},
                             {duration:600,
@@ -401,24 +401,6 @@ $("#slider-vertical").slider({
                             });
                     $("#tier2 span,#tier2 p").fadeOut();
                     $("#tier2").removeClass("activeTier");
-
-                }
-                if(ui.value>=380) {
-                    $("#tier3").animate(
-                            {width: "670"},
-                            {duration:600,
-                                completion: function () {}
-                            });
-                    $("#tier3 span,#tier3 p").delay(400).fadeIn();
-                    $("#tier3").addClass("activeTier");
-                } else {
-                    $("#tier3").delay(200).animate(
-                            {width: "300"},
-                            {duration:600,
-                                completion: function () {}
-                            });
-                    $("#tier3 span, #tier3 p").fadeOut();
-                    $("#tier3").removeClass("activeTier");
 
                 }
             }
