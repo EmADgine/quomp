@@ -1,13 +1,13 @@
 <fieldset>
     <div class="center">
         <ul id="oneliner">
-            <li><%=f.text_field :pj_employer,class: "form-control",placeholder: "Employer"%></li>
-            <li><%=f.text_field :pj_position, class: "form-control", placeholder: "Position"%></li>
-            <li><%=f.text_field :location, class: "form-control",placeholder: "Location"%></li>
+            <li><%=f.text_field :pj_employer,class: "form-control notme",placeholder: "Employer"%></li>
+            <li><%=f.text_field :pj_position, class: "form-control notme", placeholder: "Position"%></li>
+            <li><%=f.text_field :location, class: "form-control notme",placeholder: "Location"%></li>
             <li>
-                <%=f.hidden_field :startdate, class: "sdatehidden"%>
-                <%=f.hidden_field :enddate, class: "edatehidden"%>
-                <%=f.hidden_field :current, class: "currentcheck"%>
+                <%=f.hidden_field :startdate, class: "sdatehidden notme"%>
+                <%=f.hidden_field :enddate, class: "edatehidden notme"%>
+                <%=f.hidden_field :current, class: "currentcheck notme"%>
                 <span class="btn btn-primary pastjobdates" style="height:31px;"><i class="fa fa-calendar"></i></span>
             </li>
             <li><%=f.hidden_field :_destroy%>

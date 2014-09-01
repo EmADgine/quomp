@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140828005420) do
+ActiveRecord::Schema.define(version: 20140830222436) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -125,6 +125,16 @@ ActiveRecord::Schema.define(version: 20140828005420) do
     t.string   "name"
     t.string   "discipline"
   end
+
+  create_table "user_jobs", force: true do |t|
+    t.integer  "user_id"
+    t.integer  "job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "user_jobs", ["job_id"], name: "index_user_jobs_on_job_id"
+  add_index "user_jobs", ["user_id"], name: "index_user_jobs_on_user_id"
 
   create_table "users", force: true do |t|
     t.string   "name"

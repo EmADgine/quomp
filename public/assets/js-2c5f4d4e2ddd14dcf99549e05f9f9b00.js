@@ -35,12 +35,12 @@ function uploadFile(data,name,action,tempname,tempnameval,nested,method) {
         }
     };
     xhr.setRequestHeader('accept','*/*;q=0.5, text/javascript');
-                                      xhr.send(formData);
-                                      }
-                                      function setHeight(obj)
-                                      {
-                                      var objHeight=0;
-                                      $.each(obj.children(),
+    xhr.send(formData);
+    }
+    function setHeight(obj)
+    {
+        var objHeight=0;
+        $.each(obj.children(),
                                       function() {
                                       if($(this).is(":visible") && $(this).hasClass("sf")){
                                       objHeight+=$(this).height();
@@ -105,10 +105,10 @@ function uploadFile(data,name,action,tempname,tempnameval,nested,method) {
                                       }
                                       if(!$("#p-edit input[type=checkbox].d-check").is(":checked")) {
                                       $('#tabs').hide();
-    } 
-else if(!$('#tabs').is(":visible")) {
-    $('#tabs').show();
-}
+                                      } 
+    else if(!$('#tabs').is(":visible")) {
+        $('#tabs').show();
+    }
 })
 })
 $('form .add_fields').click(function () {
@@ -404,55 +404,16 @@ $("#slider-vertical").slider({
 
                 }
             }
-});
-var speed=700;
-delay=200;
-$(".rankdisplay").toggle();
-var f1 = function () {
-    if($("#p1").position().left>124||$("#p1").position().left<123) {
+    });
 
-        $("#p1").swap({
-            target: document.elementFromPoint(460, 200).id,//$($("#createsheet4 .pane")[0]).attr('id'),
-            opacity: "1.0",
-            speed: speed
+    $("#reorder").click(function() {
+        alert("clicked")
+        $("#p1").animate({
+            left: $("#p2").offset().left-$("#createsheet4").offset().left
         });
-        setTimeout(f2,speed+delay);
-    } else {
-        f2();
-    }
-}
-var f2 = function () {
-
-
-if($("#p2").position().left>498||$("#p2").position().left<497) {
-        $("#p2").swap({
-            target: document.elementFromPoint(535+312,200).id,
-            opacity: "1.0",
-            speed: speed
+        $('#p2').animate({
+            right: $("#p1").offset().left-$("#createsheet4").offset().left
         });
-        setTimeout(f4,speed+delay);
-    } else {
-        f4();
-    }
-}
-var f4= function () {
-
-if($("#p4").position().left>1246||$("#p4").position().left<1245) {
-        $("#p4").swap({
-            target: document.elementFromPoint(1600,200).id,
-            opacity: "1.0",
-            speed: speed                                        
-        });
-    }
-
-}
-/*$(document.body).bind('click', function(e){
-
-                    alert('you selected coordinate: ' + e.pageX+", "+e.pageY);
-                    alert('you selected element with id: '+document.elementFromPoint(e.pageX,e.pageY).id);
-                        }*/
-$("#reorder").click(function() {
-    f1();
-    $(".rankdisplay").toggle(2000);
     });
 });
+

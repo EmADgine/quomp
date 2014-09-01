@@ -22,7 +22,7 @@
                     <span></span>
                     <span style="color: rgb(161, 196, 54);" class="fa fa-check"></span>
                 </span>
-                <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#portfolio-<%=nom.downcase.gsub(/\s+/,"")%>-prev">Preview Resum&eacute;</span>
+                <span type="button" class="btn btn-default prev-btn" data-toggle="modal" data-target="#portfolio-<%=nom.downcase.gsub(/\s+/,"")%>-prev">Preview Portfolio</span>
             <%end%>
         </div>
         <%=render partial: nom.downcase.gsub(/\s+/,"")+"port",:locals => {:portfolio_url => f.object.portfolio.to_s}%>

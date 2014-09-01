@@ -20,38 +20,16 @@ body {
         background-color: $color;
     }
 }
-#content {
+.btn-primary {
+    border: solid 1px black !important;
+    background-color:#F98057!important;
 }
-.btn-primary,.btn-primary:hover,.btn-primary:active,.btn-primary.selected {
-    background-color:#F98057;
-}
-.modal {
-    z-index: 50000000;
+.btn-primary:active,.btn-primary.active {
+    background-color: darken(#F98057,4%)!important;
 }
 
-#footer {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    height: 45px!important;
-    border-top: 1px solid #999;
-    color: #fff;
-    a {
-        color: #111;
-        font-size:1.3em;
-        &:hover {
-            color: #333;
-}
-}
-ul {
-    float:right;
-    overflow: hidden;
-    white-space:nowrap;
-    li { 
-        display: inline-block;
-        padding:10px;
-}
-}
+.modal {
+    z-index: 5000000;
 }
 input[type="file"] {
     visibility: hidden;
@@ -127,24 +105,6 @@ ul:not(.chosen-choices) {
     text-align:center;
     font-weight:normal;
 }
-#logo {
-    float: left;
-    margin-right: 10px;
-    margin-left: 5px;
-    font-size: 2.3em;
-    color: #0096FA;
-    text-transform: capitalize;
-    letter-spacing: -1px;
-    padding-top:9px;
-    font-weight: bold;
-    line-height: 1;
-    &:hover {
-        color: lighten(#0096FA,20%);
-        text-decoration: none;
-}
-}
-
-
 /* home */
 #hometownhero {
     margin-top: 130px;
@@ -226,6 +186,36 @@ fieldset {
 }
 #createsheet3 {
     margin-top: 100px;
+}
+#createsheet4 {
+border: solid black 1px;
+background: $color;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+padding: 20 0 20 0!important;
+width: 1500px;
+vertical-align:middle;
+margin-left: auto;
+margin-right: auto;
+margin-top:100px;
+height:900px;
+ul li {
+    list-style-type:none;
+}
+.pane {
+    width: 350px;
+    background: white;
+    float:left;
+    border: solid black 1px;
+    height:800px;
+    margin-left:12px;
+    margin-right:12px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding:10px;
+}
 }
 #oneliner {
     white-space:nowrap;
@@ -583,7 +573,7 @@ fieldset.sf:not(:first-of-type) {
     margin: 10px 5px;
 }
 .action-button:hover, .action-button:focus {
-    box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
+    box-shadow: 0 0 0 2px $color, 0 0 0 3px #27AE60;
 }
 #progressbar {
     overflow: hidden;

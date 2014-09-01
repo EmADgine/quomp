@@ -9,6 +9,8 @@ class ProvidersController < ApplicationController
     end
     def update
         @provider = Provider.find(params[:id])
+        #puts @provider.disciplines.where('name LIKE ?', 'T%')
+        #@provider.disciplines.where('name LIKE ?', 'Temp%').delete_all
         respond_to do |format|
             if @provider.update_attributes(provider_params_edit)
                 flash[:success] = "Profile Updated"

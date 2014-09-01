@@ -18,11 +18,11 @@ module ApplicationHelper
         f.hidden_field(:_destroy) + link_to_function(name, "remove_fields(this)")
     end
 
-    def add_fields_arguments(f, association,name,exists)
+    def add_fields_arguments(f, association,current_disciplines,name,exists)
         unless exists
             new_object = f.object.send(association).klass.new
         else
-            new_object = f.object.send(association).klass.find_by_name(name)
+            new_object = f.object.send(association).klass.find(current_disciplines.where('name LIKE?',name).first.id)
         end
         id = new_object.object_id
         fields = f.fields_for(association, new_object, child_index: id) do |builder|
@@ -167,5 +167,15 @@ module ApplicationHelper
     def file_by_ptype(ptype)
         map={"agency"=>"Sales Collateral","freelancer"=>"Resume&eacute;"}
         map[ptype]
+    end
+    def get_idealattributes
+        ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"]
+    end
+    def clamp(description)
+        unless description.length>250
+            description
+        else 
+            return description[0,250]+"..."
+        end
     end
 end

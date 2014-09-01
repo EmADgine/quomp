@@ -130,7 +130,7 @@
             <div id="discipline-checks">
                 <div class="form-group">
                     <% get_disciplines.each do |key, value| %>
-                        <%=check_box_tag "tab-#{key}", "tab-#{key}",@provider.disciplines.pluck('name').include?(value), data: add_fields_arguments(f,:disciplines,value,@provider.disciplines.pluck('name').include?(value)), class: "d-check notme"%>
+                        <%=check_box_tag "tab-#{key}", "tab-#{key}",@provider.disciplines.pluck('name').include?(value), data: add_fields_arguments(f,:disciplines,@provider.disciplines,value,@provider.disciplines.pluck('name').include?(value)), class: "d-check notme"%>
                         <label for="tab-<%=key%>"><%=value%></label>
                     <% end %>
                 </div>

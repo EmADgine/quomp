@@ -1,5 +1,4 @@
 class Job < ActiveRecord::Base
-    belongs_to :user
     has_many :job_skills
     has_many :skills, through: :job_skills
     has_attached_file :mockups
@@ -14,4 +13,7 @@ class Job < ActiveRecord::Base
 
     has_many :idealattributes, through: :job_idealattributes
     has_many :tasks, through: :job_tasks
+
+    has_many :user_jobs
+    has_many :users, through: :user_jobs
 end

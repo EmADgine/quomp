@@ -18,7 +18,12 @@ Rails.application.routes.draw do
     end
     
     resources :clients do
-        resources :jobs
+        resources :jobs do
+            member do
+                get :select_provider
+                post :save_provider
+            end
+        end
     end
     resources :providers
 end

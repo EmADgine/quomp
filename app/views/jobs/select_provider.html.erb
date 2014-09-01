@@ -1,0 +1,38 @@
+<div id="createsheet4" class="center">
+    <div class="form-group">
+        <legend style="padding-bottom:10px; padding-top:10px;">
+            <span>Select a Provider</span>
+            <button class="btn btn-primary" id="reorder" style="margin-right:-662px!important; margin-left:462px!important;" title="We've randomized the four best providers below. Click here to reorder the providers in order from highest calculated ranking to lowest">Order by Quomp Ranking</button>
+        </legend>
+    </div>
+    <%@providerlist[0].each_with_index do |provider, i|%>
+        <div class="pane" id="<%='p'+@providerlist[1][i].to_s%>">
+            <p class="rankdisplay" style="left:10px; bottom: 0px;">Ranking is  <%=@providerlist[1][i].to_s%></p>
+            <%= image_tag provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
+            <%[provider.name,provider.city.titleize+", "+provider.state,provider.ptype.titleize].each do |text|%>
+                <p align="left"><%=text%>
+            <%end%>
+            <br/>
+            <p align="left"><%='"'+clamp(provider.description.strip)+'"'%></p>
+            <hr/>
+            <table>
+                            </table>
+            <table cellspacing="5" cellpadding="5">
+                <tr>
+                    <td valign="top"><b>Projects Completed:</b></td>
+                    <td></td>
+                    <td><%=(0..45).to_a.sample%></td>
+                </tr>
+
+                <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
+                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><%=(6..10).to_a.sample%>/10</td></tr>
+                <%end%>
+            </table>
+
+                <div style="position: absolute; bottom: 10px; margin: auto" align="center">
+                    <span class="btn btn-primary" style="">Why <%=provider.name.split[0]%>?</span>
+                    <span class="btn btn-primary" style="">View Full Profile</span>
+                </div>
+            </div>
+        <%end%>
+    </div>

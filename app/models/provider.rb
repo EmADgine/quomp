@@ -9,5 +9,15 @@ class Provider < User
         "application/msword", 
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
         "text/plain"]
-   
+        
+        has_many :disciplines, dependent: :destroy,class_name: "Discipline",foreign_key: "user_id"
+        has_many :pastjobs, dependent: :destroy, class_name: "Pastjob",foreign_key:"user_id"
+        has_many :references, dependent: :destroy, class_name: "Reference",foreign_key:"user_id"
+        accepts_nested_attributes_for :pastjobs, allow_destroy: true
+        accepts_nested_attributes_for :references, allow_destroy: true
+
+        
+        accepts_nested_attributes_for :disciplines, allow_destroy: true, :reject_if => proc {|a| a['portfolio']=="/portfolios/original/missing.png"&&a['name'].split()[0]=="Temp"}
+
+    
 end

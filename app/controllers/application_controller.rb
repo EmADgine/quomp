@@ -3,11 +3,9 @@ class ApplicationController < ActionController::Base
     # For APIs, you may want to use :null_session instead.
 
     protect_from_forgery with: :exception
-    before_action :configure_devise_permitted_parameters, if: :devise_controller?
-   
+    before_action :configure_devise_permitted_parameters, if: :devise_controller? 
     protected
     helper_method :account_url
-
     def account_url
         return new_user_session_url unless user_signed_in?
         case current_user.class.name
