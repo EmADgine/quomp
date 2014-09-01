@@ -406,7 +406,7 @@ $("#slider-vertical").slider({
             }
 });
 var speed=700;
-delay=200;
+delay=400;
 $(".rankdisplay").toggle();
 var f1 = function () {
     if($("#p1").position().left>124||$("#p1").position().left<123) {
