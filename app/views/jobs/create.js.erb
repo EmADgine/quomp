@@ -1,11 +1,26 @@
 var task=$("#j-create #whichprev").data('previd');
 if(task=="setdiscipline"){
     $("#skills,#tasks,#goals").prop("disabled",false).trigger("chosen:updated");
-    $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"Select your required skills in "+ @job.discipline,class: "skill-select",multiple:true}%>');
+    $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label for="skills" class="sfield">Select your required skills in <%=@job.discipline%></label>');
     $("#goals").parent().html('<%=select_tag @job.goal, options_for_select(get_goals_by_discipline(@job.discipline).unshift("")),{id: "goals","data-placeholder"=>"Select primary goal in "+@job.discipline,class: "skill-select"}%>');
-    $("#tasks").parent().html('<%=collection_select :job,:task_ids,Task.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "tasks","data-placeholder"=>"Select your tasks in "+ @job.discipline,class: "skill-select",multiple:true}%>');
+    $("#tasks").parent().html('<%=collection_select :job,:task_ids,Task.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "tasks","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label class="sfield" for="tasks">Select your tasks in <%=@job.discipline%></label>');
 
-    $(".skill-select").chosen({width:"400px"});
+    $(".skill-select").chosen({width:"400px"}).change(function (event) {
+        var target = $(event.target),
+        currentDataSet = target.val();
+        if($(this).parent().find('.chosen-choices').children().length==2&&currentDataSet==null) {
+            $(this).parent().find('label').removeClass('focussed');
+            $(this).parent().find('label').children().stop(true).each(function(i){
+                $(this).delay(0).animate({top: 0+"px"}, 300, 'easeOutBack');
+            });
+        } else if(!$(this).parent().find('label').hasClass('focussed')) {
+            $(this).parent().find('label').addClass("focussed").children().stop(true).each(function(i){
+                $(this).delay(0).animate({top: -25+"px"}, 300, 'easeOutBack');
+            });
+        }
+    });    
+
+
     $.each($("fieldset.sf"), function() {
         $(this).find('.form-group').find('legend').html('<span>'+$(this).find('.form-group').find('legend').find('span').text()+'</span><small data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-180px;" class="btn btn-default"><%=get_discipline_key(@job.discipline)%> Example Job</small>');
     });
@@ -13,5 +28,19 @@ if(task=="setdiscipline"){
 else {
     $("#j-create #mockups-prev .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@job.mockups%>')+'&embedded=true"></iframe>');
 }
+$(".flp .chosen-container-multi").each(function(){
+    if($(this).attr('id')!='idealattributes_chosen') {
+        if($(this).val()!=""){
+            $(this).next().css("top","-25px");
+            $(this).next().addClass("focussed");
+            $(this).next().addClass("preset");
+        }
+        var sop = '<span class="ch">';
+        var scl = '</span>';
+        $(this).next().html(sop + $(this).next().html().split("").join(scl+sop) + scl);
+        $(".ch:contains(' ')").html("&nbsp;");
+    }
+});
+
 
 //<span data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-115px;" class="btn btn-default default">View Example?</span>

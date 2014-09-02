@@ -4,14 +4,13 @@ class JobsController < ApplicationController
     helper_method :get_idealattributes
     include JobsHelper
     def new
-        @job= Job.new(:user_id=>current_user.id)
-        @job.budget="$"
-        @parentclient = Client.find(current_user.id)
+        @parentclient=Client.find(current_user.id)
+        @job=Job.new
     end
     def create
+        @parentclient=Client.find(current_user.id)
         @job= Job.new(job_params)
-        
-        Rails.logger.debug("Hello!")
+        @user_jobs=@parentclient.user_jobs.create(job: @job)
         respond_to do |format|
             if @job.save
                 Rails.logger.debug("saved");
@@ -25,7 +24,8 @@ class JobsController < ApplicationController
         end
     end
     def select_provider
-        @job=@user.jobs.order("created_at").last
+        @parentclient=Client.find(current_user.id)
+        @job= @parentclient.jobs.order("created_at").last
         @providerlist=view_context.get_providers(@job)
     end
     def save_provider
@@ -42,7 +42,11 @@ class JobsController < ApplicationController
     end
     private
     def job_params
-        params.require(:job).permit(:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,skill_ids:[],task_ids:[])
+        puts "current: "+ current_user.id.to_s
+        params.require(:job,).permit({ :user_ids => [] },:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,:name,:abilities,:transaction_frequency,:posttime,idealattribute_ids:[],skill_ids:[],task_ids:[],user_ids:[])
+    end
+    def user_job_params
+        params.require(:user_job)
     end
     def select_provider_params
         params.require(:job).permit(:provider)

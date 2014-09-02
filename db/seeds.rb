@@ -143,10 +143,26 @@ linkedin="linkedin.com"
 times=["2000-01-01 5:00:00","2000-01-01 21:00:00"]
 (0..100).each do |i|
     result_disciplines=[]
+    result_references=[]
+    result_pastjobs=[]
     num_disciplines=(1..5).to_a.sample
+    num_pastjobs=(1..4).to_a.sample
+    num_references=(2..4).to_a.sample
     disciplines=["Marketing Strategy","Email Marketing","Paid Search","SEO","Social Media"]
+    employers=["Google","Facebook","Twitter","Amazon","Netflix","DataStacks","Twilio","Apple"]
+    references=["Zeus", "Poseidon", "Hades", "Hera","Athena","Aphrodite","Hephaestus"]
+    positions=["Director of Awesome","Slam Dunk King", "Jabbawockee Slayer","Skiing Consultant"]
     for k in (1..num_disciplines)
         result_disciplines<< Discipline.new({:name=> disciplines.pop(),:years=>(1..15).to_a.sample,:description=>ulysses.split('.').sample})
+    end
+    use=[]
+    for j in (1..num_pastjobs)
+        blar=employers.pop()
+        use << blar
+        result_pastjobs<< Pastjob.new({:pj_employer=>blar,:pj_position=>positions.pop()})
+    end
+    for l in (1..num_references)
+        result_references<<Reference.new({:ref_name=>references.pop(),:ref_company=>use.sample})
     end
     info= names.sample
     puts info[1].split('@')*(i.to_s+'@')
@@ -162,5 +178,9 @@ times=["2000-01-01 5:00:00","2000-01-01 21:00:00"]
         :education=> get_educations.sample,
         :university=>universities.split().sample,
         :linkedin=>linkedin,
-        :disciplines=>result_disciplines
+        :disciplines=>result_disciplines,
+        :references=>result_references,
+        :pastjobs=>result_pastjobs,
+        :begin=> times[0],
+        :end=> times[1]
 end

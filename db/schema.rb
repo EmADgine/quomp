@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140830222436) do
+ActiveRecord::Schema.define(version: 20140902014731) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -79,7 +79,6 @@ ActiveRecord::Schema.define(version: 20140830222436) do
     t.boolean  "expreq"
     t.string   "pricemethod"
     t.integer  "budget"
-    t.integer  "user_id"
     t.string   "mockups_file_name"
     t.string   "mockups_content_type"
     t.integer  "mockups_file_size"
@@ -91,6 +90,9 @@ ActiveRecord::Schema.define(version: 20140830222436) do
     t.integer  "years_req"
     t.string   "abilities"
     t.string   "goal"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "posttime"
   end
 
   create_table "pastjobs", force: true do |t|

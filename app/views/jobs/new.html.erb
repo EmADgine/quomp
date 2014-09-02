@@ -23,12 +23,16 @@
                 <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Job Discipline",id: "disciplines"}%>
                 <span class="badge default" data-placement="right" style="margin-left:65px;margin-right: -65px;" data-toggle="tooltip" title="Our goal is to connect you with providers that cater to your specific needs. Ask yourself, what type of expertise will serve me the best?"><i class="fa fa-question" ></i></span>
             </div>
-            <div class="form-group">
-                <%=f.select :task, [],{},{id:"tasks", class: "skill-select","data-placeholder"=>"Select your tasks",disabled:true,multiple:true}%>
+            <div class="form-group sfield">
+                <%=f.select :task, [],{},{id:"tasks", class: "skill-select sfield","data-placeholder"=>"  ",disabled:true,multiple:true}%>
+                <label for="tasks" class="sfield" style="color: #D9DBDB;">Select your tasks</label>
             </div>
-            <div class="form-group">
-                <%= f.collection_select :skill_ids,[],:id, :name, {},{"data-placeholder"=>"Select your required skills",class: "skill-select",multiple:true,id: "skills",disabled:true}%>
+            <div class="form-group sfield">
+                <%= f.collection_select :skill_ids,[],:id, :name, {},{"data-placeholder"=>"  ",class: "skill-select sfield",multiple:true,id: "skills",disabled:true}%>
+
+                <label for="skills" class="sfield" style="color: #D9DBDB;">Select your required skills</label>
             </div>
+
             <div class="form-group">
                 <%=f.select :goal,[],{},{"data-placeholder"=>"Select your primary goal",class: "skill-select", id:"goals",disabled:true}%>
             </div>
@@ -100,9 +104,10 @@
                     <li class="insert-years"></li>
                 </ul>
             </div>
-            <div class="form-group">
+            <div class="form-group sfield">
                 <span style="height:0px; width: 0px;" class="ranked"></span>
-                <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"Rank the most import qualities for your Provider",class: "skill-select",multiple:true,id: "idealattributes"}%>
+                <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"   ",class: "attribute-select sfield",multiple:true,id: "idealattributes"}%>
+                <label for="idealattributes" class="sfield">Rank the most import qualities for your Provider</label>
             </div>
             <div class="form-group sfield input-group">
                 <%=f.text_area :abilities, id: "abilities",class: "tooltipfield form-control sfield" %>
@@ -239,7 +244,7 @@
 
             <div class="form-group">
                 <legend>
-                    <span>Tell us when you want to advertise your job to Our Engine</span>
+                    <span>When do you want to advertise your job to Our Engine</span>
                 </legend>
             </div>
             <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
@@ -259,8 +264,39 @@
     <%= render partial: 'pagehelp',:locals=>{url: ""}%>
 <%end%>
     </div>
+
+
     <script>
-        $(".skill-select").chosen({width:"400px"});
+        $(".skill-select").chosen({width: "400px"});
+        $(".attribute-select").chosen({width:"400px"}).change(function (event) {
+            var target = $(event.target),
+            currentDataSet = target.val();
+            if($(this).parent().find('.chosen-choices').children().length==2&&currentDataSet==null) {
+                $(this).parent().find('label').removeClass('focussed');
+                $(this).parent().find('label').children().stop(true).each(function(i){
+                    $(this).delay(0).animate({top: 0+"px"}, 300, 'easeOutBack');
+                });
+
+                } else if(!$(this).parent().find('label').hasClass('focussed')) {
+                $(this).parent().find('label').addClass("focussed").children().stop(true).each(function(i){
+                    $(this).delay(0).animate({top: -25+"px"}, 300, 'easeOutBack');
+                });
+            }
+        });
+        $(".flp .chosen-container-multi").each(function(){
+            if($(this).attr('id')=='idealattributes_chosen') {
+                if($(this).val()!=""){
+                    $(this).next().css("top","-25px");
+                    $(this).next().addClass("focussed");
+                    $(this).next().addClass("preset");
+                }
+                var sop = '<span class="ch">';
+                    var scl = '</span>';
+                $(this).next().html(sop + $(this).next().html().split("").join(scl+sop) + scl);
+                $(".ch:contains(' ')").html("&nbsp;");
+            }
+        });
+
         $(".chosen-select").chosen({width: "220px"});
         $("#years_req").hide();
         $(".exp-req").change(function() {

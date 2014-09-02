@@ -1,47 +1,53 @@
-<%provide(:title, @provider.name) %>
-
-<div class="profile">
+<div class="profile proprev">
     <div id="main-left">
         <fieldset>
             <legend>Provider Details</legend>
             <div class="details-left">
-                <%= image_tag @provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
+                <%= image_tag provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
             </div>
             <div class="details-right">
                 <div class="show-group">
-                    <p><%= @provider.name.titleize%></p>
+                    <p><%= provider.name.titleize%></p>
                 </div>
                 <div class="show-group">
                     <p>
-                    <%if !(@provider.city.nil? or @provider.city.empty?) and !@provider.state.nil?%>
-                        <span><%=@provider.city%>, <%=@provider.state%></span>
+                    <%if !(provider.city.nil? or provider.city.empty?) and !provider.state.nil?%>
+                        <span><%=provider.city%>, <%=provider.state%></span>
                     <%else%>
-                        <span<%=(@provider.state||@provider.city)%></span>
+                        <span<%=(provider.state||provider.city)%></span>
                     <%end%>
                     </p>
                 </div>
                 <div class="show-group">
                     <p>
-                    <%=link_to linkerate(@provider.website), 
-                        'http://www.'+linkerate(@provider.website)%></p>
+                    <%=link_to linkerate(provider.website), 
+                        'http://www.'+linkerate(provider.website)%></p>
                     </div>
                     <div class="show-group">
-                        <p><%= @provider.ptype.titleize%></p>
+                        <p><%= provider.ptype.titleize%></p>
                     </div>
                 </div>
                 <div class="clear"></div>
-                <p><%=@provider.description%></p>
-                <%unless @provider.linkedin == "" or @provider.linkedin == nil%>
-                    <a href=<%='http://www.'+linkerate(@provider.linkedin)%> class="btn btn-social btn-linkedin"><span class="fa fa-linkedin"></span><span>Linkedin Profile</span></a>
+                <p><%=provider.description%></p>
+                <%unless provider.linkedin == "" or provider.linkedin == nil%>
+                    <a href=<%='http://www.'+linkerate(provider.linkedin)%> class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
                 <%end%>
-                <%if @provider.resume.to_s.split('/')[-1]!="missing.png"%>
-                    <a href="#" class="btn btn-social btn-linkedin" data-toggle="modal" data-target="#show-resume-prev"><i class="fa fa-file-text-o"></i><%=file_by_ptype(@provider.ptype)%></a>
-                    <%=render partial: 'providers/resume', :locals=>{:resume_url=> @provider.resume.to_s,:ptype=>@provider.ptype}%>
+                <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
+                    <a href="#" class="btn btn-social btn-linkedin" data-toggle="modal" data-target="#show-resume-prev"><i class="fa fa-file-text-o"></i><%=file_by_ptype(provider.ptype)%></a>
+                    <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype}%>
                 <%end%>
             </fieldset>
             <fieldset>
                 <%if current_user.is_a? Client%>
-                    <legend>Experience in Job Discipline</legend>
+                    <legend>Experience in <%=job.discipline%></legend>
+                    <p> Years of Experience: <%=provider.disciplines.where("name LIKE ?",job.discipline).first.years%></p>
+                    <table>
+                    <%provider.disciplines.where("name LIKE ?", job.discipline).first.skills.each do |skill|%>
+                            <tr>
+                                <td><small><%=skill.name%></small></td>
+                            </tr>
+                    <%end%>
+                    </table>
                 <%else%>
                     <legend>Provider Disciplines</legend>
                     <table>
@@ -49,7 +55,7 @@
                             <th><span style="display: inline-block; width:240px;">Discipline</span></th>
                             <th><span>Portfolio Uploaded?</span></th>
                         </tr>
-                        <%@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each_with_index do |discipline,i|%>
+                        <%provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each_with_index do |discipline,i|%>
                         <tr>
                             <td style="width:350px;"><span style="display: inline-block; width: 300px;"><%=discipline.name%>: <%=pluralize(discipline.years,"year")%> exp.</span></td>
                             <%if discipline.portfolio.to_s.split('/')[-1]!="missing.png"%>
@@ -65,7 +71,7 @@
                                 <%discipline.skills.each do |skill|%>
                                     <tr><td><small><%=skill.name%></small></td></tr>
                                 <%end%>
-                            <%if i!=@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.length-1%>
+                            <%if i!=provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.length-1%>
                                 <tr><td><hr></hr></td></tr>
                             <%end%>
                     <%end%>
@@ -74,13 +80,14 @@
             </fieldset>
             <fieldset>
                 <legend>References</legend>
-                <table>
-                    <tr><th>Reference</th><th>Employer</th></tr>
-                <%@provider.references.each do |ref|%>
-                    <tr><td><%=ref.ref_name%></td><td><%=ref.ref_company%></td></tr>
+                <table cellspacing="10" cellpadding="15">
+                    <tr><th>Reference</th><th></th><th>Employer of Reference</th></tr>
+                <%provider.references.each do |ref|%>
+                    <tr><td><span><%=ref.ref_name%></span></td><td></td><td><span><%=ref.ref_company%></span></td></tr>
                 <%end%>
                 </table>
             </fieldset>
+
             <fieldset>
                 <legend>Testimonials</legend>
                 <p>"Really quality work. Got the job done with speed and precision."</p>
@@ -89,18 +96,19 @@
         <div id="main-right">
             <fieldset>
                 <legend>Past Jobs</legend>
-                <table>
+                <table cellspacing="10" cellpadding="15">
 
-                    <tr><th>Employer</th><th>Position</th></tr>
-                <%@provider.pastjobs.each do |j|%>
-                    <tr><td><%=j.pj_employer%></td><td><%=j.pj_position%></td></tr>
+                    <tr><th>Employer</th><th></th><th>Position</th></tr>
+                <%provider.pastjobs.each do |j|%>
+                    <tr><td><span><%=j.pj_employer%></span></td><td></td><td><span><%=j.pj_position%></span></td></tr>
                 <%end%>
                 </table>
             </fieldset>
+
             <fieldset>
                 <legend>Availability</legend>
-                <%unless @provider.begin==nil or @provider.end==nil%>
-                    <p>Available from <%=maketime(@provider.begin.to_s.split(' ')[1][0..4])%> to <%=maketime(@provider.end.to_s.split(' ')[1][0..4])%></p>
+                <%unless provider.begin==nil or provider.end==nil%>
+                    <p>Available from <%=maketime(provider.begin.to_s.split(' ')[1][0..4])%> to <%=maketime(provider.end.to_s.split(' ')[1][0..4])%></p>
                 <%end%>
             </fieldset>
             <fieldset>
@@ -124,7 +132,7 @@
             <fieldset>
                 <legend>Attribute Scores</legend>
                 <table cellspacing="5" cellpadding="5">
-                    <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
+<%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
                         <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*(6..10).to_a.sample%>px;" class="rating"></div></div></td></tr>
                     <%end%>
                     </table>
@@ -145,26 +153,11 @@
                     </span>
 
                 </fieldset>
-
                 <fieldset>
                     <legend>Project Statistics</legend>
-                    <span>Projects completed: 15</span>
-                    <%if current_user.is_a? Client%>
-                        <span>Projects completed in your industry: 7</span>
-                    <%end%>
+                    <p>Projects completed: 15</p>
+                    <p>Projects completed in your industry: 7</p>
                 </fieldset>
             </div>
             <div class="clear"></div>
-            <div class="prof-buttons">
-                <ul>
-                    <% if user_signed_in? and current_user.is_a? Provider%> 
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
-                        </li>
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
-                        </li>
-                    <%end%>
-                </ul>
-            </div>
         </div>

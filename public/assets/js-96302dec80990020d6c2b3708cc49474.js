@@ -188,27 +188,11 @@ $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email
                 $(this).next().removeClass("focussed").children().stop(true).each(function(i){
                     $(this).delay(0).animate({top: 0}, 200, 'easeInOutBack');
                 })
+
             }
         }
     }
 })
-$(".flp input[type=text]:not(.notme),.flip input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea:not(.notme)").change(function() {
-    if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
-        if(!$(this).val()==''&&$(this).css('top')=='auto') {
-            if($(this).next().hasClass("preset")){
-                $(this).next().addClass("focussed").children().stop(true).each(function(i){
-                    $(this).delay(0).animate({top: 0+"px"}, 300, 'easeOutBack');
-                })
-            }
-            else {
-                $(this).next().addClass("focussed").children().stop(true).each(function(i){
-                    $(this).delay(0).animate({top: -25+"px"}, 300, 'easeOutBack');
-                })
-            }
-
-        }
-    }
-});
 $(".chosen-select").each(function() {
     if($(this).parent().parent().hasClass("citystate")){
         $(this).chosen({
@@ -423,21 +407,12 @@ $("#slider-vertical").slider({
 });
 var speed=700;
 delay=400;
-var switchheight=210;
-var swapping=false;
 $(".rankdisplay").toggle();
-var scramblepick= function(excludeme){
-    var s="p1 p2 p3 p4";
-    s=s.replace(excludeme+" ","")
-    var l=s.split(" ");
-    var r = l[Math.floor(Math.random()*l.length)];
-    return r;
-}
 var f1 = function () {
-    if($("#p1").position().left>213||$("#p1").position().left<211) {
+    if($("#p1").position().left>124||$("#p1").position().left<123) {
 
         $("#p1").swap({
-            target: document.elementFromPoint(250, switchheight).id,//$($("#createsheet4 .pane")[0]).attr('id'),
+            target: document.elementFromPoint(460, 200).id,//$($("#createsheet4 .pane")[0]).attr('id'),
             opacity: "1.0",
             speed: speed
         });
@@ -447,83 +422,37 @@ var f1 = function () {
     }
 }
 var f2 = function () {
-    if($("#p2").position().left>587||$("#p2").position().left<585) {
+
+
+if($("#p2").position().left>498||$("#p2").position().left<497) {
         $("#p2").swap({
-            target: document.elementFromPoint(600,switchheight).id,
+            target: document.elementFromPoint(535+312,200).id,
             opacity: "1.0",
             speed: speed
         });
-        setTimeout(f3,speed+delay);
+        setTimeout(f4,speed+delay);
     } else {
-        f3();
+        f4();
     }
 }
-var f3= function () {
-    if($("#p4").position().left>1335||$("#p4").position().left<1331) {
+var f4= function () {
+
+if($("#p4").position().left>1246||$("#p4").position().left<1245) {
         $("#p4").swap({
-            target: document.elementFromPoint(1348,switchheight).id,
+            target: document.elementFromPoint(1600,200).id,
             opacity: "1.0",
             speed: speed                                        
         });
-        setTimeout(f5,speed/2);
-    } else {
-    f5()
     }
 
 }
-var f5= function() {
-    $('#reorder').css('margin-left','508'+'px')
-    $('#reorder').css('margin-right','-616'+'px')
+/*$(document.body).bind('click', function(e){
 
-    $("#reorder").text("Randomize");
-    $("#reorder").addClass("random");
-    swapping=false;
-}
-var f6 = function() {
-$("#p1").swap({
-            target: scramblepick("p1"),
-            opacity: "1.0",
-            speed: speed
-        });
-setTimeout(f7,speed+delay);
-}
-var f7 = function() {
-$("#p2").swap({
-            target: scramblepick("p2"),
-            opacity: "1.0",
-            speed: speed
-        });
-setTimeout(f8,speed+delay);
-}
-var f8 = function() {
-$("#p3").swap({
-            target: scramblepick("p3"),
-            opacity: "1.0",
-            speed: speed
-        });
-        setTimeout(f9,speed/2);
-}
-var f9 = function () {
-    $('#reorder').css('margin-left','472'+'px')
-    $('#reorder').css('margin-right','-662'+'px')
-
-    $("#reorder").text("Order by Quomp Ranking");
-    $("#reorder").removeClass("random");
-    swapping=false;
-
-}
-
-
+                    alert('you selected coordinate: ' + e.pageX+", "+e.pageY);
+                    alert('you selected element with id: '+document.elementFromPoint(e.pageX,e.pageY).id);
+                        }*/
 $("#reorder").click(function() {
-    if (!swapping){
-        swapping=true;
-        $(".rankdisplay").toggle(2000);
-        if(!$(this).hasClass("random")){
-            f1();
-        }
-        else {
-            f6()
-        }
-    }
-});
+    f1();
+    $(".rankdisplay").toggle(2000);
+    });
 });

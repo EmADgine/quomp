@@ -760,6 +760,8 @@
 
             if (this.singleDatePicker)
                 this.clickApply();
+            this.element.trigger('apply.daterangepicker', this);
+
         },
 
         clickApply: function (e) {

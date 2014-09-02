@@ -2,7 +2,7 @@
 
 @import url('http://fonts.googleapis.com/css?family=Lato');
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
-$color: #F3F4E5;//#FAF0DF;//#FDD29D;
+$color: #DCF7F3;//lighten(blue,30%);//#F3F4E5;//#FAF0DF;//#FDD29D;
 html, body {
     margin: 0;
     padding: 0;
@@ -20,6 +20,9 @@ body {
         background-color: $color;
     }
 }
+.btn {
+    outline: none!important;
+}
 .btn-primary {
     border: solid 1px black !important;
     background-color:#F98057!important;
@@ -27,13 +30,37 @@ body {
 .btn-primary:active,.btn-primary.active {
     background-color: darken(#F98057,4%)!important;
 }
-
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px $color inset!important;
+}
 .modal {
     z-index: 5000000;
 }
 input[type="file"] {
     visibility: hidden;
     width:1px;
+}
+.rating {
+  background: -webkit-linear-gradient(right,#B0E5FB,#63AFD5); /* For Safari 5.1 to 6.0 */  
+  background: -o-linear-gradient(right,#B0E5FB, #63AFD5); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right,#B0E5FB, #63AFD5); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(right,#B0E5FB, #63AFD5); /* Standard syntax */
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: none;
+  margin: 0!important;
+  height:20px!important;
+}
+.ratingwrap {
+  margin: 0!important;
+  padding:0!important;
+  height:22px!important;
+  width:162px!important;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  border: solid 1px black;
 }
 .ui-state-disabled {
     visibility: hidden;
@@ -199,7 +226,7 @@ vertical-align:middle;
 margin-left: auto;
 margin-right: auto;
 margin-top:100px;
-height:900px;
+height:930px;
 ul li {
     list-style-type:none;
 }
@@ -292,21 +319,22 @@ h1 {
     display: none;
 }
 
-.profile
-{
-
-    background: $color;
+.profile:not(.proprev){
+background: $color;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;
     border: solid black 1px;
     border-radius: 5px;
+    margin-top:100px;
+    margin-bottom:40px;
+}
+.profile
+{
     padding: 20px;
     width: 1000px;
     vertical-align:middle;
     margin-left: auto;
     margin-right: auto;
-    margin-top:100px;
-    margin-bottom:40px;
     font-size: 20px;
     ul {
         padding:0
@@ -364,7 +392,6 @@ table {
 }
 }
 
-
 }
 .details-left {
     float:left;
@@ -385,7 +412,7 @@ table {
 {
     //background-color: #F07830;
     //font: 50px sans-serif;
-    border: none;
+    border: solid 1px black;
     background: #F98057;
     color: #FFF;
     padding: 10px 30px;
@@ -407,25 +434,6 @@ table {
         margin:0px;
 }
 }
-#profilebutton {
-
-    border: none;
-    background: #222;
-    color: #FFF;
-    padding: 5px 20px;
-    margin: 5px;
-    font-size:17px;
-    font-family: Palatino;
-    font-weight: bold;
-    border-radius:0px;
-    -moz-border-radius: 0px;
-    -webkit-border-radius: 0px;
-
-    a {
-        color: white;
-}
-}
-
 #cancelbutton{
     background: #781800;
 }
@@ -650,7 +658,9 @@ fieldset.sf:not(:first-of-type) {
     border-radius: 4px!important;
 }
 
-
+.why .modal-dialog{
+    width: 1100px!important;
+}
 .docprevtop .modal-dialog{
     width: 900px!important;
 }
@@ -806,7 +816,7 @@ p.compressed {
 }
 }
 * .modal-dialog {
-    width: 700px!important;
+    width: 700px;
 }
 * .modal-content {
     word-wrap: break-word!important;
@@ -946,3 +956,5 @@ p.compressed {
 div.tooltip-inner {
     max-width: 180px;
 }
+
+
