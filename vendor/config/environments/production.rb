@@ -86,8 +86,8 @@ Rails.application.configure do
       :storage => :s3
       :s3_credentials => {
           :bucket => ENV['quompimages']
-          :access_key_id => ENV['AKIAJCMFR73MQOY2CFMA']
-          :secret_access_key => ENV['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']
+          :access_key_id => ENV['AWS_ACCESS_KEY_ID']
+          :secret_access_key => ENV['AWS_SECRET_ACCESS_KEY']
       }
   }
 end
