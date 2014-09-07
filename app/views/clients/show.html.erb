@@ -44,11 +44,8 @@
                 <legend>Project Statistics</legend>
                 <table cellspacing="5" cellpadding="5">
 
-
+                    <tr><td valign="top"><b>Member Since</b></td><td></td><td><%=Date.strptime(@client.created_at.to_s,"%Y-%m-%d %H:%M:%S %Z").strftime("%m/%d/%Y")%></td></tdr>
                     <tr><td valign="top"><b>#Projects Completed</b></td><td></td><td>16</td></tr>
-                    <%if current_user.is_a? Client%>
-                        <tr><td valign="top"><b>#Projects Completed in Discipline</b></td><td></td><td>7</td></tr>
-                    <%end%>
 
                 </table>
             </fieldset>

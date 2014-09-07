@@ -4,9 +4,8 @@
         parties.</h3>
     <ul class = "list-inline dl-submenu" id="homebuttons">
         <li>
-        <div>
-            <small>Are you an individual or business 
-                that needs help with a job?</small>
+        <div class="smalldiv">
+            <small>Are you an individual or business that needs help with a job?</small>
             <%if !user_signed_in?%>
                 <%= link_to "Post a Job", new_client_registration_path, 
                     class: "btn btn-large btn-primary" %>
@@ -20,9 +19,8 @@
         </div>
         </li>
         <li>
-        <div>    
-            <small>Are you a freelancer or agency looking for more
-                        work?</small>
+        <div class="smalldiv">    
+            <small>Are you a freelancer or agency looking for more work?</small>
             <%if !user_signed_in?%>
                 <%= link_to "Join Our Engine", new_provider_registration_path, 
                     class: "btn btn-large btn-primary"%>

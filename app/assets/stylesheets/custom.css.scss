@@ -2,16 +2,16 @@
 
 @import url('http://fonts.googleapis.com/css?family=Lato');
 @import url(http://fonts.googleapis.com/css?family=Open+Sans:700);
-$color: #DCF7F3;//lighten(blue,30%);//#F3F4E5;//#FAF0DF;//#FDD29D;
+$color: #F2FDF7;//lighten(blue,30%);//#F3F4E5;//#FAF0DF;//#FDD29D;
 html, body {
     margin: 0;
     padding: 0;
     min-height:100%;
 }
 body {
-    font-family: 'Palatino', sans-serif;
+    font-family: 'Palatino', sans-serif!important;
     //background:#566C94;
-    background-image: url(/assets/sky.jpg); 
+    background-image: url(/assets/sky_dim.jpg); 
     h4 {
         font-style: bold;
         font-weight: 500;
@@ -20,8 +20,15 @@ body {
         background-color: $color;
     }
 }
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+    font-family: 'Palatino', sans-serif!important
+}
 .btn {
     outline: none!important;
+}
+.blueb {
+    background-color: #C2D1CE!important;
+    border: solid 1px black!important;
 }
 .btn-primary {
     border: solid 1px black !important;
@@ -77,7 +84,6 @@ input[type="file"] {
 /* typography */
 h1,h2,h3,h4,h5,h6 {
     line-height: 1;
-    font-family: 'Palatino','sans-serif'
 }
 
 h1 {
@@ -143,6 +149,13 @@ ul:not(.chosen-choices) {
     height:400px;
     width:900px;
     background:$color;
+    .smalldiv {
+        line-height:1.3em!important
+    }
+    small {
+        line-height: 1.3em!important;
+        font-weight: 1000!important;
+    }
     //background: linear-gradient(to top, #f8ffe8 0%,#e3f5ab 33%,#b7df2d 100%);
 }
 #homebuttons li {
@@ -382,7 +395,6 @@ table {
     padding: 5px 20px;
     margin: 5px;
     font-size:17px;
-    font-family: Palatino;
     font-weight: bold;
     border-radius:0px;
     -moz-border-radius: 0px;
@@ -417,7 +429,6 @@ table {
     color: #FFF;
     padding: 10px 30px;
     font-size:40px;
-    font-family: Palatino;
     font-weight: bold;
     a 
     {
@@ -497,7 +508,7 @@ label {
     cursor: pointer;
 }
 label:before, label:after {
-    font-family: FontAwesome;
+    font-family: FontAwesome!important;
     font-size: 21px;
     position: absolute; top: 0; left: 0;
 }
@@ -832,121 +843,6 @@ p.compressed {
     border: 3px solid black;
 }
 
-.ll-skin-nigran {
-    font-size: 90%;
-}
-
-.ll-skin-nigran .ui-widget {
-    font-family: "Helvetica Neue","Trebuchet MS",Tahoma,Verdana,Arial,sans-serif;
-    background: #29a2d9;
-    border: none;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-    box-shadow: 0 1px 3px #252525;
-}
-
-.ll-skin-nigran .ui-datepicker {
-    padding: 0;
-}
-
-.ll-skin-nigran .ui-datepicker-header {
-    border: none;
-    border-bottom: 1px solid #2d97cb;
-    background: transparent;
-    font-weight: normal;
-    font-size: 11px;
-    text-transform: uppercase;
-}
-
-.ll-skin-nigran .ui-datepicker-header .ui-state-hover {
-    background: transparent;
-    border-color: transparent;
-    cursor: pointer;
-    border-radius: 0;
-    -webkit-border-radius: 0;
-    -moz-border-radius: 0;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-title {
-    margin-top: 1.5em;
-    margin-bottom: 1em;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover,
-.ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover,
-.ll-skin-nigran .ui-datepicker .ui-datepicker-next,
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev {
-    top: 1.7em;
-    border:none;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover {
-    left: 2px;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover {
-    right: 2px;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-next span,
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev span {
-    background-image: image-url('ui-icons_ffffff_256x240.png');
-    background-position: -32px -32px;
-    margin-top: 0;
-    top: 0;
-    font-weight: normal;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev span {
-    background-position: -96px -32px;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-prev-hover span {
-    background-position: -96px -48px;
-}
-
-.ll-skin-nigran .ui-datepicker .ui-datepicker-next-hover span {
-    background-position: -32px -48px;
-}
-
-.ll-skin-nigran .ui-datepicker table {
-    margin: 0;
-}
-
-.ll-skin-nigran .ui-datepicker th {
-    padding: 3em 0;
-    color: #9fd9f1;
-    font-size: 8px;
-    font-weight: normal;
-    text-shadow: 0 0 2px #45c4f8;
-    text-transform: uppercase;
-    border: none;
-    border-top: 1px solid #3fabdc;
-}
-
-.ll-skin-nigran .ui-datepicker td {
-    border: none;
-    padding: 0;
-}
-
-.ll-skin-nigran td .ui-state-default {
-    background: transparent;
-    border: none;
-    text-align: center;
-    padding: 1em 0;
-    margin: 0;
-    font-weight: normal;
-    color: #efefef;
-    font-size: 12px;
-}
-
-.ll-skin-nigran td .ui-state-active,.ll-skin-nigran td .ui-state-hover {
-    background: #1b7fb0;
-    border-radius: 4px;
-    -webkit-border-radius: 4px;
-    -moz-border-radius: 4px;
-}
 .specialDate { background-color: #6F0 !important; }
 
 .ruhroh {
