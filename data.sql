@@ -1,19 +1,3 @@
---
--- PostgreSQL database dump
---
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-
-SET search_path = public, pg_catalog;
-
---
--- Data for Name: industry; Type: TABLE DATA; Schema: public; Owner: chrisdock
---
 
 INSERT INTO industry VALUES (1, 'Basic Materials');
 INSERT INTO industry VALUES (2, 'Chemicals');
@@ -66,7 +50,6 @@ INSERT INTO client VALUES (20, false, 19, 'Government', NULL, NULL, NULL, NULL);
 -- Name: client_clientid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('client_clientid_seq', 20, true);
 
 
 --
@@ -103,7 +86,6 @@ INSERT INTO clientmeta VALUES (24, 20, 'DisplayName', 'Government', NULL, NULL);
 -- Name: clientmeta_clientmetaid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('clientmeta_clientmetaid_seq', 24, true);
 
 
 --
@@ -3330,14 +3312,12 @@ INSERT INTO clientprojectweightingmeta VALUES (3, 1, 'Responsiveness', '1.1', NU
 -- Name: clientprojectweightingmeta_clientprojectweightingmetaid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('clientprojectweightingmeta_clientprojectweightingmetaid_seq', 3, true);
 
 
 --
 -- Name: discipline_disciplineid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('discipline_disciplineid_seq', 5, true);
 
 
 --
@@ -3592,7 +3572,6 @@ INSERT INTO disciplineskill VALUES (129, 2, 100);
 -- Name: disciplineskill_disciplineskillid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('disciplineskill_disciplineskillid_seq', 129, true);
 
 
 --
@@ -3655,28 +3634,24 @@ INSERT INTO disciplinetasktype VALUES (22, 2, 22);
 -- Name: disciplinetasktype_disciplinetasktypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('disciplinetasktype_disciplinetasktypeid_seq', 22, true);
 
 
 --
 -- Name: educationlevel_educationlevelid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('educationlevel_educationlevelid_seq', 5, true);
 
 
 --
 -- Name: industry_industryid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('industry_industryid_seq', 19, true);
 
 
 --
 -- Name: project_projectid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('project_projectid_seq', 3001, true);
 
 
 --
@@ -3692,14 +3667,12 @@ INSERT INTO projectskillset VALUES (3, 1, 25);
 -- Name: projectskillset_projectskillsetid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('projectskillset_projectskillsetid_seq', 3, true);
 
 
 --
 -- Name: projectstate_projectstateid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('projectstate_projectstateid_seq', 2, true);
 
 
 --
@@ -3715,14 +3688,12 @@ INSERT INTO projecttask VALUES (3, 1, 3);
 -- Name: projecttask_projecttaskid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('projecttask_projecttaskid_seq', 3, true);
 
 
 --
 -- Name: provider_providerid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('provider_providerid_seq', 153, true);
 
 
 --
@@ -3887,7 +3858,6 @@ INSERT INTO providerdiscipline VALUES (152, 153, 5, 3, 10, 'I have designed and 
 -- Name: providerdiscipline_providerdisciplineid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('providerdiscipline_providerdisciplineid_seq', 152, true);
 
 
 --
@@ -5178,7 +5148,6 @@ INSERT INTO providerdisciplineskills VALUES (1278, 152, 30);
 -- Name: providerdisciplineskills_providerdisciplineskillsid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('providerdisciplineskills_providerdisciplineskillsid_seq', 1278, true);
 
 
 --
@@ -6238,28 +6207,24 @@ INSERT INTO providermeta VALUES (1047, 153, 'College', 'Stanford University', NU
 -- Name: providermeta_providermetaid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('providermeta_providermetaid_seq', 1047, true);
 
 
 --
 -- Name: providertype_providertypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('providertype_providertypeid_seq', 2, true);
 
 
 --
 -- Name: skill_skillid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('skill_skillid_seq', 107, true);
 
 
 --
 -- Name: tasktype_tasktypeid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('tasktype_tasktypeid_seq', 22, true);
 
 
 --
@@ -6287,14 +6252,12 @@ INSERT INTO tierpricefloor VALUES (15, 5, 3, 'USD', 30.00);
 -- Name: tierpricefloor_tierpricefloorid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('tierpricefloor_tierpricefloorid_seq', 15, true);
 
 
 --
 -- Name: tiers_tierid_seq; Type: SEQUENCE SET; Schema: public; Owner: chrisdock
 --
 
-SELECT pg_catalog.setval('tiers_tierid_seq', 3, true);
 
 
 --

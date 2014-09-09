@@ -11,13 +11,9 @@ default: &default
   timeout: 5000
 
 development:
-  adapter: postgresql
-  pool: 5
+  <<: *default
   host: localhost
-  database: alexdb
-  username: chrisdock
-  password:
-  socket: /var/run/psqld/psqld.sock
+  database: db/development.rb
 legacy: &legacy
   <<: *default
   adapter: mysql
