@@ -9,7 +9,6 @@ gem 'sprockets-rails'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'rails-i18n'
 gem 'devise'
-
 gem 'titleize'
 gem 'nested_form'
 gem 'jquery-turbolinks'
@@ -17,9 +16,11 @@ gem 'jquery-ui-rails'
 gem 'font-awesome-rails'
 gem 'momentjs-rails'
 gem "jquery-fileupload-rails"
+gem 'pg'
 group :development, :test do
     # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
+    gem 'mysql'
 end
 group :test do
     gem 'selenium-webdriver'
@@ -52,7 +53,6 @@ group :doc do
 end
 group :production  do
     gem 'figaro'
-    gem 'pg'
     gem 'rails_12factor'
 end
 

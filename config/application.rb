@@ -10,5 +10,6 @@ module Quomp
   class Application < Rails::Application
       config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif application.css.scss custom.css.scss *.js)
       config.action_controller.include_all_helpers = true
+      config.autoload_paths+= %W(#{config.root}/app/models/legacy)
   end
 end

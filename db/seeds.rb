@@ -8,6 +8,7 @@
 #
 #
 #
+=begin
 ulysses="It little profits that an idle king,
 By this still hearth, among these barren crags,
 Match'd with an aged wife, I mete and dole
@@ -184,3 +185,4 @@ times=["2000-01-01 5:00:00","2000-01-01 21:00:00"]
         :begin=> times[0],
         :end=> times[1]
 end
+=end
