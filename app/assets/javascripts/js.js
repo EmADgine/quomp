@@ -347,7 +347,7 @@ $("#slider-vertical").slider({
     range: "min",
     min: 50,
     max: 500,
-    value: 75,
+    value: 230,
     slide: function( event, ui ) {
         $(this).find('.ui-slider-handle').text('$'+ui.value);
     },

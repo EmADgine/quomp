@@ -16,7 +16,7 @@ class ProvidersController < ApplicationController
                 flash[:success] = "Profile Updated"
                 format.html {
                     if @provider.provider_meta.nil?
-                        @provider.provider_meta = ProviderMeta.create
+                        @provider.provider_meta = ProviderMeta.create(user_id: current_user.id)
                     end
                     redirect_to @provider 
                 }

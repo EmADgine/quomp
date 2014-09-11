@@ -165,7 +165,7 @@ module ApplicationHelper
         map[discipline]
     end
     def file_by_ptype(ptype)
-        map={"agency"=>"Sales Collateral","freelancer"=>"Resume&eacute;"}
+        map={"agency"=>"Sales Collateral","freelancer"=>"Resumé"}
         map[ptype]
     end
     def get_idealattributes

@@ -9,6 +9,8 @@ class ClientsController < ApplicationController
     def update
         @client = Client.find(params[:id])
         if @client.update_attributes(client_params_edit)
+            
+            @client.client_meta = ClientMeta.create(user_id: current_user.id)
             redirect_to @client
         else
             render 'edit'

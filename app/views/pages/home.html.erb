@@ -5,6 +5,7 @@
     <ul class = "list-inline dl-submenu" id="homebuttons">
         <li>
         <div>
+            <div class="smalldiv">
             <small>Are you an individual or business 
                 that needs help with a job?</small>
             <%if !user_signed_in?%>
@@ -16,11 +17,13 @@
             <%else%>
                 <%= link_to "Post a Job", '#',
                     class: "btn btn-large btn-primary", id: "needc"%>
-            <%end%>
+                <%end%>
+            </div>
         </div>
         </li>
         <li>
         <div>    
+            <div class="smalldiv">
             <small>Are you a freelancer or agency looking for more
                         work?</small>
             <%if !user_signed_in?%>
@@ -32,7 +35,8 @@
             <%else%>
                 <%= link_to "Join Our Engine", '#',
                     class: "btn btn-large btn-primary", id: "needp"%>
-            <%end%>
+                <%end%>
+            </div>
         </div>
         </li>
     </ul>

@@ -49,7 +49,7 @@
                 <%else%>
                     <%=f.text_area :description, rows: 3, class: "form-control sfield", id: "jbdfield"%>
                 <%end%>
-                <label for="jbdfield" class="sfield">Business Description</label>
+                <label for="jbdfield" class="sfield">Your Description</label>
                 <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s helpful for the provider to know a little bit about your company and the industry it operates in. Ask yourself, what does my company do?"><i class="fa fa-question fa-2x"></i></span>
             </div>
 
@@ -107,7 +107,7 @@
             <div class="form-group sfield">
                 <span style="height:0px; width: 0px;" class="ranked"></span>
                 <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"   ",class: "attribute-select sfield",multiple:true,id: "idealattributes"}%>
-                <label for="idealattributes" class="sfield">Rank the most import qualities for your Provider</label>
+                <label for="idealattributes" class="sfield">Rank the most important qualities for your Provider</label>
             </div>
             <div class="form-group sfield input-group">
                 <%=f.text_area :abilities, id: "abilities",class: "tooltipfield form-control sfield" %>
@@ -193,6 +193,7 @@
                             <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier3-prev"></span>
                         </div>-->
                     </div>
+                    <%=f.hidden_field :tier, id: "tierhidden"%>
                     <div class="tier-wrap">
                         <div class="show-group" id="tier2"> 
                             <h1>Tier 2</h1>
@@ -244,12 +245,18 @@
 
             <div class="form-group">
                 <legend>
-                    <span>When do you want to advertise your job to Our Engine</span>
+                    <span>When do you want to advertise your job?</span>
                 </legend>
             </div>
-            <p>You have submitted your job after normal business hours which reduces the likelihood of finding the best freelancer for the job. Would you like to schedule another time?</p>
+            <p>We recommend posting your job between the hours of 9am and 6pm to increase your chances of finding the best talent for the job. Would you like to post your job now?</p>
             <div class="form-group">
-                <div class="input-group clockpicker center">
+                <div class="form-group">
+                    <select id="nowselect">
+                        <option value='yes'> Yes </option>
+                        <option value='no'> No </option>
+                    </select>
+                </div>
+                <div id ="cpicker" class="input-group clockpicker center">
                     <%= f.text_field :posttime, class: 'form-control notme', value: '9:00AM'%>
 
                     <span class=" input-group-addon"><i class="glyphicon glyphicon-time"></i></span>
@@ -267,6 +274,13 @@
 
 
     <script>
+        $('#cpicker').fadeOut(0);
+        $('#nowselect').change(function () {
+            $('#cpicker').fadeToggle();
+        });
+        $(".fa-chevron-right").click(function () {
+           $("#tierhidden").val($(this).parent().prop('id').substr(-1)); 
+        });
         $(".skill-select").chosen({width: "400px"});
         $(".attribute-select").chosen({width:"400px"}).change(function (event) {
             var target = $(event.target),

@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140911002011) do
+ActiveRecord::Schema.define(version: 20140911154230) do
+
+  create_table "badges", force: true do |t|
+    t.string  "name"
+    t.integer "provider_meta_id"
+  end
+
+  create_table "client_meta", force: true do |t|
+    t.integer  "responsiveness"
+    t.integer  "expectations"
+    t.integer  "scopeofwork"
+    t.integer  "payment"
+    t.integer  "likeability"
+    t.integer  "overall"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "user_id"
+  end
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -61,6 +78,7 @@ ActiveRecord::Schema.define(version: 20140911002011) do
     t.integer  "job_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "score"
   end
 
   create_table "job_skills", force: true do |t|
@@ -106,6 +124,7 @@ ActiveRecord::Schema.define(version: 20140911002011) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "posttime"
+    t.integer  "tier"
   end
 
   create_table "pastjobs", force: true do |t|
@@ -129,6 +148,7 @@ ActiveRecord::Schema.define(version: 20140911002011) do
     t.datetime "updated_at"
     t.integer  "knowledge"
     t.integer  "user_id"
+    t.integer  "tier"
   end
 
   create_table "references", force: true do |t|
@@ -152,6 +172,14 @@ ActiveRecord::Schema.define(version: 20140911002011) do
     t.datetime "updated_at"
     t.string   "name"
     t.string   "discipline"
+  end
+
+  create_table "testimonial", force: true do |t|
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "provtier"
+    t.integer  "client_meta_id"
   end
 
   create_table "user_jobs", force: true do |t|

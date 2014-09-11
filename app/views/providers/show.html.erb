@@ -44,6 +44,7 @@
                     <legend>Experience in Job Discipline</legend>
                 <%else%>
                     <legend>Provider Disciplines</legend>
+                    <%unless @provider.disciplines.empty?%>
                     <table>
                         <tr>
                             <th><span style="display: inline-block; width:240px;">Discipline</span></th>
@@ -70,6 +71,23 @@
                             <%end%>
                         <%end%>
                     </table>
+                    <%else%>
+                        We will not suggest your services to clients until you have selected at least one discipline. Please do so <%=link_to "here", edit_provider_path(current_user.id)%> 
+                    <%end%>
+                    <%end%>
+            </fieldset>
+
+            <fieldset>
+                <legend>References</legend>
+                <%unless @provider.references.empty?%>
+                    <table cellspacing='15'>
+                        <tr><th>Reference</th><th></th><th>Employer</th></tr>
+                        <%@provider.references.each do |ref|%>
+                            <tr><td><%=ref.ref_name%></td><td style="width:20px;"></td><td><%=ref.ref_company%></td></tr>
+                        <%end%>
+                    </table>
+                <%else%>
+                    <p> Clients are much more likely to award you with jobs if you have references. Please add them <%=link_to "here", edit_provider_path(current_user.id)%>.</p>
                 <%end%>
             </fieldset>
             <fieldset>
@@ -136,26 +154,16 @@
                 <legend>Project Statistics</legend>
                 <span>Projects completed: 15</span>
             </fieldset>
-            <fieldset>
-                <legend>References</legend>
-                <table cellspacing='15'>
-                    <tr><th>Reference</th><th></th><th>Employer</th></tr>
-                    <%@provider.references.each do |ref|%>
-                        <tr><td><%=ref.ref_name%></td><td style="width:20px;"></td><td><%=ref.ref_company%></td></tr>
-                    <%end%>
-                </table>
-            </fieldset>
-
         </div>
         <div class="clear"></div>
         <div class="prof-buttons">
             <ul>
                 <% if user_signed_in? and current_user.is_a? Provider%> 
                     <li>
-                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
+                    <button type="button" class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
                     </li>
                     <li>
-                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
+                    <button type="button" class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
                     </li>
                 <%end%>
             </ul>
