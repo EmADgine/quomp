@@ -33,7 +33,7 @@
             <br/>
             <div style="margin: auto" align="center">
                 <span class="btn btn-primary" data-toggle="modal" data-target="#whymodal<%=i%>">View Full Profile</span>
-                <span class="btn btn-primary">Award Job</span>
+                <%= link_to 'Award Job', '#', :onclick => "window.location='#{save_provider_client_job_path(:prov_id=> provider.id)}'", :class=> 'btn btn-primary'%>
             </div>
             <%= render partial: 'jobs/why',locals: {provider: provider, job: @job, num: i}%>
         </div>

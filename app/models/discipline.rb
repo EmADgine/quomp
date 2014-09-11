@@ -5,7 +5,7 @@ class Discipline < ActiveRecord::Base
         "application/msword", 
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
         "text/plain"]
-    alias_attribute :provider_id, :user_id
+    #alias_attribute :provider_id, :user_id
     has_many :discipline_skills
     has_many :skills, through: :discipline_skills
 

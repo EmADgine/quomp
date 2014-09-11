@@ -50,36 +50,27 @@
                             <th><span>Portfolio Uploaded?</span></th>
                         </tr>
                         <%@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.each_with_index do |discipline,i|%>
-                        <tr>
-                            <td style="width:350px;"><span style="display: inline-block; width: 300px;"><%=discipline.name%>: <%=pluralize(discipline.years,"year")%> exp.</span></td>
-                            <%if discipline.portfolio.to_s.split('/')[-1]!="missing.png"%>
-                                <td><span style="margin-left: 35px; color: rgb(161, 196, 54);" class=" fa fa-check"></span></td>
+                            <tr>
+                                <td style="width:350px;"><span style="display: inline-block; width: 300px;"><%=discipline.name%>: <%=pluralize(discipline.years,"year")%> exp.</span></td>
+                                <%if discipline.portfolio.to_s.split('/')[-1]!="missing.png"%>
+                                    <td><span style="margin-left: 35px; color: rgb(161, 196, 54);" class=" fa fa-check"></span></td>
 
-                            <%else%>
-                                <td><span style="margin-left: 35px; color: rgb(169, 7, 30);" class="fa fa-times"></span></td>
+                                <%else%>
+                                    <td><span style="margin-left: 35px; color: rgb(169, 7, 30);" class="fa fa-times"></span></td>
 
-                            <%end%>
-
-
-                        </tr>
-                                <%discipline.skills.each do |skill|%>
-                                    <tr><td><small><%=skill.name%></small></td></tr>
                                 <%end%>
+
+
+                            </tr>
+                            <%discipline.skills.each do |skill|%>
+                                <tr><td><small><%=skill.name%></small></td></tr>
+                            <%end%>
                             <%if i!=@provider.disciplines.select{|a| a.name.split()[0]!="Temp"}.length-1%>
                                 <tr><td><hr></hr></td></tr>
                             <%end%>
-                    <%end%>
+                        <%end%>
                     </table>
                 <%end%>
-            </fieldset>
-            <fieldset>
-                <legend>References</legend>
-                <table>
-                    <tr><th>Reference</th><th>Employer</th></tr>
-                <%@provider.references.each do |ref|%>
-                    <tr><td><%=ref.ref_name%></td><td><%=ref.ref_company%></td></tr>
-                <%end%>
-                </table>
             </fieldset>
             <fieldset>
                 <legend>Testimonials</legend>
@@ -87,16 +78,21 @@
             </fieldset>
         </div>
         <div id="main-right">
-            <fieldset>
-                <legend>Past Jobs</legend>
-                <table>
-
-                    <tr><th>Employer</th><th>Position</th></tr>
-                <%@provider.pastjobs.each do |j|%>
-                    <tr><td><%=j.pj_employer%></td><td><%=j.pj_position%></td></tr>
-                <%end%>
-                </table>
-            </fieldset>
+            <%unless @provider.ptype=="agency"%>
+                <fieldset>
+                    <legend>Past Jobs</legend>
+                    <table cellspacing="15">
+                        <%unless @provider.pastjobs.empty?%>
+                            <tr><th>Employer</th><th></th><th>Position</th></tr>
+                            <%@provider.pastjobs.each do |j|%>
+                                <tr><td><%=j.pj_employer%></td><td style="width:20px;"></td><td><%=j.pj_position%></td></tr>
+                            <%end%>
+                        <%else%>
+                            <p> Clients are much more likely to award you with jobs if you share your work history. Please do so <%=link_to "here", edit_provider_path(current_user.id)%>.</p>
+                        <%end%>
+                    </table>
+                </fieldset>
+            <%end%>
             <fieldset>
                 <legend>Availability</legend>
                 <%unless @provider.begin==nil or @provider.end==nil%>
@@ -127,44 +123,41 @@
                     <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
                         <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*(6..10).to_a.sample%>px;" class="rating"></div></div></td></tr>
                     <%end%>
-                    </table>
-                </fieldset>
-                <fieldset>
-                    <legend>Badges Earned</legend>
-                    <span class="badge btn-social-icon btn-vimeo" data-toggle="tooltip" data-placement="bottom" title="Most Improved">
-                        <i class="fa fa-signal"></i>
-                    </span>
-                    <span class="badge btn-social-icon btn-google" data-toggle="tooltip" data-placement="bottom" title="Mr. Consistency">
-                        <i class="fa fa-thumbs-up"></i>
-                    </span>
-                    <span class="badge btn-social-icon btn-openid" data-toggle="tooltip" data-placement="bottom" title="Mr. Likeable">
-                        <i class="fa fa-beer"></i>
-                    </span>
-                    <span class="badge btn-social-icon btn-soundcloud" data-toggle="tooltip" data-placement="bottom" title="Assist Expert">
-                        <i class="fa fa-life-saver"></i>
-                    </span>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend><span>Badges Earned</span><span style="margin-bottom:-7px;margin-left:+20px;margin-right:-20px;" class="badge btn-social-icon" data-toggle="tooltip" data-placement="right" title= "Badges are awarded monthly and can be awarded more than once"><i class="fa fa-question fa-2x"></i></span></legend>
+                <%get_badges.keys().sample(4).each do |name|%>
+                    <span class="badge btn-social-icon btn-vimeo" data-toggle="tooltip" data-placement="bottom" title='<%=get_badge(name)[0]%>'><i class="fa fa-<%=get_badge(name)[1]%>"></i></span>
+                <%end%>
+            </fieldset>
 
-                </fieldset>
+            <fieldset>
+                <legend>Project Statistics</legend>
+                <span>Projects completed: 15</span>
+            </fieldset>
+            <fieldset>
+                <legend>References</legend>
+                <table cellspacing='15'>
+                    <tr><th>Reference</th><th></th><th>Employer</th></tr>
+                    <%@provider.references.each do |ref|%>
+                        <tr><td><%=ref.ref_name%></td><td style="width:20px;"></td><td><%=ref.ref_company%></td></tr>
+                    <%end%>
+                </table>
+            </fieldset>
 
-                <fieldset>
-                    <legend>Project Statistics</legend>
-                    <span>Projects completed: 15</span>
-                    <%if current_user.is_a? Client%>
-                        <span>Projects completed in your industry: 7</span>
-                    <%end%>
-                </fieldset>
-            </div>
-            <div class="clear"></div>
-            <div class="prof-buttons">
-                <ul>
-                    <% if user_signed_in? and current_user.is_a? Provider%> 
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
-                        </li>
-                        <li>
-                        <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
-                        </li>
-                    <%end%>
-                </ul>
-            </div>
         </div>
+        <div class="clear"></div>
+        <div class="prof-buttons">
+            <ul>
+                <% if user_signed_in? and current_user.is_a? Provider%> 
+                    <li>
+                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Profile", edit_provider_path(current_user.id)%></button>
+                    </li>
+                    <li>
+                    <button type="button" class= 'profilebutton' class="btn btn-default"><%=link_to "Edit Registration", edit_provider_registration_path(current_user.id)%></button>
+                    </li>
+                <%end%>
+            </ul>
+        </div>
+    </div>

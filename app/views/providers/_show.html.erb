@@ -94,6 +94,7 @@
             </fieldset>
         </div>
         <div id="main-right">
+            <%unless provider.ptype=="agency"%>
             <fieldset>
                 <legend>Past Jobs</legend>
                 <table cellspacing="10" cellpadding="15">
@@ -104,7 +105,7 @@
                 <%end%>
                 </table>
             </fieldset>
-
+            <%end%>
             <fieldset>
                 <legend>Availability</legend>
                 <%unless provider.begin==nil or provider.end==nil%>

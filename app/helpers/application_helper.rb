@@ -142,7 +142,7 @@ module ApplicationHelper
         ]
     end
     def get_industries
-        ['Basic Materials','Chemicals','Automotive','Food & Beverage','Personal & Household Goods','Media & Entertainment','Retail','Travel & Leisure','Banks','Financial Services','Insurance','Health Care','Construction & Materials','Industrial Goods & Services', 'Oil & Gas','Technology','Telecommunications','Utilities','Government']
+        ['Basic Materials','Chemicals','Automotive','Food & Beverage','Personal & Household Goods','Media & Entertainment','Retail','Travel & Leisure','Banks','Financial Services','Insurance','Health Care','Construction & Materials','Industrial Goods & Services', 'Oil & Gas','Technology','Telecommunications','Utilities','Government','Other']
     end
     def get_educations
         ['PhD','Master\'s','Bachelor\'s', 'High School Diploma']
@@ -177,5 +177,30 @@ module ApplicationHelper
         else 
             return description[0,250]+"..."
         end
+    end
+    def  get_badges
+       def func x
+           ": Completed 5 jobs that scored greater than 9.5 out of 10 on "+x
+        end
+        {"rainmaker"=>["Rainmaker: Highest Project Value","umbrella"],"workhorse"=>["Work Horse: Most Projects Completed","coffee"],"highfligher"=>["High Flyer: Biggest Rankings Jump","space-shuttle"],"milestonejuggernaut"=>["Milestone Juggernaut"+func('timeliness'),"clock-o"],"firstresponder"=>["First Responder"+func('responsiveness'),"bolt"],"encyclopedia"=>['Encyclopedia'+func('knowledge'),'book'],"killerquality"=>["Killer Quality"+func('quality of work'),'bullseye'],"trueprofessional"=>["True Professional"+func('professionalism'),'briefcase'],"bestbuddy"=>["Best Buddy"+func('likeability'),'beer'],"therock"=>["The Rock: Maintained a high average and didn't deviate",'bank']}
+    end
+    def get_badge(name)
+        get_badges[name]
+    end
+
+    def get_worst_three(provider)
+
+    end
+    def get_best_three(provider)
+
+    end
+    def get_ranking_history(provider)
+
+    end
+    def get_jobs_by_discipline(provider,discipline)
+        Job.where(:provider_id=>provider.id, :by_discipline=>discipline)
+    end
+    def get_jobs_by_skill(provider,skill)
+
     end
 end

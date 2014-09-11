@@ -10,6 +10,7 @@ class JobsController < ApplicationController
     def create
         @parentclient=Client.find(current_user.id)
         @job= Job.new(job_params)
+        @job.job_meta = JobMeta.create
         @user_jobs=@parentclient.user_jobs.create(job: @job)
         respond_to do |format|
             if @job.save
@@ -27,14 +28,18 @@ class JobsController < ApplicationController
         @parentclient=Client.find(current_user.id)
         @job= @parentclient.jobs.order("created_at").last
         @providerlist=view_context.get_providers(@job)
+        puts @providerlist
     end
     def save_provider
         @job=@user.jobs.order("created_at").last
-        if @job.update_attributes(select_provider_params)
-            flash[:success]
-            redirect_to current_user
-        else
-            redirect_to action: "select_provider"
+        puts "in save"
+        Provider.find(params["prov_id"]).user_jobs.create(job: @job)
+        puts Provider.find(params["prov_id"])
+        puts Provider.find(params["prov_id"]).user_jobs.last.job_id
+        respond_to do |format|
+            format.html {
+                redirect_to congratulations_path
+            }
         end
     end
     def find_user

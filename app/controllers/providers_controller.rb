@@ -14,7 +14,12 @@ class ProvidersController < ApplicationController
         respond_to do |format|
             if @provider.update_attributes(provider_params_edit)
                 flash[:success] = "Profile Updated"
-                format.html { redirect_to @provider }
+                format.html {
+                    if @provider.provider_meta.nil?
+                        @provider.provider_meta = ProviderMeta.create
+                    end
+                    redirect_to @provider 
+                }
                 format.js {@provider = Provider.find(params[:id])}
             else
                 flash[:failure] = "Provider Profile Information Invalid"

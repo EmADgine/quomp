@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140902014731) do
+ActiveRecord::Schema.define(version: 20140911002011) do
 
   create_table "discipline_skills", force: true do |t|
     t.integer  "skill_id"
@@ -49,6 +49,19 @@ ActiveRecord::Schema.define(version: 20140902014731) do
 
   add_index "job_idealattributes", ["idealattribute_id"], name: "index_job_idealattributes_on_idealattribute_id"
   add_index "job_idealattributes", ["job_id"], name: "index_job_idealattributes_on_job_id"
+
+  create_table "job_meta", force: true do |t|
+    t.integer  "responsiveness"
+    t.integer  "likeability"
+    t.integer  "professionalism"
+    t.integer  "quality"
+    t.integer  "timeliness"
+    t.integer  "attention"
+    t.integer  "knowledge"
+    t.integer  "job_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "job_skills", force: true do |t|
     t.integer  "job_id"
@@ -103,6 +116,19 @@ ActiveRecord::Schema.define(version: 20140902014731) do
     t.boolean "current"
     t.string  "location"
     t.integer "user_id"
+  end
+
+  create_table "provider_meta", force: true do |t|
+    t.integer  "responsiveness"
+    t.integer  "likeability"
+    t.integer  "professionalism"
+    t.integer  "quality"
+    t.integer  "timeliness"
+    t.integer  "attention"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "knowledge"
+    t.integer  "user_id"
   end
 
   create_table "references", force: true do |t|
@@ -174,6 +200,7 @@ ActiveRecord::Schema.define(version: 20140902014731) do
     t.time     "end"
     t.string   "university"
     t.boolean  "use_desc"
+    t.boolean  "anonymous"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true

@@ -1,5 +1,6 @@
 module JobsHelper
     def get_providers(job)
+        puts 'getting provs'
         providers=[]
         Provider.find_each do |provider|
             if provider.disciplines.pluck("name").include?(job.discipline)

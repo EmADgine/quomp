@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
     root :to=>'pages#home'
     match '/home', to: 'pages#home', via: 'get'
-
+    match '/congratulations', to: 'pages#select_splash', via: 'get'
     
 
 
@@ -21,7 +21,7 @@ Rails.application.routes.draw do
         resources :jobs do
             member do
                 get :select_provider
-                post :save_provider
+                get '/save/provider', controller: "jobs", action: "save_provider"
             end
         end
     end

@@ -1,6 +1,6 @@
 <% provide(:title, "Edit Client") %>
 <div id="createsheet2" class="center">
-    <%= form_for @client, :html=> {:class=> 'form-horizontal flp', :role=>'form',:id=>"c-edit"} do |f|%>
+    <%= form_for @client, :html=> {:class=> 'form-horizontal flp jaxForm', :role=>'form',:id=>"c-edit"} do |f|%>
         <%= render 'shared/error_messages'%>
 
         <fieldset>
@@ -19,22 +19,19 @@
                             <li>
                             <h1><%=@client.name.titleize%></h1>
                             </li>
+                            <li>
+                            <%if @client.avatar==nil or @client.avatar.to_s=="/assets/missing_original.png"%>
+                                <%= f.file_field :avatar, id: "avatar-upload2"%>
+                                <span type="button" class="btn btn-default btn-file picup">Upload Image</span>
+                            <%else%>
+                                <%= f.file_field :avatar, {id: "avatar-upload2",class: "gotFile"}%>
+                                <span type="button" class="btn btn-default btn-file picup">Upload Image<span></span><span style="color: rgb(161, 196, 54);" class="fa fa-check"></span></span>
+                            <%end%>
+                            </li>
                         </ul>
                     </td>
                 </tr>
             </table>
-            <div class="quick-align">
-                <%if @client.avatar==nil or @client.avatar.to_s=="/assets/missing_original.png"%>
-                    <%= f.file_field :avatar, id: "avatar-upload2"%>
-                    <span type="button" class="btn btn-default btn-file picup">Upload Image</span>
-                <%else%>
-                    <%= f.file_field :avatar, {id: "avatar-upload2",class: "gotFile"}%>
-                    <span type="button" class="btn btn-default btn-file picup">Upload Image<span/>
-                    <span style="color: rgb(161, 196, 54);" class="fa fa-check"/>
-                    </span>
-                <%end%>
-            </div>
-            <br></br>
             <br></br>
             <div class= "form-group sfield">
                 <ul id="oneliner" class="citystate">
@@ -48,7 +45,15 @@
                 </ul>
             </div>
             <div class="form-group">
-                <%= f.select :industry, get_industries.unshift(""),{}, {class: "chosen-select","data-placeholder"=>"Select Industry"}%>
+                <ul id="oneliner">
+                    <li style="margin-left:-45px!important;">
+                    <%= f.select :industry, get_industries.unshift(""),{}, {id: "industry",class: "chosen-select","data-placeholder"=>"Select Industry"}%>
+                    </li>
+                    <li>
+                    <%= f.text_field :industry, placeholder: "Your Industry", class: "otherindustry notme", style: "width: 172px!important;"%>
+                    </li>
+                </ul>
+                
             </div>
             <div class="form-group sfield">
                 <%= f.text_field :website, class: 'form-control sfield',id: 'site'%>
@@ -64,11 +69,24 @@
                     <label for='usecheck'>Use "Bio" as your business description in job postings?</label>
                 </span>
             </div>
-                
             <div class= "form-group">
                 <%= f.submit "Submit", class: "btn btn-large btn-primary" %>
             </div>
         </fieldset>
-    <% end%>
+    <%end%>
 </div>
+<script>
+    <%if get_industries.include? @client.industry or @client.industry.nil?%>
+        $(".otherindustry").fadeOut(0);
+    <%end%>
+    $("#industry").change(function() {
+        if($(this).val()=="Other"){
+            $(".otherindustry").fadeIn();
+            $(this).css("margin-left","-193px");
+        }
+        else {
+            $(".otherindustry").fadeOut();
+        }
 
+    });
+</script>

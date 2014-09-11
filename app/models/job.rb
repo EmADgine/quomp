@@ -7,7 +7,7 @@ class Job < ActiveRecord::Base
         "application/msword", 
         "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
         "text/plain"]
-
+    has_one :job_meta
     has_many :job_idealattributes
     has_many :job_tasks
 
@@ -16,4 +16,6 @@ class Job < ActiveRecord::Base
 
     has_many :user_jobs
     has_many :users, through: :user_jobs
+
+    scope :by_discipline, lambda {|discipline| {:conditions => {:discipline => discipline}}}
 end
