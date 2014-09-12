@@ -48,7 +48,7 @@ class JobsController < ApplicationController
     private
     def job_params
         puts "current: "+ current_user.id.to_s
-        params.require(:job,).permit({ :user_ids => [] },:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,:name,:abilities,:transaction_frequency,:posttime,idealattribute_ids:[],skill_ids:[],task_ids:[],user_ids:[])
+        params.require(:job,).permit({ :user_ids => [] },:discipline,:description,:task,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,:name,:abilities,:transaction_frequency,:posttime,:tier,idealattribute_ids:[],skill_ids:[],task_ids:[],user_ids:[])
     end
     def user_job_params
         params.require(:user_job)

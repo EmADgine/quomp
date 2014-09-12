@@ -2,7 +2,7 @@
     <div class="form-group">
         <legend style="padding-bottom:10px; padding-top:10px;">
             <span>Select a Provider</span>
-            <button class="btn btn-primary" id="reorder" style="margin-right:-662px!important; margin-left:462px!important;" data-toggle="tooltip" data-placement="right" title="We've randomized the four best providers below. Click here to reorder the providers in order from highest calculated ranking to lowest">Order by Quomp Ranking</button>
+            <button class="btn btn-primary" id="reorder" style="margin-right:-662px!important; margin-left:462px!important;" data-toggle="tooltip" data-placement="right" title="We've randomized your four best providers in <%=tiername(@job.tier)%> below. Click here to reorder the providers in order from highest calculated ranking to lowest">Order by Quomp Ranking</button>
         </legend>
     </div>
     <%@providerlist[0].each_with_index do |provider, i|%>
@@ -10,10 +10,9 @@
             <p class="rankdisplay" style="left:10px; bottom: 0px;">Ranking is  <%=@providerlist[1][i].to_s%></p>
             <%= image_tag provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
             <%[provider.name,provider.city.titleize+", "+provider.state,provider.ptype.titleize].each do |text|%>
-                <p align="left"><%=text%>
+                <p align="left"><%=text%></p>
             <%end%>
-            <br/>
-            <div style="height:150px;overflow:hidden;">
+            <div style="height:120px;overflow:hidden;">
                 <p align="left"><%='"'+clamp(provider.description.strip)+'"'%></p>
             </div>
             <hr/>
@@ -23,7 +22,12 @@
                 <tr>
                     <td valign="top"><b>Projects Completed:</b></td>
                     <td></td>
-                    <td><%=(0..45).to_a.sample%></td>
+                    <td><%=(20..35).to_a.sample%></td>
+                </tr>
+                <tr>
+                    <td valign="top"><b>Projects Completed in Discipline:</b></td>
+                    <td></td>
+                    <td><%=(10..20).to_a.sample%></td>
                 </tr>
 
                 <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
@@ -39,7 +43,7 @@
         </div>
     <%end%>
     <div class="form-group" style="margin-top:850px!important;">
-        <span class="btn btn-primary" data-toggle="modal" data-target="#statistics">Advanced Analysis</span>
+        <span class="btn btn-primary" data-toggle="modal" data-target="#statistics">Full Analysis</span>
     </div>
 </div>
 <script>

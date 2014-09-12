@@ -172,10 +172,15 @@ module ApplicationHelper
         ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"]
     end
     def clamp(description)
-        unless description.length>250
+        unless description.length>180
             description
         else 
-            return description[0,250]+"..."
+            words=description.split();
+            result=''
+            until result.length > 180 do
+                result+=words.shift+' ';
+            end
+            return result
         end
     end
     def  get_badges
@@ -202,5 +207,8 @@ module ApplicationHelper
     end
     def get_jobs_by_skill(provider,skill)
 
+    end
+    def tiername(num)
+        {0=>"Testing Ground",1=>"Tier 1",2=>"Tier 2",3=> "Tier 3"}[num]
     end
 end
