@@ -145,7 +145,7 @@ module ApplicationHelper
         ['Basic Materials','Chemicals','Automotive','Food & Beverage','Personal & Household Goods','Media & Entertainment','Retail','Travel & Leisure','Banks','Financial Services','Insurance','Health Care','Construction & Materials','Industrial Goods & Services', 'Oil & Gas','Technology','Telecommunications','Utilities','Government','Other']
     end
     def get_educations
-        ['PhD','Master\'s','Bachelor\'s', 'High School Diploma']
+        ['PhD','Master\'s Degree','Bachelor\'s Degree', 'High School Diploma']
     end
     def get_disciplines
         {
