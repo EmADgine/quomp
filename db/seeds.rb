@@ -23,10 +23,10 @@ def get_educations
     ['PhD','Master\'s Degree','Bachelor\'s Degree', 'High School Diploma']
 end
 def get_idealattributes()
-    ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"]
+    ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability","Attention to Detail"]
 end
 def get_tasks_by_discipline(discipline)
-    map ={"Email Marketing"=> ["Email Design","Email Coding","Email Deliverability"],"SEO"=>["On Page Optimization","Off Page Optimization"],"Paid Search"=> ["Campaign Research", "Campaign Set-Up","Campaign Optimization","Content and Display","Retargeting"],"Marketing Strategy"=>["Marketing Plan Development","Business Plan Development","Market Research","Consulting"],"Social Media"=>["Facebook Management","Twitter Management","Linkedin Management","Pinterest Management","Google+ Management","Instagram Management","Youtube Management","Vine Management"]}
+    map ={"Email Marketing"=> ["Email Design","Email Coding","Email Deliverability"],"SEO"=>["On Page Optimization","Off Page Optimization","On Page Audit"],"Paid Search"=> ["Campaign Research", "Campaign Set-Up","Campaign Optimization","Content and Display","Retargeting"],"Marketing Strategy"=>["Marketing Plan Development","Business Plan Development","Market Research","Consulting"],"Social Media"=>["Facebook Management","Twitter Management","Linkedin Management","Pinterest Management","Google+ Management","Instagram Management","Youtube Management","Vine Management"]}
     return map[discipline]
 end
 def get_skills_by_discipline(discipline)
@@ -50,6 +50,14 @@ end
 def discnum(num)
     {1=>"Marketing Strategy",2=>"Social Media",3=>"SEO",4=>"Paid Search",5=>"Email Marketing"}[num]
 end
+def average_attribute(alist,name)
+    total=0
+    alist.each do |item|
+        total+=eval("item.job_meta.#{name}")
+    end
+    total/alist.size.to_f
+end
+
 
 Skill.delete_all
 Task.delete_all
@@ -74,24 +82,22 @@ jobsmap=Hash[(1..150).map {|i| [i, []]}]
 i=0
 CSV.foreach("alexdb/jdata1.csv") do |row|
     unless i < 2
-       p row
        jobsmap[row[3].to_i-3]<<row
     else
         i+=1
     end
 end
 Provider.delete_all
-j=0
+k=0
 CSV.foreach("alexdb/pdata1.csv") do |row|
-    j+=1
+    p "k #{k}"
     stuff=row.split(",")[0]
     unless (stuff[0]=~/\A[-+]?[0-9]*\.?[0-9]+\Z/).nil?
 
-        puts "~~~~~~~~~~~~~~~~~~~\n~~~~~~~~~~~~~~~~~~~~"
+        k+=1
         employers=["Google","Facebook","Twitter","Amazon","Netflix","DataStacks","Twilio","Apple","Inciteful Emails", "Fly Social", "Gen110","A's Agency","CPC Love","ClickForrest","BDW Search","Integrated SEO","Mark Responsive","Corral Results"]
         positions=["Marketing Consultant","Outreach Specialist", "Web Marketing Designer", "Integration Coordinator", "Marketing Systems Specialist","Outreach Analyst","Director of Strategic Marketing"]
         references=["John Haywood", "Jane Alexander", "Thomas Woods", "Emma Banks","Joseph Sullivan","Monica Foster","Joan Addison","Graham Schneider", "Mia Davies","Gabriel Jacobs","Isaac Liu", "Jen Quigley", "Evan Alexander","Ethan Brown","Reed Smith", "Aiden Gleason","Dan Baker", "Katie Landon"]
-        p row
         npj = (1..4).to_a.sample
         pjs=[]
         rfs=[]
@@ -109,27 +115,31 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
         skills=[]
         stuff[20..-1].each do |skill|
             unless skill.nil?||!/[[:upper:]]/.match(skill[0])
-                puts skill
-                puts stuff[2]
                 cap=lambda {|word| word[0].upcase+word[1..-1]}
                 temp=[]
                 skill.split.each do |word|
                     ["of","with","the"].include?(word) ? temp<<word : temp<<word[0].upcase+word[1..-1]
                 end
                 skill=temp.join(" ")
-                puts skill
-                puts Skill.where(:discipline=>disciplinefix(stuff[2]),:name=>skill).first.name
                 skills<<Skill.where(:name=>skill,:discipline=>disciplinefix(stuff[2])).first
             end
         end
         disciplines=[]
-        [0].each do |i|
+        [0].each do |m|
             disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills})
         end
-        puts skills
         myjobs=[]
-        jobsmap[j].each do |myjob|
-            tj=Job.new(:discipline=> discnum(myjob[4].to_i),:tier=>myjob[5].to_i-1)
+        p k
+        p jobsmap[k]
+        jobsmap[k].each do |myjob|
+            p "______________"
+            p disciplinefix(stuff[2])
+            p discnum(myjob[4].to_i)
+            p "~~~~~~~~~~~~~~~"
+            p tier_int(stuff[3])
+            p myjob[5].to_i-1
+            tj=Job.new(:discipline=> discnum(myjob[4].to_i),:tier=>myjob[5].to_i-1,:deadline=>myjob[12].split[0])
+            p "tj tier #{tj.tier}"
             tj.job_meta=JobMeta.new("job_id"=>tj.id,:quality=>myjob[25].to_i,:timeliness=>myjob[26].to_i,:responsiveness=>myjob[27].to_i,:professionalism=>myjob[28].to_i,:likeability=>myjob[29].to_i,:knowledge=>myjob[30].to_i,:attention=>myjob[31].to_i)
             myjobs<<tj
         end
@@ -150,69 +160,8 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             :pastjobs=>pjs,
             :begin=>"2000-01-01 "+(stuff[18][-2..-1]=="pm" ? (stuff[18].split(":")[0].to_i+12).to_s+":"+stuff[18].split(":")[1][0..-3]:stuff[18][0..-3])+":00 UTC",
             :end=>"2000-01-01 "+(stuff[19][-2..-1]=="pm" ? (stuff[19].split(":")[0].to_i+12).to_s+":"+stuff[19].split(":")[1][0..-3]: stuff[19][0..-3])+":00 UTC",
-            :jobs=>myjobs
-                        )
-        
-        p.provider_meta=ProviderMeta.new(:user_id=>p.id,:tier=>tier_int(stuff[3]));
+            :jobs=>myjobs)
+        p.provider_meta=ProviderMeta.new(:user_id=>p.id,:tier=>tier_int(stuff[3]),:quality=>average_attribute(myjobs,:quality),:responsiveness=>average_attribute(myjobs,:responsiveness),:likeability=>average_attribute(myjobs,:likeability),:knowledge=>average_attribute(myjobs,:knowledge),:professionalism=>average_attribute(myjobs,:knowledge),:timeliness=>average_attribute(myjobs,:timeliness),:attention=>average_attribute(myjobs,:attention));
         p.save
     end
 end
-
-
-=begin
-names=[["Charlie Brown","cb@gmail.com"], ["Peppermint Patty","pp@gmail.com"], ["Shermy","sherm@gmail.com"],["Snoopy","snoopy@gmail.com"],["Violet Gray","vg@gmail.com"],["Sally Brown","sb@gmail.com"], ["Linus","linus@gmail.com"],["Woodstock","woodstock@gmail.com"]]
-cities="oxville cowville pigville sheepville donkeyville monkeyville houndville"
-universities="Harvard Berkeley Princeton Yale Georgetown Brown Cornell Oxford Cambridge"
-states="MD NJ TX CA KS OK CO NV NY MA"
-def website(n)
-    n.gsub(/\s+/,"").downcase+".com"
-end
-password="peanuts"
-type="Provider"
-ptypes= ["freelancer","agency"]
-linkedin="linkedin.com"
-times=["2000-01-01 5:00:00","2000-01-01 21:00:00"]
-(0..100).each do |i|
-    result_disciplines=[]
-    result_references=[]
-    result_pastjobs=[]
-    num_disciplines=(1..5).to_a.sample
-    num_pastjobs=(1..4).to_a.sample
-    num_references=(2..4).to_a.sample
-    disciplines=["Marketing Strategy","Email Marketing","Paid Search","SEO","Social Media"]
-    references=["Zeus", "Poseidon", "Hades", "Hera","Athena","Aphrodite","Hephaestus"]
-    positions=["Director of Awesome","Slam Dunk King", "Jabbawockee Slayer","Skiing Consultant"]
-    for k in (1..num_disciplines)
-        result_disciplines<< Discipline.new({:name=> disciplines.pop(),:years=>(1..15).to_a.sample,:description=>ulysses.split('.').sample})
-    end
-    use=[]
-    for j in (1..num_pastjobs)
-        blar=employers.pop()
-        use << blar
-        result_pastjobs<< Pastjob.new({:pj_employer=>blar,:pj_position=>positions.pop()})
-    end
-    for l in (1..num_references)
-        result_references<<Reference.new({:ref_name=>references.pop(),:ref_company=>use.sample})
-    end
-    info= names.sample
-    puts info[1].split('@')*(i.to_s+'@')
-    Provider.create! :name => info[0]+i.to_s,
-        :email=>info[1].split('@')*(i.to_s+'@'),
-        :city=>cities.split().sample,
-        :state=>states.split().sample,
-        :website=>website(info[0]),
-        :password=>password,
-        :password_confirmation=>password,
-        :description=>ulysses.split('.').sample,
-        :ptype=>ptypes.sample,
-        :education=> get_educations.sample,
-        :university=>universities.split().sample,
-        :linkedin=>linkedin,
-        :disciplines=>result_disciplines,
-        :references=>result_references,
-        :pastjobs=>result_pastjobs,
-        :begin=> times[0],
-        :end=> times[1]
-end
-
-=end

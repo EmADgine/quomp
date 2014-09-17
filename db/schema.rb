@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140911154230) do
+ActiveRecord::Schema.define(version: 20140916021613) do
 
   create_table "badges", force: true do |t|
     t.string  "name"
@@ -138,17 +138,17 @@ ActiveRecord::Schema.define(version: 20140911154230) do
   end
 
   create_table "provider_meta", force: true do |t|
-    t.integer  "responsiveness"
-    t.integer  "likeability"
-    t.integer  "professionalism"
-    t.integer  "quality"
-    t.integer  "timeliness"
-    t.integer  "attention"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "knowledge"
     t.integer  "user_id"
     t.integer  "tier"
+    t.decimal  "likeability",     precision: 5, scale: 2
+    t.decimal  "knowledge",       precision: 5, scale: 2
+    t.decimal  "quality",         precision: 5, scale: 2
+    t.decimal  "professionalism", precision: 5, scale: 2
+    t.decimal  "responsiveness",  precision: 5, scale: 2
+    t.decimal  "timeliness",      precision: 5, scale: 2
+    t.decimal  "attention",       precision: 5, scale: 2
   end
 
   create_table "references", force: true do |t|

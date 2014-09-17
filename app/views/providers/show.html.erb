@@ -92,7 +92,11 @@
             </fieldset>
             <fieldset>
                 <legend>Testimonials</legend>
-                <p>"Really quality work. Got the job done with speed and precision."</p>
+                <%unless @provider.jobs.empty?%>
+                    <p>"Really quality work. Got the job done with speed and precision."</p>
+                <%else%>
+                    No client has written you a testimonial yet.
+                <%end%>
             </fieldset>
         </div>
         <div id="main-right">
@@ -118,41 +122,54 @@
                 <%end%>
             </fieldset>
             <fieldset>
-                <legend>Overall Ranking</legend>
+                <legend>Overall Score</legend>
+                <%unless @provider.jobs.empty?%>
                 <table cellspacing="5" cellpadding="5">
                     <tr><td valign="top"><b>Across All Jobs</b></td><td></td><td>
-                            <%(1..7.5.divmod(1)[0]).each do |n|%>
+                            <%(1..get_overall(@provider).divmod(1)[0]).each do |n|%>
                                 <i class="fa fa-star fa-lg"></i>
                             <%end%>
-                            <%if 7.5.divmod(1)[1] == 0.5%>
+                            <%if get_overall(@provider).divmod(1)[1] == 0.5%>
                                 <i class="fa fa-star-half-full fa-lg"></i>
                             <%end%>
-                            <%(1..(8-7.5.ceil)).each do |n|%>
+                            <%(1..(8-get_overall(@provider).ceil)).each do |n|%>
                                 <i class="fa fa-star-o fa-lg"></i>
                             <%end%>
                         </td>
                     </tr>
                 </table>
+                <%else%>
+                    You have not completed any jobs and so your overall provider score has yet to be calculated. 
+                <%end%>
 
             </fieldset>
             <fieldset>
                 <legend>Attribute Scores</legend>
+                <%unless @provider.jobs.empty?%>
                 <table cellspacing="5" cellpadding="5">
                     <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
-                        <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*(6..10).to_a.sample%>px;" class="rating"></div></div></td></tr>
+                        <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=eval("@provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"></div></div></td></tr>
                     <%end%>
                 </table>
+                <%else%>
+                    <span>You have not completed any jobs and so have not been given any attribute scores by clients. Clients will rank you on <%=get_idealattributes[0..-2].join(", ")+" and "+get_idealattributes[-1]%>. To increase the likelihood of being awarded jobs, be sure to provide us with references and past jobs and to upload portfolios in all of your disciplines.</span>
+                <%end%>
             </fieldset>
             <fieldset>
                 <legend><span>Badges Earned</span><span style="margin-bottom:-7px;margin-left:+20px;margin-right:-20px;" class="badge btn-social-icon" data-toggle="tooltip" data-placement="right" title= "Badges are awarded monthly and can be awarded more than once"><i class="fa fa-question fa-2x"></i></span></legend>
+
+                <%unless @provider.jobs.empty?%>
                 <%get_badges.keys().sample(4).each do |name|%>
                     <span class="badge btn-social-icon btn-vimeo" data-toggle="tooltip" data-placement="bottom" title='<%=get_badge(name)[0]%>'><i class="fa fa-<%=get_badge(name)[1]%>"></i></span>
+                <%end%>
+                <%else%>
+                    <span>No badges awarded yet.</span>
                 <%end%>
             </fieldset>
 
             <fieldset>
                 <legend>Project Statistics</legend>
-                <span>Projects completed: 15</span>
+                <span>Projects completed: <%=@provider.jobs.size%></span>
             </fieldset>
         </div>
         <div class="clear"></div>

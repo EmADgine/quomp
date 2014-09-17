@@ -11,7 +11,12 @@ html, body {
 body {
     font-family: 'Palatino', sans-serif!important;
     //background:#566C94;
-    background-image: url(/assets/sky.jpg); 
+    background: url(/assets/sky.jpg);
+    background-repeat:no-repeat;
+    background-size: 100% 100%;
+    background-position: center;
+    background-width:140%!important;
+    margin:0;
     h4 {
         font-style: bold;
         font-weight: 500;

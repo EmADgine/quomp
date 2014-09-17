@@ -12,7 +12,7 @@
             <%[provider.name,provider.city.titleize+", "+provider.state,provider.ptype.titleize].each do |text|%>
                 <p align="left"><%=text%></p>
             <%end%>
-            <div style="height:120px;overflow:hidden;">
+            <div style="height:100px;overflow:hidden;">
                 <p align="left"><%='"'+clamp(provider.description.strip)+'"'%></p>
             </div>
             <hr/>
@@ -22,16 +22,16 @@
                 <tr>
                     <td valign="top"><b>Projects Completed:</b></td>
                     <td></td>
-                    <td><%=(20..35).to_a.sample%></td>
+                    <td><%=provider.jobs.where(:discipline=>@job.discipline).size%></td>
                 </tr>
                 <tr>
                     <td valign="top"><b>Projects Completed in Discipline:</b></td>
                     <td></td>
-                    <td><%=(10..20).to_a.sample%></td>
+                    <td><%=provider.jobs.size%></td>
                 </tr>
 
-                <%["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"].each do |attribute|%>
-                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*(6..10).to_a.sample%>px;" class="rating"></div></div></td></tr>
+                <%get_idealattributes.each do |attribute|%>
+                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"></div></div></td></tr>
                 <%end%>
             </table>
             <br/>

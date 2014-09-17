@@ -35,8 +35,8 @@ function uploadFile(data,name,action,tempname,tempnameval,nested,method) {
         }
     };
     xhr.setRequestHeader('accept','*/*;q=0.5, text/javascript');
-                                      xhr.send(formData);
-                                      }
+    xhr.send(formData);
+}
                                       function setHeight(obj)
                                       {
                                       var objHeight=0;
@@ -345,7 +345,7 @@ $("#tier0 p,#tier1 p, #tier2 p, #tier3 p").hide();
 $("#slider-vertical").slider({
     orientation: "vertical",
     range: "min",
-    min: 50,
+    min: 0,
     max: 500,
     value: 230,
     slide: function( event, ui ) {
@@ -365,7 +365,7 @@ $("#slider-vertical").slider({
 
             },
     change: function(event, ui) {
-                if(ui.value<190){
+                if(ui.value<parseInt($("#tier0").data("thresh"))){
 
                     $("#tier0").animate(
                             {width: "670"},
@@ -383,7 +383,7 @@ $("#slider-vertical").slider({
                     $("#tier0 span,#tier0 p").fadeOut();
                     $("#tier0").removeClass("activeTier");
                 }
-                if(ui.value<350 &&ui.value>=190){
+                if(ui.value<parseInt($("#tier1").data("thresh")) &&ui.value>=parseInt($("#tier0").data("thresh"))){
                     $("#tier1").animate(
                             {width: "670"},
                             {duration:600,
@@ -401,7 +401,7 @@ $("#slider-vertical").slider({
                     $("#tier1").removeClass("activeTier");
 
                 }
-                if(ui.value<500 && ui.value >= 350){
+                if(ui.value<=parseInt($("#tier2").data("thresh")) && ui.value >= parseInt($("#tier1").data("thresh"))){
                     $("#tier2").animate(
                             {width: "670"},
                             {duration:600,

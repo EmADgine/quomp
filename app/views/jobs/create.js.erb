@@ -3,7 +3,7 @@ if(task=="setdiscipline"){
     $("#skills,#tasks,#goals").prop("disabled",false).trigger("chosen:updated");
     $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label for="skills" class="sfield">Select your required skills in <%=@job.discipline%></label>');
     $("#goals").parent().html('<%=select_tag @job.goal, options_for_select(get_goals_by_discipline(@job.discipline).unshift("")),{id: "goals","data-placeholder"=>"Select primary goal in "+@job.discipline,class: "skill-select"}%>');
-    $("#tasks").parent().html('<%=collection_select :job,:task_ids,Task.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "tasks","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label class="sfield" for="tasks">Select your tasks in <%=@job.discipline%></label>');
+    $("#tasks").parent().html('<%=collection_select :job,:task_ids,Task.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "tasks","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label class="sfield" for="tasks">* Select your tasks in <%=@job.discipline%></label>');
 
     $(".skill-select").chosen({width:"400px"}).change(function (event) {
         var target = $(event.target),
@@ -24,17 +24,100 @@ if(task=="setdiscipline"){
     $.each($("fieldset.sf"), function() {
         $(this).find('.form-group').find('legend').html('<span>'+$(this).find('.form-group').find('legend').find('span').text()+'</span><small data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-180px;" class="btn btn-default"><%=get_discipline_key(@job.discipline)%> Example Job</small>');
     });
-}
-else {
+    $("#tasks").change(function() {
+            if($(this).val()!=""){
+                    $(this).closest(".jaxForm").find("#whichprev").data('previd','settask');
+                    uploadFile($("#tasks").val(),$(this).attr('name'),$(this).closest('.jaxForm').attr('action'),$("#disciplines").attr('name'),$("#disciplines").val(),true,"POST");
+            $(".action-button").show();
+            } else {
+                $(".action-button").hide();
+            }
+            });
+
+} else if(task=="settask") {
+    <%(0..2).to_a.each do |i|%>
+        <%puts @job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)}%>
+        $("#tier<%=i%>").data("thresh",<%=@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)}%>);
+<%end%>
+    $("#timep").text("Based on your job details, we estimate that your project will take approximately <%=pluralize(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)},"hour")%> to complete. We’ve used this estimate to give you a sense of the project costs in each of the corresponding provider tiers below. Please specify your budget.");
+    $("#slider-vertical").slider({
+    orientation: "vertical",
+    range: "min",
+    min: <%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/3%>,
+    max: <%=@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,2)}%>,
+    slide: function( event, ui ) {
+        $(this).find('.ui-slider-handle').text('$'+ui.value);
+    },
+    change: function(event, ui) {
+                if(ui.value<parseInt($("#tier0").data("thresh"))){
+
+                    $("#tier0").animate(
+                            {width: "670"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier0 span,#tier0 p").delay(400).fadeIn();
+                    $("#tier0").addClass("activeTier");
+                } else {
+                    $("#tier0").delay(200).animate(
+                            {width: "600"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier0 span,#tier0 p").fadeOut();
+                    $("#tier0").removeClass("activeTier");
+                }
+                if(ui.value<parseInt($("#tier1").data("thresh")) &&ui.value>=parseInt($("#tier0").data("thresh"))){
+                    $("#tier1").animate(
+                            {width: "670"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier1 span,#tier1 p").delay(400).fadeIn();
+                    $("#tier1").addClass("activeTier");
+                } else {
+                    $("#tier1").delay(200).animate(
+                            {width: "500"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier1 span,#tier1 p").fadeOut();
+                    $("#tier1").removeClass("activeTier");
+
+                }
+                if(ui.value<=parseInt($("#tier2").data("thresh")) && ui.value >= parseInt($("#tier1").data("thresh"))){
+                    $("#tier2").animate(
+                            {width: "670"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier2 span,#tier2 p").delay(400).fadeIn();
+                    $("#tier2").addClass("activeTier");
+                } else {
+                    $("#tier2").delay(200).animate(
+                            {width: "400"},
+                            {duration:600,
+                                completion: function () {}
+                            });
+                    $("#tier2 span,#tier2 p").fadeOut();
+                    $("#tier2").removeClass("activeTier");
+
+                }
+            }
+    });
+    $("#slider-vertical").slider("value",<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/2%>);
+    $("#slider-vertical").find(".ui-slider-handle").text("$<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/2%>");
+} else {
     $("#j-create #mockups-prev .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@job.mockups%>')+'&embedded=true"></iframe>');
 }
 $(".flp .chosen-container-multi").each(function(){
-    if($(this).attr('id')!='idealattributes_chosen') {
+    if($(this).attr('id')!='idealattributes_chosen'&&!$(this).hasClass("set")) {
         if($(this).val()!=""){
             $(this).next().css("top","-25px");
             $(this).next().addClass("focussed");
             $(this).next().addClass("preset");
         }
+        $(this).addClass("set");
         var sop = '<span class="ch">';
         var scl = '</span>';
         $(this).next().html(sop + $(this).next().html().split("").join(scl+sop) + scl);

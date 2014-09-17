@@ -160,16 +160,16 @@ module ApplicationHelper
         map={"Email Marketing"=>["Increase your email list size or growth rate","Increase click-to-open or click-through-rate (CTR)","Decrease Unsubscribe rate"],"Marketing Strategy"=>["Establish a brand / increase awareness of your product or service","Improve distribution of your product or service","Launch your digital marketing presence"],"Paid Search"=>["Increase overall return on investment (ROI) on return on ad spend (ROAS)","Increase click rate through rate (CTR) relative to my competitors","Increase conversion rate (CVR)"],"SEO"=>["Increase month-over-month unique visitors to my site from organic search","Increase Leads from my website","Increase number of pages per visitor"],"Social Media"=>["Increase my follower base","Increase brand mentions","Increase frequency of my posts"]}
         map[discipline]
     end
-    def get_discipline_key(discipline)
+    def get_discipline_key(disc)
         map={"Email Marketing"=>"EM","Marketing Strategy"=> "MS","Paid Search"=>"PS","Social Media"=>"SM","SEO"=>"SEO"}
-        map[discipline]
+        map[disc]
     end
     def file_by_ptype(ptype)
         map={"agency"=>"Sales Collateral","freelancer"=>"Resumé"}
         map[ptype]
     end
     def get_idealattributes
-        ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability"]
+        ["Timeliness","Responsiveness","Knowledge","Quality of Work","Professionalism","Likeability","Attention to Detail"]
     end
     def clamp(description)
         unless description.length>180
@@ -183,29 +183,67 @@ module ApplicationHelper
             return result
         end
     end
-    def  get_badges
-       def func x
-           ": Completed 5 jobs that scored greater than 9.5 out of 10 on "+x
+    def get_badges
+        def func x
+            ": Completed 5 jobs that scored greater than 9.5 out of 10 on "+x
         end
         {"rainmaker"=>["Rainmaker: Highest Project Value","umbrella"],"workhorse"=>["Work Horse: Most Projects Completed","coffee"],"highfligher"=>["High Flyer: Biggest Rankings Jump","space-shuttle"],"milestonejuggernaut"=>["Milestone Juggernaut"+func('timeliness'),"clock-o"],"firstresponder"=>["First Responder"+func('responsiveness'),"bolt"],"encyclopedia"=>['Encyclopedia'+func('knowledge'),'book'],"killerquality"=>["Killer Quality"+func('quality of work'),'bullseye'],"trueprofessional"=>["True Professional"+func('professionalism'),'briefcase'],"bestbuddy"=>["Best Buddy"+func('likeability'),'beer'],"therock"=>["The Rock: Maintained a high average and didn't deviate",'bank']}
     end
     def get_badge(name)
         get_badges[name]
     end
-
-    def get_worst_three(provider)
+    def get_hours(disc,tsk)
+        {"Email Marketing"=>{"Email Design"=>4,"Email Coding"=>5,"Email Deliverability"=>1},"SEO"=>{"On Page Audit"=> 2,"On Page Optimization"=>5,"Off Page Optimization"=>5},"Paid Search"=>{"Campaign Research"=>2,"Campaign Set-Up"=>5,"Campaign Optimization"=>3,"Content and Display"=>5, "Retargeting"=>5},"Marketing Strategy"=>{"Marketing Plan Development"=>5,"Business Plan Development"=>20,"Market Research"=>10,"Consulting"=>10},"Social Media"=>{"Facebook Management"=>10,"Twitter Management"=>10,"LinkedIn Management"=>8,"Pinterest Management"=>15,"Google+ Management"=>8,"Instagram Management"=>10,"Youtube Management"=>10,"Vine Management"=>10}}[disc][tsk]
+    end
+    def get_hourly(disc,tsk,tier)
+        {"Email Marketing"=>{"Email Design"=>{0=>15,1=>25,2=>45},"Email Coding"=>{0=>15,1=>25,2=>45},"Email Deliverability"=>{0=>15,1=>25,2=>45}},"SEO"=>{"On Page Audit"=> {0=>20,1=>35,2=>55},"On Page Optimization"=>{0=>20,1=>35,2=>55},"Off Page Optimization"=>{0=>20,1=>35,2=>55}},"Paid Search"=>{"Campaign Research"=>{0=>25,1=>45,2=>60},"Campaign Set-Up"=>{0=>25,1=>45,2=>60},"Campaign Optimization"=>{0=>25,1=>45,2=>60},"Content and Display"=>{0=>25,1=>45,2=>60}, "Retargeting"=>{0=>25,1=>45,2=>60}},"Marketing Strategy"=>{"Marketing Plan Development"=>{0=>30,1=>50,2=>75},"Business Plan Development"=>{0=>30,1=>50,2=>75},"Market Research"=>{0=>30,1=>50,2=>75},"Consulting"=>{0=>30,1=>50,2=>75}},"Social Media"=>{"Facebook Management"=>{0=>15,1=>25,2=>40},"Twitter Management"=>{0=>15,1=>25,2=>40},"LinkedIn Management"=>{0=>15,1=>25,2=>40},"Pinterest Management"=>{0=>15,1=>25,2=>40},"Google+ Management"=>{0=>15,1=>25,2=>40},"Instagram Management"=>{0=>15,1=>25,2=>40},"Youtube Management"=>{0=>15,1=>25,2=>40},"Vine Management"=>{0=>15,1=>25,2=>40}}}[disc][tsk][tier]
+    end
+    def get_joboverall(jb)
+        overall=0
+        get_idealattributes.each do |attribute|
+            overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
+        end
+        overall/get_idealattributes.size.to_f
+    end
+    def get_overall(prov)
+        overall=0
+        get_idealattributes.each do |attribute|
+            overall+=eval("prov.provider_meta.#{attribute.split[0].downcase}")
+        end
+        overall/get_idealattributes.size.to_f
+    end
+    def get_worst_three(prov)
+        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")} )[-3..-1]
+    end
+    def get_best_three(prov)
+        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")})[0..3]
+    end
+    def get_current_ranking(prov,job)
+        providers=[]
+        Provider.find_each do |provider|
+            if provider.disciplines.pluck("name").include?(job.discipline) and provider.provider_meta.tier==job.tier
+                providers<<provider
+            end
+        end 
+        providers = providers.sort_by { |p| get_overall(p) }
+        puts "size #{providers.size}"
+        place=-1
+        puts "is nil? #{prov.nil?}"
+        providers.each_with_index do |provider, i|
+            if provider.id==prov.id
+                place=i
+                break
+            end
+        end
+        place
+    end
+    def get_ranking_history(prov)
 
     end
-    def get_best_three(provider)
-
+    def get_jobs_by_discipline(prov,disc)
+        Job.where(:provider_id=>prov.id, :by_discipline=>disc)
     end
-    def get_ranking_history(provider)
-
-    end
-    def get_jobs_by_discipline(provider,discipline)
-        Job.where(:provider_id=>provider.id, :by_discipline=>discipline)
-    end
-    def get_jobs_by_skill(provider,skill)
+    def get_jobs_by_skill(prov,skl)
 
     end
     def tiername(num)

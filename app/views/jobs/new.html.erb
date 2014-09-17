@@ -20,12 +20,12 @@
                 <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="Your project name should be clear and concise as it is the first thing the provider sees. State exactly what you are looking for without going into unnecessary details. Ask yourself, what do I want done in 10 words or less?"><i class="fa fa-question fa-2x"></i></span>
             </div>
             <div class="form-group">
-                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"Select Job Discipline",id: "disciplines"}%>
+                <%=f.select :discipline, get_disciplines.values.unshift(""),{}, {class: "chosen-select form-control","data-placeholder"=>"* Select Job Discipline",id: "disciplines"}%>
                 <span class="badge default" data-placement="right" style="margin-left:65px;margin-right: -65px;" data-toggle="tooltip" title="Our goal is to connect you with providers that cater to your specific needs. Ask yourself, what type of expertise will serve me the best?"><i class="fa fa-question" ></i></span>
             </div>
             <div class="form-group sfield">
                 <%=f.select :task, [],{},{id:"tasks", class: "skill-select sfield","data-placeholder"=>"  ",disabled:true,multiple:true}%>
-                <label for="tasks" class="sfield" style="color: #D9DBDB;">Select your tasks</label>
+                <label for="tasks" class="sfield" style="color: #D9DBDB;">* Select your tasks</label>
             </div>
             <div class="form-group sfield">
                 <%= f.collection_select :skill_ids,[],:id, :name, {},{"data-placeholder"=>"  ",class: "skill-select sfield",multiple:true,id: "skills",disabled:true}%>
@@ -72,7 +72,7 @@
 
             <%=render partial: 'jobs/mockups',:locals=>{mockup_url: @job.mockups.to_s}%>
             <div class="form-group">
-                <input type="button" name="next" class="next action-button" value="Next" />
+                <input type="button" name="next" class="next action-button" value="Next" hidden/>
             </div>
 
         </fieldset>
@@ -97,7 +97,7 @@
                 <%=f.label :expreq, "Do you require experience in this specific discipline?"%><span data-toggle="tooltip" data-placement="right" title="The best way to become an expert in any field is to learn while on the job. Ask yourself, what is the minimum amount of experience I would feel comfortable with my provider having in this discipline?"style="margin-left: 18px;"class="btn badge default"><i class="fa fa-question fa-1x"></i></span>
                 <ul id="oneliner">
                     <li>
-                    <%=f.select :expreq, ["No","Yes"], {},class: "exp-req",id: "exp-req"%>
+                    <%=f.select :expreq, {"No"=>0,"Yes"=>1}, {},class: "exp-req",id: "exp-req"%>
                     </li>
                     <li class="insert-atleast"></li>
                     <li><%=f.select :years_req, 1..10, {}, class: "", id: "years_req"%></li>
@@ -177,7 +177,7 @@
                 </legend>
             </div>
             <div style="margin-bottom:0 auto 20 auto; width: 100%;">
-                <p style="margin: auto;width:750px;white-space:normal;">Based on your job details,
+                <p style="margin: auto;width:750px;white-space:normal;" id="timep">Based on your job details,
                 we estimate that your project will take approximately 20 hours to complete. We’ve used this estimate to give you a sense of the project costs in each of the corresponding provider tiers below. Please specify your budget.<p>
             </div>
             <div class="slider-wrapper">
@@ -195,7 +195,7 @@
                     </div>
                     <%=f.hidden_field :tier, id: "tierhidden"%>
                     <div class="tier-wrap">
-                        <div class="show-group" id="tier2"> 
+                        <div class="show-group" id="tier2" data-thresh="500"> 
                             <h1>Tier 2</h1>
                             <p>Providers in this tier are the "best of the best," consistently receiving stellar client reviews. You won't find better talent on the site, or anywhere for that matter!</p>
 
@@ -204,7 +204,7 @@
                         </div>
                     </div>
                     <div class="tier-wrap">
-                        <div class="show-group" id="tier1">
+                        <div class="show-group" id="tier1" data-thresh="350">
                             <h1>Tier 1</h1>
                             <p>Providers in this tier have completed at least 5 jobs and have graduated from the Testing Ground and entered the general rankings.</p>
                             <span class="btn fa fa-chevron-right fa-5x" data-toggle="modal" data-target="#tier1-prev"></span>
@@ -212,7 +212,7 @@
                         </div>
                     </div>
                     <div class="tier-wrap">
-                        <div class="show-group" id="tier0">
+                        <div class="show-group" id="tier0" data-thresh="190">
                             <h1>Testing Ground</h1>
                             <p class="compressed">Providers in this tier are new to the site and are working hard to move up in the tiers.</p>
 
@@ -314,7 +314,7 @@
         $(".chosen-select").chosen({width: "220px"});
         $("#years_req").hide();
         $(".exp-req").change(function() {
-            if($(this).val()=="Yes"){
+            if($(this).val()=="1"){
                 $("#years_req").show();
                 $(".insert-atleast").html("<li><span class='killme'>At least</span></li>");
                 $(".insert-years").html("<li><span class='killme killyear'>year</li>");
