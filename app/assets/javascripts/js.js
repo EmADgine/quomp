@@ -56,8 +56,8 @@ function uploadFile(data,name,action,tempname,tempnameval,nested,method) {
                                       $(".chosen-search input[type=text]").css({"background-color":"white!important"});
                                       setHeight($("#p-edit"));
                                       setHeight($("#j-create"));
-                                      $("#needp").click(function(){ alert("You are already logged in as a Client")})
-                                      $("#needc").click(function(){ alert("You are already logged in as a Provider")})
+                                      $("#needp").click(function(){ alert("You are currently logged in as a Client, please log out to join our engine")})
+                                      $("#needc").click(function(){ alert("You are currently logged in as a Provider, please log out to post a job")})
                                       $("#tabs").tabs({})
                                       $("#tabs").tabs("option", {
                                       "selected": 3,

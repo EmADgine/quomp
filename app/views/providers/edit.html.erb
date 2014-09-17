@@ -76,11 +76,13 @@
             <%unless @provider.ptype=="agency"%>
                 <h3>Education</h3>
                 <div class="form-group">
-                    <%= f.select :university, get_universities.unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
+                    <%= f.select :university, get_universities.unshift("Other University or College").unshift(""),{},{class: 'uni-select',"data-placeholder"=> "Select your College or University"}%>
                 </div>
+                <%= f.text_field :university, placeholder: "Your University", class: "otheruni notme", style: "width: 500px!important;margin-bottom:20px;"%>
                 <div class="form-group">
                     <%= f.select :education, get_educations.unshift(""),{}, {class: 'chosen-select',"data-placeholder"=>"Highest Level of Education"}%>
                 </div>
+
 
                 <h3>Work History</h3>
                 <%=f.fields_for :pastjobs do |builder|%>
@@ -190,3 +192,19 @@
             </fieldset>
         <% end %>
     </div>
+
+<script>
+    <%if get_universities.include? @provider.university or @provider.university.nil?%>
+        $(".otheruni").fadeOut(0);
+    <%end%>
+    $("#provider_university").change(function() {
+        if($(this).val()=="Other University or College"){
+            $(".otheruni").fadeIn();
+        }
+        else {
+            $(".otheruni").fadeOut();
+            $(".otheruni").val($(this).val());
+        }
+
+    });
+</script>
