@@ -1,12 +1,81 @@
+
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 <div class="modal fade why" id="statistics" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-mockups" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel-mockups">Why we picked these four</h4>
+                <h4 class="modal-title" id="myModalLabel-mockups">Advanced Analysis</h4>
             </div>
             <div class="modal-body" style="padding-top:0px!important;">
-                <p> Here we go. </p>
+                <table style="margin:auto!important; margin-top:40px!important;" cellpadding="25">
+                    <tr>
+                        <td></td>
+                        <%providers[0].each do |provider|%>
+                            <td>
+                                <%= image_tag provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
+                                <%[provider.name,provider.city.titleize+", "+provider.state,provider.ptype.titleize].each do |text|%>
+                                    <span><%=text%></span><br/>
+                                <%end%>
+                            </td>
+                        <%end%>
+                    </tr>
+                    <tr>
+                        <td> <p>Why we think this provider's right for you?</p></td>
+                        <%providers[0].each do |provider|%>
+                            <td>
+                                <table style="margin:auto!important;">
+                                    <%get_best_three(provider).each do |attribute|%>
+                                        <tr><td><span class="btn blueb attrbtn" style="width:160px;" data-toggle="tooltip" data-placement="right" title="Score: <%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%>"><%=attribute%></span></td></tr>
+                                    <%end%>
+                                </table>
+                            </td>
+                        <%end%>
+
+                    </tr>
+                    <tr>
+                        <td> <p>Potential drawbacks...</p></td>
+                        <%providers[0].each do |provider|%>
+                            <td>
+                                <table style="margin:auto!important;">
+                                    <%get_worst_three(provider).each do |attribute|%>
+                                        <tr><td><span class="btn blueb attrbtn" style="width:160px;" data-toggle="tooltip" data-placement="right" title="Score: <%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%>"><%=attribute%></span></td></tr>
+                                    <%end%>
+                                </table>
+                            </td>
+                        <%end%>
+                    </tr>
+
+                    <tr>
+                        <td> 
+                            <p>Validation of the skills required for your job</p>
+                            <table>
+                                <%job.skills.pluck("name").each do |skl|%>
+                                    <tr><td><p align="right"><%=skl%></p></td></tr>
+                                <%end%>
+                            </table>
+
+                        </td>
+                        <%providers[0].each do |provider|%>
+                            <td>
+                                <div style="height:61px;"></div>
+                                <table style="margin-left: 80px;">
+                                    <%job.skills.pluck("name").each do |skl|%>
+                                        <tr><td><p class="fa fa-<%=((provider.disciplines.where(:name=>job.discipline).first.skills.pluck("name")).include? skl) ? "check":"times"%> fa-2x" style="margin-bottom:8px!important; color:<%=((provider.disciplines.where(:name=>job.discipline).first.skills.pluck("name")).include? skl) ? "rgb(161, 196, 54);":"rgb(169,7,30);"%>" ></p></td></tr>
+                                    <%end%>
+                                </table>
+                            </td>
+                        <%end%>
+
+                    </tr>
+                </table>
+                <br></br>
+                <%=line_chart [
+                    {name: providers[0][0].name, data: {20.day.ago=>5,19.day.ago=>6,18.day.ago=>7}},
+                    {name: providers[0][1].name, data: {20.day.ago=>5,19.day.ago=>6,18.day.ago=>8}},
+                    {name: providers[0][2].name, data: {20.day.ago=>1,19.day.ago=>6,18.day.ago=>8}},
+                    {name: providers[0][3].name, data: {20.day.ago=>10,19.day.ago=>6,18.day.ago=>8}}
+                ]%>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -14,3 +83,6 @@
         </div>
     </div>
 </div>
+<script>
+    $(".attrbtn").tooltip({});
+</script>

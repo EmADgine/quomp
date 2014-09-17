@@ -2,7 +2,7 @@
     <div class="form-group">
         <legend style="padding-bottom:10px; padding-top:10px;">
             <span>Select a Provider</span>
-            <button class="btn btn-primary" id="reorder" style="margin-right:-662px!important; margin-left:462px!important;" data-toggle="tooltip" data-placement="right" title="We've randomized your four best providers in <%=tiername(@job.tier)%> below. Click here to reorder the providers in order from highest calculated ranking to lowest">Order by Quomp Ranking</button>
+            <button class="btn btn-primary" id="reorder" style="margin-right:-662px!important; margin-left:462px!important;" data-toggle="tooltip" data-placement="right" title="Toggle our algorithm driven ordering of your four best providers in <%=tiername(@job.tier)%>.">Order by Quomp Ranking</button>
         </legend>
     </div>
     <%@providerlist[0].each_with_index do |provider, i|%>
@@ -42,7 +42,9 @@
             <%= render partial: 'jobs/why',locals: {provider: provider, job: @job, num: i}%>
         </div>
     <%end%>
-    <div class="form-group" style="margin-top:850px!important;">
+
+    <%=render partial: "jobs/statistics",locals: {providers: @providerlist, job: @job}%>
+    <div class="form-group" style="margin-top:900px!important;">
         <span class="btn btn-primary" data-toggle="modal" data-target="#statistics">Full Analysis</span>
     </div>
 </div>

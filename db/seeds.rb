@@ -161,7 +161,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             :begin=>"2000-01-01 "+(stuff[18][-2..-1]=="pm" ? (stuff[18].split(":")[0].to_i+12).to_s+":"+stuff[18].split(":")[1][0..-3]:stuff[18][0..-3])+":00 UTC",
             :end=>"2000-01-01 "+(stuff[19][-2..-1]=="pm" ? (stuff[19].split(":")[0].to_i+12).to_s+":"+stuff[19].split(":")[1][0..-3]: stuff[19][0..-3])+":00 UTC",
             :jobs=>myjobs)
-        p.provider_meta=ProviderMeta.new(:user_id=>p.id,:tier=>tier_int(stuff[3]),:quality=>average_attribute(myjobs,:quality),:responsiveness=>average_attribute(myjobs,:responsiveness),:likeability=>average_attribute(myjobs,:likeability),:knowledge=>average_attribute(myjobs,:knowledge),:professionalism=>average_attribute(myjobs,:knowledge),:timeliness=>average_attribute(myjobs,:timeliness),:attention=>average_attribute(myjobs,:attention));
+        p.provider_meta=ProviderMeta.new(:user_id=>p.id,:tier=>tier_int(stuff[3]),:quality=>average_attribute(myjobs,:quality),:responsiveness=>average_attribute(myjobs,:responsiveness),:likeability=>average_attribute(myjobs,:likeability),:knowledge=>average_attribute(myjobs,:knowledge),:professionalism=>average_attribute(myjobs,:knowledge),:timeliness=>average_attribute(myjobs,:timeliness),:attention=>average_attribute(myjobs,:attention))
         p.save
     end
 end

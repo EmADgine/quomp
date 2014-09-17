@@ -16,4 +16,5 @@
 //= require jquery.turbolinks
 //= require jquery-ui
 //= require jquery-fileupload
+//= require chartkick
 //= require_tree .

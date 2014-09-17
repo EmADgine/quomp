@@ -213,10 +213,10 @@ module ApplicationHelper
         overall/get_idealattributes.size.to_f
     end
     def get_worst_three(prov)
-        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")} )[-3..-1]
+        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")} ).reverse[-3..-1]
     end
     def get_best_three(prov)
-        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")})[0..3]
+        (get_idealattributes.sort_by { |element| eval("prov.provider_meta.#{element.split[0].downcase}")}).reverse[0..2]
     end
     def get_current_ranking(prov,job)
         providers=[]

@@ -9,6 +9,8 @@ gem 'sprockets-rails'
 gem 'bcrypt-ruby', '3.1.2'
 gem 'rails-i18n'
 gem 'devise'
+gem 'chartkick'
+gem 'groupdate'
 
 gem 'titleize'
 gem 'nested_form'
