@@ -1,6 +1,6 @@
 <div id="createsheet3" class="center">
     <%=nested_form_for [current_user,@job], :html=> {:class=> 'jaxForm form-horizontal flp', :role=>'form',:id=>"j-create"},:method=>"POST" do |f|%>
-        <div id="whichprev" style="visibility:hidden;"></div>
+        <div id="whichprev" style="visibility:hidden;" data-method="POST"></div>
         <ul id="progressbar" class="p5">
             <li class="active">Job Details</li>
             <li>Provider Details</li>
