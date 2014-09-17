@@ -40,11 +40,7 @@
             <fieldset>
                     <legend>Experience in <%=job.discipline%></legend>
                     <p> Years of Experience: <%=provider.disciplines.where("name LIKE ?",job.discipline).first.years%></p>
-                    <table>
-                        <%provider.disciplines.where("name LIKE ?", job.discipline).first.skills.each do |skill|%>
-                            <tr><td><span style="float:left;"><%=skill.name%></span></td></tr>
-                        <%end%>
-                    </table>
+                    <p><%=provider.name%>'s skills in <%=@job.discipline%> are <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[0..-2]*", "%>, and <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[-1]%>.</p>
             </fieldset>
             <fieldset>
                 <legend>Project Statistics</legend>
