@@ -21,6 +21,7 @@ if(task=="setdiscipline"){
         }
     });    
     $("#pagehelp #insert-sample").parent().html('<iframe class="doc-prev" id="insert-sample" src="http://docs.google.com/viewer?url=<%=image_url(@job.discipline.split.join("_")+".pdf")%>&embedded=true"></iframe>');
+    $("#pagehelp #examplename").text("<%=@job.discipline%>");
     $.each($("fieldset.sf"), function() {
         $(this).find('.form-group').find('legend').html('<span>'+$(this).find('.form-group').find('legend').find('span').text()+'</span><small data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-180px;" class="btn btn-default"><%=get_discipline_key(@job.discipline)%> Example Job</small>');
     });

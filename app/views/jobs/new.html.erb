@@ -53,7 +53,6 @@
                 <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s helpful for the provider to know a little bit about your company and the industry it operates in. Ask yourself, what does my company do?"><i class="fa fa-question fa-2x"></i></span>
             </div>
 
-            <%=render partial: "jobs/samplejobs"%>
             <div class="form-group">
                 <%if @job.mockups==nil or @job.mockups.to_s=="/mockups/original/missing.png"%>
                     <%= f.file_field :mockups, id: "mockup-upload"%>
