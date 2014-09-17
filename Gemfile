@@ -20,7 +20,6 @@ gem 'font-awesome-rails'
 gem 'momentjs-rails'
 gem "jquery-fileupload-rails"
 group :development, :test do
-    # Use sqlite3 as the database for Active Record
     gem 'sqlite3'
 end
 group :test do

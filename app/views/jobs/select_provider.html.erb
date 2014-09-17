@@ -43,10 +43,11 @@
         </div>
     <%end%>
 
-    <%=render partial: "jobs/statistics",locals: {providers: @providerlist, job: @job}%>
     <div class="form-group" style="margin-top:900px!important;">
-        <span class="btn btn-primary" data-toggle="modal" data-target="#statistics">Full Analysis</span>
+        <span class="btn btn-primary" id="statbutton" data-toggle="modal" data-target="#statistics">Full Analysis</span>
     </div>
+
+    <%=render partial: "jobs/statistics",locals: {providers: @providerlist, job: @job}%>
 </div>
 <script>
     $("#reorder").tooltip({});

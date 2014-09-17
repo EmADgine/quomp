@@ -1,5 +1,4 @@
 
-<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
 <div class="modal fade why" id="statistics" tabindex="-1" role="dialog" aria-labelledby="myModalLabel-mockups" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -69,12 +68,11 @@
 
                     </tr>
                 </table>
-                <br></br>
                 <%=line_chart [
-                    {name: providers[0][0].name, data: {20.day.ago=>5,19.day.ago=>6,18.day.ago=>7}},
-                    {name: providers[0][1].name, data: {20.day.ago=>5,19.day.ago=>6,18.day.ago=>8}},
-                    {name: providers[0][2].name, data: {20.day.ago=>1,19.day.ago=>6,18.day.ago=>8}},
-                    {name: providers[0][3].name, data: {20.day.ago=>10,19.day.ago=>6,18.day.ago=>8}}
+                    {name: providers[0][0].name, data: Hash[(providers[0][0].jobs.group_by_month {|i| i.deadline}).map {|k,v| [k,v[0].job_meta.attention]}]},
+                    {name: providers[0][1].name, data: Hash[(providers[0][1].jobs.group_by_month {|i| i.deadline}).map {|k,v| [k,v[0].job_meta.attention]}]},
+                    {name: providers[0][2].name, data: Hash[(providers[0][2].jobs.group_by_month {|i| i.deadline}).map {|k,v| [k,v[0].job_meta.attention]}]},
+                    {name: providers[0][3].name, data: Hash[(providers[0][3].jobs.group_by_month {|i| i.deadline}).map {|k,v| [k,v[0].job_meta.attention]}]}
                 ]%>
             </div>
             <div class="modal-footer">
@@ -83,6 +81,7 @@
         </div>
     </div>
 </div>
+
 <script>
     $(".attrbtn").tooltip({});
 </script>

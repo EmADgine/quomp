@@ -540,5 +540,11 @@ $(".ranked").next().next().next().find('.chosen-choices').sortable(
 }
 );
 $(".ranked").next().next().next().find('.chosen-choices').disableSelection();
-
+var autoresize = function () {
+    alert("size");
+    $(window).trigger("resize");
+    $(window).resize();
+    $("#statistics").resize();
+    alert($("#chart-1").data);
+}
 });

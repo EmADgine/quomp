@@ -2,8 +2,10 @@
 <html>
     <head>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <title>Ruby on Rails App | <%=full_title(yield(:title))%></title>
+        <script src="//www.google.com/jsapi"></script> 
+        <title>Quomp | <%=full_title(yield(:title))%></title>
         <%= stylesheet_link_tag 'application', { media: 'all','data-turbolinks-track'=>true}%>
+        
         <%= javascript_include_tag :application,"nested_form",{'data-turbolinks-track'=>true} %>
         <%= csrf_meta_tags%>
     </head>
