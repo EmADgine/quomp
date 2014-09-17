@@ -8,7 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Quomp
   class Application < Rails::Application
-      config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif application.css.scss custom.css.scss *.js)
+      config.assets.precompile += %w(*.pdf *.png *.jpg *.jpeg *.gif application.css.scss custom.css.scss *.js)
       config.action_controller.include_all_helpers = true
   end
 end
