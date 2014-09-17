@@ -1,5 +1,6 @@
 var task=$("#j-create #whichprev").data('previd');
 if(task=="setdiscipline"){
+    <%unless @job.discipline.nil?%>
     $("#skills,#tasks,#goals").prop("disabled",false).trigger("chosen:updated");
     $("#skills").parent().html('<%=collection_select :job,:skill_ids,Skill.all.to_a.select {|i| i.discipline==@job.discipline},:id, :name, {},{id: "skills","data-placeholder"=>"  ",class: "skill-select sfield",multiple:true}%><label for="skills" class="sfield">Select your required skills in <%=@job.discipline%></label>');
     $("#goals").parent().html('<%=select_tag @job.goal, options_for_select(get_goals_by_discipline(@job.discipline).unshift("")),{id: "goals","data-placeholder"=>"Select primary goal in "+@job.discipline,class: "skill-select"}%>');
@@ -32,7 +33,8 @@ if(task=="setdiscipline"){
             } else {
                 $(".action-button").hide();
             }
-            });
+    });
+<%end%>
 
 } else if(task=="settask") {
     <%(0..2).to_a.each do |i|%>
