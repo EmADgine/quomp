@@ -237,8 +237,56 @@ module ApplicationHelper
         end
         place
     end
-    def get_ranking_history(prov)
+    def interpolate(data)
+        data_keys= data.keys
+        properkeys=(data.keys.min..data.keys.max).to_a
+        propervalues=[]
+        data_values=data.values
+        i=0
+        properkeys.each do |properkey|
+            if data_keys.include? properkey
+                propervalues << data_values[i]
+                i+=1
+            else
+                propervalues << 0.5*(propervalues.last+data_values[i])
+            end
+        end
+        data =Hash[properkeys.zip(propervalues)]
+        data
 
+    end
+    def get_graph_data(prov)
+        (prov.jobs.group_by {|i| i.deadline}).each do |k, v|
+            p k.month
+            p k.month.to_i
+            p months.split[k.month.to_i]
+        end
+        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_overall(v)]}]
+        data=interpolate(data)    
+
+        data=data.map {|k,v| ["#{months.split[k.to_i]} 2014",v]}
+    end
+    def get_graph_data_attribute(prov,attribute)
+        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_attribute(v,attribute)]}]
+        data=interpolate(data)
+        data
+    end
+    def months
+        "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec"
+    end
+    def average_job_attribute(jobs, attr)
+        sum=0
+        jobs.each do |job|
+            sum+=eval("job.job_meta.#{attr}")
+        end
+        sum/jobs.size.to_f
+    end
+    def average_job_overall(jobs)
+        sum=0
+        jobs.each do |job|
+            sum+=eval("get_joboverall(job)")
+        end
+        sum/jobs.size.to_f
     end
     def get_jobs_by_discipline(prov,disc)
         Job.where(:provider_id=>prov.id, :by_discipline=>disc)
