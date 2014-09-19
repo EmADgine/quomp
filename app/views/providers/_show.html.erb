@@ -54,6 +54,7 @@
         </div>
         <div id="main-right">
             <%unless provider.ptype=="agency"%>
+            <!--
                 <fieldset>
                     <legend>Past Jobs</legend>
                     <table cellspacing="15" cellpadding="10" >
@@ -64,6 +65,7 @@
                         <%end%>
                     </table>
                 </fieldset>
+                -->
             <%end%>
             <fieldset>
                 <legend>Availability</legend>
@@ -72,7 +74,7 @@
                 <%end%>
             </fieldset>
             <fieldset>
-                <legend>Overall Provider Score</legend>
+                <legend>Provider Scores</legend>
                 <table cellspacing="5" cellpadding="5">
                     <tr><td valign="top"><b>Across All Jobs</b></td><td></td><td style="width:250px!important;">
                             <%(1..get_overall(provider).divmod(1)[0]).each do |n|%>

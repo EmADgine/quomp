@@ -124,9 +124,11 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
                 skills<<Skill.where(:name=>skill,:discipline=>disciplinefix(stuff[2])).first
             end
         end
+
+        name=!stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7]
         disciplines=[]
         [0].each do |m|
-            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills})
+            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/../seedfiles/Portfolios/"+disciplinefix(stuff[2])+"/"+name.downcase.split()*"_"+"_portfolio.pdf")})
         end
         myjobs=[]
         p k
@@ -145,9 +147,11 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
         end
         p = Provider.new(:disciplines=> disciplines,
             :ptype=> stuff[4].downcase,
-            :name=> !stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7],
+            :name=> name,
             :city=> stuff[8], :state=> stuff[9],
             :description=> stuff[10],
+            :avatar=>File.new("#{Rails.root}/../seedfiles/Headshots/"+name.downcase.split()*"_"+"_headshot.jpg"),
+            :resume=>File.new("#{Rails.root}/../seedfiles/Resumes/"+name.downase.split()*"_"+"_resume.pdf")
             :website=>stuff[12],
             :linkedin=>stuff[13],
             :education=>stuff[14],

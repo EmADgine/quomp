@@ -77,7 +77,7 @@
                         </tr>
                     </table>
                 <%else%>
-                    <p>You have not yet been scored by any providers. After you complete your first job interaction, your time averaged score will appear here.</P>
+                    <p>You have not yet been scored by any providers. After you complete your first job, your client score will appear here.</P>
                 <%end%>
 
             </fieldset>
@@ -86,12 +86,12 @@
 
                 <%unless @client.client_meta.overall.nil?%>
                     <table cellspacing="5" cellpadding="5">
-                        <%["Responsiveness","Expectations","Scope of Work","Payment","Professionalism","Likeability"].each do |attribute|%>
+                        <%["Responsiveness","Expectations","Scope of Work","Professionalism","Likeability"].each do |attribute|%>
                             <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval('@client.client_meta.'+attribute.gsub(/\s+/,'').downcase)%>px;" class="rating"></div></div></td></tr>
                         <%end%>
                     </table>
                 <%else%>
-                    <p> You have not yet been scored by providers. After you complete your first job interaction, your time averaged scores for Responsiveness, Expectations, Scope of Work, Payment, Professionalism, and Likeability will appear here.</p>
+                    <p> You have not yet been scored by any providers. After you complete your first job, your attribute scores for Responsiveness, Expectations, Scope of Work, Professionalism and Likeability will appear here.</p>
                 <%end%>
             </fieldset>
         </div>
