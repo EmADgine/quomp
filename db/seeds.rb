@@ -126,9 +126,10 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
         end
 
         name=!stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7]
+        filename= (stuff[4].downcase.strip=="agency") ? name.downcase.split.join("_").camelize : name.downcase.split.join("_")
         disciplines=[]
         [0].each do |m|
-            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2])+"/"+name.downcase.split()*(stuff[4].downcase.strip=="agency"? "":"_")+"_portfolio.pdf")})
+            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2])+"/"+filename+"_portfolio.pdf")})
         end
         myjobs=[]
         p k
@@ -150,8 +151,8 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             :name=> name,
             :city=> stuff[8], :state=> stuff[9],
             :description=> stuff[10],
-            :avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+name.downcase.split()*(stuff[4].downcase.strip=="agency"? "":"_")+"_headshot.jpg"),
-            :resume=>File.new("#{Rails.root}/seedfiles/Resumes/"+name.downcase.split()*"_"+"_resume.pdf"),
+            :avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+filename+"_headshot.jpg"),
+            :resume=>File.new("#{Rails.root}/seedfiles/Resumes/"+filename+"_resume.pdf"),
             :website=>stuff[12],
             :linkedin=>stuff[13],
             :education=>stuff[14],
