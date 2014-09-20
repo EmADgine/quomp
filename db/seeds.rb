@@ -127,6 +127,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
 
         name=!stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7]
         filename= (stuff[4].downcase.strip=="agency") ? name.downcase.split.join("_").camelize : name.downcase.split.join("_")
+        filename=filename.gsub("'","")
         disciplines=[]
         [0].each do |m|
             disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2]).split.join("_").strip+"/"+filename+"_portfolio.pdf")})
