@@ -151,7 +151,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             :name=> name,
             :city=> stuff[8], :state=> stuff[9],
             :description=> stuff[10],
-            :avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+filename+"_headshot.jpg"),
+            :avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+filename.downcase+"_headshot.jpg"),
             :resume=>File.new("#{Rails.root}/seedfiles/Resumes/"+filename+"_resume.pdf"),
             :website=>stuff[12],
             :linkedin=>stuff[13],
