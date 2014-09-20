@@ -129,7 +129,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
         filename= (stuff[4].downcase.strip=="agency") ? name.downcase.split.join("_").camelize : name.downcase.split.join("_")
         disciplines=[]
         [0].each do |m|
-            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2])+"/"+filename+"_portfolio.pdf")})
+            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2])+"/"+filename.downcase+"_portfolio.pdf")})
         end
         myjobs=[]
         p k
