@@ -44,7 +44,7 @@
                             </td>
                         <%end%>
                     </tr>
-
+                    <%unless job.skills.empty?%>
                     <tr>
                         <td> 
                             <p>Validation of the skills required for your job</p>
@@ -67,6 +67,7 @@
                         <%end%>
 
                     </tr>
+                <%end%>
                 </table>
                 <table>
                     <tr>
@@ -77,7 +78,8 @@
                                 {name: providers[0][1].name, data: get_graph_data(providers[0][1])},
                                 {name: providers[0][2].name, data: get_graph_data(providers[0][2])},
                                 {name: providers[0][3].name, data: get_graph_data(providers[0][3])}
-                            ]%>
+                            ],
+                                {library: {hAxis: {title: ""}, vAxis: {title: "Score out of 10",textStyle: "color: green; margin-right:-10px;"}}}%>
                         </td>
                     </tr>
                 </table>

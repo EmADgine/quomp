@@ -256,15 +256,9 @@ module ApplicationHelper
 
     end
     def get_graph_data(prov)
-        (prov.jobs.group_by {|i| i.deadline}).each do |k, v|
-            p k.month
-            p k.month.to_i
-            p months.split[k.month.to_i]
-        end
         data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_overall(v)]}]
         data=interpolate(data)    
-
-        data=data.map {|k,v| ["#{months.split[k.to_i]} 2014",v]}
+        data=data.map {|k,v| ["#{months.split[k.to_i]} 2014",v.round(2)]}
     end
     def get_graph_data_attribute(prov,attribute)
         data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_attribute(v,attribute)]}]

@@ -50,7 +50,7 @@
                     <%=f.text_area :description, rows: 3, class: "form-control sfield", id: "jbdfield"%>
                 <%end%>
                 <label for="jbdfield" class="sfield">Your Description</label>
-                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s helpful for the provider to know a little bit about your company and the industry it operates in. Ask yourself, what does my company do?"><i class="fa fa-question fa-2x"></i></span>
+                <span class="btn input-group-addon tooltipfield" data-toggle="tooltip" data-placement="right" title="It’s helpful for the provider to know a little bit about your company and the industry you operate in. Ask yourself, what does my company do?"><i class="fa fa-question fa-2x"></i></span>
             </div>
 
             <div class="form-group">
@@ -106,7 +106,7 @@
             <div class="form-group sfield">
                 <span style="height:0px; width: 0px;" class="ranked"></span>
                 <%= f.collection_select :idealattribute_ids,Idealattribute.order(:name),:id, :name, {},{"data-placeholder"=>"   ",class: "attribute-select sfield",multiple:true,id: "idealattributes"}%>
-                <label for="idealattributes" class="sfield">Rank the most important qualities for your Provider</label>
+                <label for="idealattributes" class="sfield">Rank your most important Provider qualities</label>
             </div>
             <div class="form-group sfield input-group">
                 <%=f.text_area :abilities, id: "abilities",class: "tooltipfield form-control sfield" %>

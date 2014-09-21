@@ -10,7 +10,7 @@
             <p class="rankdisplay" style="left:10px; bottom: 0px;">Ranking is  <%=@providerlist[1][i].to_s%></p>
             <%= image_tag provider.avatar.url(:small), class: "show-prof img-circle",width: 200, height: 200%>
             <%[provider.name,provider.city.titleize+", "+provider.state,provider.ptype.titleize].each do |text|%>
-                <p align="left"><%=text%></p>
+                <p align="left" style="margin-bottom:0px;"><%=text%></p>
             <%end%>
             <div style="height:100px;overflow:hidden;">
                 <p align="left"><%='"'+clamp(provider.description.strip)+'"'%></p>
@@ -31,7 +31,7 @@
                 </tr>
 
                 <%get_idealattributes.each do |attribute|%>
-                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"></div></div></td></tr>
+                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"><span><%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%></span></div></div></td></tr>
                 <%end%>
             </table>
             <br/>
@@ -43,7 +43,7 @@
         </div>
     <%end%>
 
-    <div class="form-group" style="margin-top:900px!important;">
+    <div class="form-group" style="margin-top:870px!important;">
         <span class="btn btn-primary" id="statbutton" data-toggle="modal" data-target="#statistics">Full Analysis</span>
     </div>
 

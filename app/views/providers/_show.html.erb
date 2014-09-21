@@ -38,23 +38,22 @@
                 <%end%>
             </fieldset>
             <fieldset>
-                    <legend>Experience in <%=job.discipline%></legend>
-                    <p> Years of Experience: <%=provider.disciplines.where("name LIKE ?",job.discipline).first.years%></p>
-                    <p><%=provider.name%>'s skills in <%=@job.discipline%> are <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[0..-2]*", "%>, and <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[-1]%>.</p>
+                <legend>Experience in <%=job.discipline%></legend>
+                <p> Years of Experience: <%=provider.disciplines.where("name LIKE ?",job.discipline).first.years%></p>
+                <p><%=provider.name%>'s skills in <%=@job.discipline%> are <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[0..-2]*", "%>, and <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[-1]%>.</p>
+                <%unless provider.disciplines.where("name LIKE ?",job.discipline).first.portfolio.to_s.split('/')[-1]=="missing.png"%>
+
+                <%end%>
             </fieldset>
             <fieldset>
                 <legend>Project Statistics</legend>
                 <p>Projects completed: <%=provider.jobs.size%></p>
                 <p>Projects completed in <%=@job.discipline%>: <%=provider.jobs.where(:discipline=>job.discipline).size%></p>
             </fieldset>
-            <fieldset>
-                <legend>Testimonials</legend>
-                <p>"Really quality work. Got the job done with speed and precision."</p>
-            </fieldset>
         </div>
         <div id="main-right">
             <%unless provider.ptype=="agency"%>
-            <!--
+                <!--
                 <fieldset>
                     <legend>Past Jobs</legend>
                     <table cellspacing="15" cellpadding="10" >
@@ -107,7 +106,7 @@
                 <legend>Attribute Scores</legend>
                 <table cellspacing="5" cellpadding="5">
                     <%get_idealattributes.each do |attribute|%>
-                        <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"></div></div></td></tr>
+                        <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"><span><%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%></span></div></div></td></tr>
                     <%end%>
                 </table>
             </fieldset>
@@ -117,7 +116,18 @@
                     <span class="badge btn-social-icon btn-vimeo" data-toggle="tooltip" data-placement="bottom" title='<%=get_badge(name)[0]%>'><i class="fa fa-<%=get_badge(name)[1]%>"></i></span>
                 <%end%>
             </fieldset>
-
+            <fieldset>
+                <legend>Testimonials</legend>
+                <p>"Really quality work. Got the job done with speed and precision."</p>
+            </fieldset>
         </div>
         <div class="clear"></div>
     </div>
+<script>
+    $(".badge").tooltip({container: 'body'});
+</script>
+<style>
+    .tooltip {
+        z-index: 1000000000000;
+    }
+</style>

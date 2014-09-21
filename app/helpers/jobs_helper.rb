@@ -26,7 +26,6 @@ module JobsHelper
         totalratio=0
         unless job.skills.empty?
             matching_skills=0
-            puts "crazy cats"
             provider.disciplines.where(:name=>job.discipline).first.skills.each do |skill|
                 puts "provskill #{skill}"
                 puts "jobskills #{job.skills.pluck("name")}"
@@ -46,7 +45,6 @@ module JobsHelper
             provider.jobs.each do |pj|
                 puts "info #{pj.tier}_#{job.tier}_#{pj.discipline}_#{job.discipline}"
                 if pj.id!=job.id and pj.tier==job.tier and pj.discipline== job.discipline
-                    puts "wootyay"
                     attributeweighting+=get_joboverall(pj)
                     nj+=1
                 end

@@ -9,7 +9,7 @@ class JobsController < ApplicationController
     end
     def create
         @parentclient=Client.find(current_user.id)
-        @job= Job.new(job_params)
+        @job=Job.new(job_params)
         @job.job_meta = JobMeta.create
         @user_jobs=@parentclient.user_jobs.create(job: @job)
         respond_to do |format|
@@ -63,9 +63,12 @@ class JobsController < ApplicationController
     end
     private
     def job_params
-        puts "current: "+ current_user.id.to_s
         params.require(:job,).permit({ :user_ids => [] },:discipline,:description,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,:name,:abilities,:transaction_frequency,:posttime,:tier,idealattribute_ids:[],skill_ids:[],task_ids:[],user_ids:[])
     end
+    def job_params2
+        params.require(:job,).permit({ :user_ids => [] },:discipline,:description,:startdate,:deadline,:expreq,:pricemethod,:budget,:question,:mockups,:years_req,:goal,:name,:abilities,:transaction_frequency,:posttime,:tier,idealattribute_ids:[],skill_ids:[],user_ids:[])
+    end
+
     def user_job_params
         params.require(:user_job)
     end

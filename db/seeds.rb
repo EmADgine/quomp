@@ -57,7 +57,14 @@ def average_attribute(alist,name)
     end
     total/alist.size.to_f
 end
-
+def incdev(attr)
+    x = (5..10).to_a.sample
+    delta = attr-x
+    return attr*(1-delta/10.0)
+end
+def fileify(string)
+    string.tr( "ÀÁÂÃÄÅàáâãäåĀāĂăĄąÇçĆćĈĉĊċČčÐðĎďĐđÈÉÊËèéêëĒēĔĕĖėĘęĚěĜĝĞğĠġĢģĤĥĦħÌÍÎÏìíîïĨĩĪīĬĭĮįİıĴĵĶķĸĹĺĻļĽľĿŀŁłÑñŃńŅņŇňŉŊŋÒÓÔÕÖØòóôõöøŌōŎŏŐőŔŕŖŗŘřŚśŜŝŞşŠšſŢţŤťŦŧÙÚÛÜùúûüŨũŪūŬŭŮůŰűŲųŴŵÝýÿŶŷŸŹźŻżŽž","AAAAAAaaaaaaAaAaAaCcCcCcCcCcDdDdDdEEEEeeeeEeEeEeEeEeGgGgGgGgHhHhIIIIiiiiIiIiIiIiIiJjKkkLlLlLlLlLlNnNnNnNnnNnOOOOOOooooooOoOoOoRrRrRrSsSsSsSssTtTtTtUUUUuuuuUuUuUuUuUuUuWwYyyYyYZzZzZz").gsub("'","").gsub("’","")
+end
 
 Skill.delete_all
 Task.delete_all
@@ -125,12 +132,17 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             end
         end
 
-        name=!stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7]
+        name=(!stuff[5].nil? ? stuff[6]+" "+stuff[5]:stuff[7].nil? ? "Outreach Design":stuff[7])
         filename= (stuff[4].downcase.strip=="agency") ? name.downcase.split.join("_").camelize : name.downcase.split.join("_")
-        filename=filename.gsub("'","")
+        filename=fileify(filename)
         disciplines=[]
         [0].each do |m|
-            disciplines << Discipline.new({:name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,:description=>stuff[12],:skills=>skills,:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2]).split.join("_").strip+"/"+filename+"_portfolio.pdf")})
+            disciplines << Discipline.new({
+                :name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,
+                :description=>stuff[12],
+                :portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2]).split.join("_").strip+"/"+filename+"_portfolio.pdf"),
+                :skills=>skills,
+            })
         end
         myjobs=[]
         p k
@@ -144,7 +156,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             p myjob[5].to_i-1
             tj=Job.new(:discipline=> discnum(myjob[4].to_i),:tier=>myjob[5].to_i-1,:deadline=>myjob[12].split[0])
             p "tj tier #{tj.tier}"
-            tj.job_meta=JobMeta.new("job_id"=>tj.id,:quality=>myjob[25].to_i,:timeliness=>myjob[26].to_i,:responsiveness=>myjob[27].to_i,:professionalism=>myjob[28].to_i,:likeability=>myjob[29].to_i,:knowledge=>myjob[30].to_i,:attention=>myjob[31].to_i)
+            tj.job_meta=JobMeta.new("job_id"=>tj.id,:quality=>incdev(myjob[25].to_i),:timeliness=>incdev(myjob[26].to_i),:responsiveness=>incdev(myjob[27].to_i),:professionalism=>incdev(myjob[28].to_i),:likeability=>incdev(myjob[29].to_i),:knowledge=>incdev(myjob[30].to_i),:attention=>incdev(myjob[31].to_i))
             myjobs<<tj
         end
         p = Provider.new(:disciplines=> disciplines,

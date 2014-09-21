@@ -1,4 +1,5 @@
 var task=$("#j-create #whichprev").data('previd');
+<%puts @job.tasks.to_s+ " yes they are"%>
 if(task=="setdiscipline"){
     <%unless @job.discipline.nil?%>
     $("#skills,#tasks,#goals").prop("disabled",false).trigger("chosen:updated");
@@ -19,14 +20,14 @@ if(task=="setdiscipline"){
                 $(this).delay(0).animate({top: -25+"px"}, 300, 'easeOutBack');
             });
         }
-    });    
+    });
     $("#pagehelp #insert-sample").parent().html('<iframe class="doc-prev" id="insert-sample" src="http://docs.google.com/viewer?url=<%=image_url(@job.discipline.split.join("_")+".pdf")%>&embedded=true"></iframe>');
     $("#pagehelp #examplename").text("<%=@job.discipline%>");
     $.each($("fieldset.sf"), function() {
         $(this).find('.form-group').find('legend').html('<span>'+$(this).find('.form-group').find('legend').find('span').text()+'</span><small data-toggle="modal" data-target="#pagehelp" style="float: right; margin-top:-8px;margin-right:0;margin-left:-180px;" class="btn btn-default"><%=get_discipline_key(@job.discipline)%> Example Job</small>');
     });
     $("#tasks").change(function() {
-            if($(this).val()!=""){
+            if($(this).val()!=null){
                     $(this).closest(".jaxForm").find("#whichprev").data('previd','settask');
                     uploadFile($("#tasks").val(),$(this).attr('name'),$(this).closest('.jaxForm').attr('action'),$("#disciplines").attr('name'),$("#disciplines").val(),true,"POST");
             $(".action-button").show();
@@ -40,18 +41,20 @@ if(task=="setdiscipline"){
     <%(0..2).to_a.each do |i|%>
         <%puts @job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)}%>
         $("#tier<%=i%>").data("thresh",<%=@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)}%>);
+    $("#tier<%=i%>-prev #avg<%=i%>").text("$"+"<%=(1.25*(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)})).to_i%>");
+    $("#tier<%=i%>-prev #min<%=i%>").text("$"+"<%=@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,i)}%>");
 <%end%>
     $("#timep").text("Based on your job details, we estimate that your project will take approximately <%=pluralize(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)},"hour")%> to complete. We’ve used this estimate to give you a sense of the project costs in each of the corresponding provider tiers below. Please specify your budget.");
     $("#slider-vertical").slider({
     orientation: "vertical",
     range: "min",
-    min: <%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/3%>,
-    max: <%=@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,2)}%>,
+    min: <%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})%>,
+    max: <%=(7/3.0)*(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,2)})-(4/3.0)*(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)})%>,
     slide: function( event, ui ) {
         $(this).find('.ui-slider-handle').text('$'+ui.value);
     },
     change: function(event, ui) {
-                if(ui.value<parseInt($("#tier0").data("thresh"))){
+                if(ui.value<parseInt($("#tier1").data("thresh"))){
 
                     $("#tier0").animate(
                             {width: "670"},
@@ -69,7 +72,7 @@ if(task=="setdiscipline"){
                     $("#tier0 span,#tier0 p").fadeOut();
                     $("#tier0").removeClass("activeTier");
                 }
-                if(ui.value<parseInt($("#tier1").data("thresh")) &&ui.value>=parseInt($("#tier0").data("thresh"))){
+                if(ui.value<parseInt($("#tier2").data("thresh")) &&ui.value>=parseInt($("#tier1").data("thresh"))){
                     $("#tier1").animate(
                             {width: "670"},
                             {duration:600,
@@ -87,7 +90,7 @@ if(task=="setdiscipline"){
                     $("#tier1").removeClass("activeTier");
 
                 }
-                if(ui.value<=parseInt($("#tier2").data("thresh")) && ui.value >= parseInt($("#tier1").data("thresh"))){
+                if(ui.value >= parseInt($("#tier2").data("thresh"))){
                     $("#tier2").animate(
                             {width: "670"},
                             {duration:600,
@@ -107,8 +110,8 @@ if(task=="setdiscipline"){
                 }
             }
     });
-    $("#slider-vertical").slider("value",<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/2%>);
-    $("#slider-vertical").find(".ui-slider-handle").text("$<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,0)})/2%>");
+    $("#slider-vertical").slider("value",<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,2)})/2%>);
+    $("#slider-vertical").find(".ui-slider-handle").text("$<%=(@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,1)}+@job.tasks.inject(0) {|sum, x| sum+get_hours(@job.discipline,x.name)*get_hourly(@job.discipline,x.name,2)})/2%>");
 } else {
     $("#j-create #mockups-prev .insert-doc-here").parent().html('<iframe class="doc-prev insert-doc-here" src="http://docs.google.com/viewer?url='+encodeURIComponent('<%=@job.mockups%>')+'&embedded=true"></iframe>');
 }
