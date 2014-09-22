@@ -140,7 +140,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             disciplines << Discipline.new({
                 :name=>disciplinefix(stuff[2]),:years=>stuff[16].to_i,
                 :description=>stuff[12],
-                :portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2]).split.join("_").strip+"/"+filename+"_portfolio.pdf"),
+                #:portfolio=>File.new("#{Rails.root}/seedfiles/Portfolios/"+disciplinefix(stuff[2]).split.join("_").strip+"/"+filename+"_portfolio.pdf"),
                 :skills=>skills,
             })
         end
@@ -170,8 +170,8 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             :name=> name,
             :city=> stuff[8], :state=> stuff[9],
             :description=> stuff[10],
-            :avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+filename.downcase+"_headshot.jpg"),
-            :resume=> (stuff[4].downcase.strip=="agency") ? nil : File.new("#{Rails.root}/seedfiles/Resumes/"+filename+"_resume.pdf"),
+            #:avatar=>File.new("#{Rails.root}/seedfiles/Headshots/"+filename.downcase+"_headshot.jpg"),
+            #:resume=> (stuff[4].downcase.strip=="agency") ? nil : File.new("#{Rails.root}/seedfiles/Resumes/"+filename+"_resume.pdf"),
             :website=>stuff[12],
             :linkedin=>stuff[13],
             :education=>stuff[14],
