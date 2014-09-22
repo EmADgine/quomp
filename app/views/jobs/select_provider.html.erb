@@ -31,7 +31,7 @@
                 </tr>
 
                 <%get_idealattributes.each do |attribute|%>
-                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"><span><%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%></span></div></div></td></tr>
+                    <tr><td valign="top" align="right"><b><%=attribute+":"%></b></td><td></td><td><div class="ratingwrap"><div style="width:<%=16*eval("provider.provider_meta.#{attribute.split[0].downcase}")%>px;" class="rating"><span><%=eval("provider.provider_meta.#{attribute.split[0].downcase}").round(1)%></span></div></div></td></tr>
                 <%end%>
             </table>
             <br/>

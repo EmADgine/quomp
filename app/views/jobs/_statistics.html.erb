@@ -25,7 +25,7 @@
                             <td>
                                 <table style="margin:auto!important;">
                                     <%get_best_three(provider).each do |attribute|%>
-                                        <tr><td><span class="btn blueb attrbtn" style="width:175px;" data-toggle="tooltip"><%=attribute%> | <%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%></span></td></tr>
+                                        <tr><td><span class="btn blueb attrbtn" style="width:175px;" data-toggle="tooltip"><%=attribute%> | <%=eval("provider.provider_meta.#{attribute.split[0].downcase}").round(1)%></span></td></tr>
                                     <%end%>
                                 </table>
                             </td>
@@ -38,7 +38,7 @@
                             <td>
                                 <table style="margin:auto!important;">
                                     <%get_worst_three(provider).each do |attribute|%>
-                                        <tr><td><span class="btn blueb attrbtn" style="width:175px;"><%=attribute%> | <%=eval("provider.provider_meta.#{attribute.split[0].downcase}")%></span></td></tr>
+                                        <tr><td><span class="btn blueb attrbtn" style="width:175px;"><%=attribute%> | <%=eval("provider.provider_meta.#{attribute.split[0].downcase}").round(1)%></span></td></tr>
                                     <%end%>
                                 </table>
                             </td>
