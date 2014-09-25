@@ -161,7 +161,7 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
         end
         rdisc=(1..5).to_a.sample
         (0..(0..20).to_a.sample).to_a.each do |extra|
-            tj2 = Job.new(:discipline=> discnum(rdisc),:tier=>myjob[5].to_i-1,:deadline=>myjob[12].split[0])
+            tj2 = Job.new(:discipline=> discnum(rdisc),:tier=>jobsmap[k][extra][5].to_i-1,:deadline=>jobsmap[k][extra][12].split[0])
             tj2.job_meta=JobMeta.new("job_id"=>tj2.id,:quality=>incdev(jobsmap[k][extra][25].to_i),:timeliness=>incdev(jobsmap[k][extra][26].to_i),:responsiveness=>incdev(jobsmap[k][extra][27].to_i),:professionalism=>incdev(jobsmap[k][extra][28].to_i),:likeability=>incdev(jobsmap[k][extra][29].to_i),:knowledge=>incdev(jobsmaps[k][extra][30].to_i),:attention=>incdev(jobsmap[k][extra][31].to_i))
             myjobs<<tj2
         end
