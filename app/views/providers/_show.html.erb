@@ -30,7 +30,7 @@
                 <div class="clear"></div>
                 <p><%=provider.description%></p>
                 <%unless provider.linkedin == "" or provider.linkedin == nil%>
-                    <a href=<%='http://www.'+linkerate(provider.linkedin)%> target='_blank' class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
+                    <a href=<%=provider.linkedin%> target='_blank' class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
                 <%end%>
                 <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
                     <a href="#" class="btn btn-social btn-linkedin" data-toggle="modal" id="resb" data-target="#show-resume-prev"><i class="fa fa-file-text-o"></i><%=file_by_ptype(provider.ptype)%></a>
@@ -127,6 +127,7 @@
     $(".badge").tooltip({container: 'body'});
     $(this).closest(".modal-dialog").find("#resb").click(function () {
         $(this).closest(".modal-dialog").find(".modal-header .close").trigger("click");
+        alert("blehh");
     });
 </script>
 <style>
