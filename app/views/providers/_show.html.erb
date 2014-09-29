@@ -41,7 +41,7 @@
                 <p> Years of Experience: <%=provider.disciplines.where("name LIKE ?",job.discipline).first.years%></p>
                 <p><%=provider.name%>'s skills in <%=@job.discipline%> are <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[0..-2]*", "%>, and <%=provider.disciplines.where("name LIKE ?",job.discipline).first.skills.pluck("name")[-1]%>.</p>
                 <%unless provider.disciplines.where("name LIKE ?",job.discipline).first.portfolio.to_s.split('/')[-1]=="missing.png"%>
-
+                    <a href="#" class="btn btn-social btn-linkedin" id="discportb" data-toggle="modal" data-dismiss="#whymodal<%=num%>" data-target="#discport<%=num%>"><i class="fa fa-file-text-o"></i>Portfolio in <%=job.discipline%></a>
                 <%end%>
             </fieldset>
             <fieldset>

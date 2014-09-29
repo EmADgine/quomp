@@ -43,6 +43,9 @@
             <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
                 <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype,:j_select=>true, :num=>i}%>
             <%end%>
+            <%if provider.disciplines.where("name LIKE ?",job.discipline).first.portfolio.to_s.split('/')[-1]!="missing.png"%>
+                <%=render partial: 'providers/selectport',:locals=>{:portfolio_url=>provider.disciplines.where("name LIKE ?",job.discipline).first.portfolio.to_s,:disc=>job.discipline,:num=>i}%>
+            <%end%>
 
         </div>
     <%end%>
