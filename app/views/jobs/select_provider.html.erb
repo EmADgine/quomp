@@ -40,6 +40,10 @@
                 <%= link_to 'Award Job', '#', :onclick => "window.location='#{save_provider_client_job_path(:prov_id=> provider.id)}'", :class=> 'btn btn-primary'%>
             </div>
             <%= render partial: 'jobs/why',locals: {provider: provider, job: @job, num: i}%>
+            <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
+                <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype,:j_select=>true, :num=>num}%>
+            <%end%>
+
         </div>
     <%end%>
 
