@@ -33,7 +33,7 @@
                     <a href=<%=provider.linkedin%> target='_blank' class="btn btn-social btn-linkedin"><i class="fa fa-linkedin"></i>Linkedin Profile</a>
                 <%end%>
                 <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
-                    <a href="#" class="btn btn-social btn-linkedin" id="resb" data-toggle="modal" data-target="#show-resume-prev"><i class="fa fa-file-text-o"></i><%=file_by_ptype(provider.ptype)%></a>
+                    <a href="#" class="btn btn-social btn-linkedin" id="resb" data-toggle="modal" data-target="#show-resume-prev<%=num%>"><i class="fa fa-file-text-o"></i><%=file_by_ptype(provider.ptype)%></a>
                     <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype,:j_select=>true, :num=>num}%>
                 <%end%>
             </fieldset>
@@ -127,8 +127,9 @@
     $(".badge").tooltip({container: 'body'});
     alert($("#resb")[0]);
     $("#resb").click(function () {
-        $(this).closest(".modal-dialog").find(".modal-header .close").trigger("click");
+
         alert("blehh");
+        $(this).closest(".modal-dialog").find(".modal-header .close").trigger("click");
     });
     $(".btn-linked").click(function() {alert("aahh")});
 </script>

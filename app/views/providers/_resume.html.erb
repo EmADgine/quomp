@@ -1,4 +1,8 @@
-<div class="modal fade docprevtop" id="show-resume-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<%if j_select%> 
+    <div class="modal fade docprevtop" id="show-resume-prev<%=num%>" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<%else%>
+    <div class="modal fade docprevtop" id="show-resume-prev" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<%end%>
     <div class="modal-dialog" style= "z-index:100000000000000;">
         <div class="modal-content">
             <div class="modal-header">
