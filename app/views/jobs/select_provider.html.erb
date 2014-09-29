@@ -41,7 +41,7 @@
             </div>
             <%= render partial: 'jobs/why',locals: {provider: provider, job: @job, num: i}%>
             <%if provider.resume.to_s.split('/')[-1]!="missing.png"%>
-                <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype,:j_select=>true, :num=>num}%>
+                <%=render partial: 'providers/resume', :locals=>{:resume_url=> provider.resume.to_s,:ptype=>provider.ptype,:j_select=>true, :num=>i}%>
             <%end%>
 
         </div>
