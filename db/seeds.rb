@@ -159,12 +159,6 @@ CSV.foreach("alexdb/pdata1.csv") do |row|
             tj.job_meta=JobMeta.new("job_id"=>tj.id,:quality=>incdev(myjob[25].to_i),:timeliness=>incdev(myjob[26].to_i),:responsiveness=>incdev(myjob[27].to_i),:professionalism=>incdev(myjob[28].to_i),:likeability=>incdev(myjob[29].to_i),:knowledge=>incdev(myjob[30].to_i),:attention=>incdev(myjob[31].to_i))
             myjobs<<tj
         end
-        rdisc=(1..5).to_a.sample
-        (0..(0..10).to_a.sample).to_a.each do |extra|
-            tj2 = Job.new(:discipline=> discnum(rdisc),:tier=>jobsmap[k][extra][5].to_i-1,:deadline=>jobsmap[k][extra][12].split[0])
-            tj2.job_meta=JobMeta.new("job_id"=>tj2.id,:quality=>incdev(jobsmap[k][extra][25].to_i),:timeliness=>incdev(jobsmap[k][extra][26].to_i),:responsiveness=>incdev(jobsmap[k][extra][27].to_i),:professionalism=>incdev(jobsmap[k][extra][28].to_i),:likeability=>incdev(jobsmap[k][extra][29].to_i),:knowledge=>incdev(jobsmap[k][extra][30].to_i),:attention=>incdev(jobsmap[k][extra][31].to_i))
-            myjobs<<tj2
-        end
         p = Provider.new(:disciplines=> disciplines,
             :ptype=> stuff[4].downcase.strip,
             :name=> name,
