@@ -138,7 +138,7 @@ $("#p-reg").find("#frb, #agb").each(function (){
 $(".flp input[type=text]:not(.notme),.flp input[type=name],.flp input[type=email],.flp input[type=password],.flp textarea:not(.notme)").each(function(){
 
     if(!$(this).parent().hasClass("chosen-search") && !$(this).parent().hasClass("search-field")){
-        if($(this).val()!="" || $(this).find(".search-choice")){
+        if($(this).val()!="" || $(this).parent().find(".search-choice")){
             $(this).next().css("top","-25px");
             $(this).next().addClass("focussed");
             $(this).next().addClass("preset");
