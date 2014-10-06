@@ -42,6 +42,8 @@ module JobsHelper
         unless provider.jobs.empty?
             provider.jobs.each do |pj|
                 if pj.id!=job.id and pj.tier==job.tier and pj.discipline== job.discipline
+                    if get_joboverall(pj)==-1
+                        return -100
                     attributeweighting+=get_joboverall(pj)
                     nj+=1
                 end

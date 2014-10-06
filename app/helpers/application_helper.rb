@@ -205,7 +205,10 @@ module ApplicationHelper
             puts attr.split[0].downcase+" " + eval("jb.job_meta.#{attr.split[0].downcase}").to_s
         end
         get_idealattributes.each do |attribute|
-            overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
+            unless eval("jb.job_meta.#{attribute.split[0].downcase}").nil?
+                overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
+            else 
+                return -1
         end
         overall/get_idealattributes.size.to_f
     end
