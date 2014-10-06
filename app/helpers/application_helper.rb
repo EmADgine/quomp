@@ -200,6 +200,9 @@ module ApplicationHelper
     end
     def get_joboverall(jb)
         overall=0
+        puts "meta? #{jb.job_meta.nil?}"
+        get_idealattributes.each do |attr|
+            puts attr.split[0]+" " + eval("jb.job_meta.#{attribute.split[0]}")
         get_idealattributes.each do |attribute|
             overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
         end
