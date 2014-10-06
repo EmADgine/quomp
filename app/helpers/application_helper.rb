@@ -202,7 +202,7 @@ module ApplicationHelper
         overall=0
         puts "meta? #{jb.job_meta.nil?}"
         get_idealattributes.each do |attr|
-            puts attr.split[0].downcase+" " + eval("jb.job_meta.#{attr.split[0].downcase}")
+            puts attr.split[0].downcase+" " + eval("jb.job_meta.#{attr.split[0].downcase}").to_s
         end
         get_idealattributes.each do |attribute|
             overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
