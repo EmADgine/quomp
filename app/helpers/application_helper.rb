@@ -209,6 +209,7 @@ module ApplicationHelper
                 overall+=eval("jb.job_meta.#{attribute.split[0].downcase}")
             else 
                 return -1
+            end
         end
         overall/get_idealattributes.size.to_f
     end

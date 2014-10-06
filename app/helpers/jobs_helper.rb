@@ -44,6 +44,7 @@ module JobsHelper
                 if pj.id!=job.id and pj.tier==job.tier and pj.discipline== job.discipline
                     if get_joboverall(pj)==-1
                         return -100
+                    end
                     attributeweighting+=get_joboverall(pj)
                     nj+=1
                 end
