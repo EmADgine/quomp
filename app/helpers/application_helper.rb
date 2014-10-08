@@ -264,12 +264,15 @@ module ApplicationHelper
 
     end
     def get_graph_data(prov)
-        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_overall(v)]}]
+
+        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [ k.nil? ? -999 : k.month,average_job_overall(v)]}]
+        data=data.select {|k,v| k!=-999}
         data=interpolate(data)    
         data=data.map {|k,v| ["#{months.split[k.to_i]} 2014",v.round(2)]}
     end
     def get_graph_data_attribute(prov,attribute)
-        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.month,average_job_attribute(v,attribute)]}]
+        data=Hash[(prov.jobs.group_by {|i| i.deadline}).map {|k,v| [k.nil? -999 : k.month,average_job_attribute(v,attribute)]}]
+        data=data.select {|k,v| k!=-999}
         data=interpolate(data)
         data
     end
